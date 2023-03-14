@@ -1,0 +1,35 @@
+{
+  "name": "weatherwise",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "host": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:js": "eslint .",
+    "fix:js": "eslint . --fix",
+    "lint:scss": "stylelint '**/*.{css,scss,sass}' --config .stylelintrc.json",
+    "fix:scss": "stylelint '**/*.{css,scss,sass}' --config .stylelintrc.json --fix",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "gh-pages": "^5.0.0",
+    "jsdoc": "^4.0.2",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.4",
+    "sass": "^1.59.2",
+    "stylelint": "^15.2.0",
+    "stylelint-config-recess-order": "^4.0.0",
+    "stylelint-config-standard-scss": "^7.0.1",
+    "stylelint-scss": "^4.4.0",
+    "vite": "^4.1.0"
+  }
+}

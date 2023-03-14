@@ -1,2 +1,0 @@
-# WeatherWise
-Weather App
