@@ -17,7 +17,7 @@ jobs:
           node-version: 18.12.1
       - run: npm ci
       - run: npm run build
-      - name: Deploy to GitHub Pages
+      - name: Deploy app to GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v3
         with:
