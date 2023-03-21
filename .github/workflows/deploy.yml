@@ -17,10 +17,11 @@ jobs:
           node-version: 18.12.1
       - run: npm ci
       - run: npm run build
-      - name: Deploy
+      - name: Deploy to GitHub Pages
+        if: success()
         uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: gh-pages
-          build_dir: dist
-          env:
+          build_dir: public
+        env:
             GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
