@@ -1,0 +1,40 @@
+:root {
+	/* Colors. */
+	--clr-white:hsl(0deg 0% 100%);
+	--clr-black:hsl(0deg 0% 0%);
+	--clr-baltic-sea: hsl(260deg 5% 12%);
+	--clr-woodsmoke:hsl(270deg 5% 7%);
+	--clr-pastel-green:hsl(120deg 64% 72%);
+	--clr-putty:hsl(55deg 64% 72%);
+	--clr-gold-sand:hsl(36deg 64% 72%);
+	--clr-tonys-pink: hsl(0deg 64% 72%);
+	--clr-shocking:	hsl(330deg 64% 72%);
+
+	/* Typography. */
+
+	/* Font Families. */
+	--ff-nunito-sans: 'Nunito Sans', sans-serif;
+
+	/* Font Sizes. */
+	--heading: 5.6rem;
+	--title-1: 2rem;
+	--title-2: 1.8rem;
+	--title-3: 1.6rem;
+	--body-1: 2.2rem;
+	--body-2: 2rem;
+	--body-3: 1.6rem;
+	--label-1: 1.4rem;
+	--label-2: 1.2rem;
+
+	/* Font weights. */
+	--weight-normal: 400;
+	--weight-semibold: 600;
+
+	/* Border radiuses */
+	--radius-30: 30px;
+	--radius-circle: 50%;
+
+	font-family: 'Nunito Sans', sans-serif;
+	color: var(--clr-white);
+	background-color: var(--clr-woodsmoke);
+}
