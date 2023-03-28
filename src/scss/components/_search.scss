@@ -1,0 +1,93 @@
+@use '../abstracts/mixins';
+
+.search {
+	padding: 1.25rem;
+	pointer-events: none;
+	background-color: var(--clr-woodsmoke);
+	opacity: 0;
+
+	@include mixins.on-breakpoint('lg') {
+		position: relative;
+		width: 500px;
+	}
+
+	&__wrapper {
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 1rem;
+		align-items: center;
+		justify-content: flex-start;
+		padding:1rem;
+		background-color: var(--clr-baltic-sea);
+		border-radius: var(--radius-pill);
+
+		&:hover {
+			background-color: var(--clr-white-alpha-8);
+			box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+		}
+	}
+
+	&__magnifier-icon {
+		fill: var(--clr-on-surface);
+	}
+
+	&__input {
+		flex-grow: 1;
+		color: var(--clr-on-surface);
+		background-color: transparent;
+		border: 0;
+		outline: none;
+
+		&::placeholder {
+			color: var(--clr-on-surface-v1);
+		}
+	}
+
+	&__location-icon {
+		fill: var(--clr-on-surface-v1);
+	}
+
+	&__results {
+		position: absolute;
+		right: 1rem;
+		left: 1rem;
+		background-color: var(--clr-baltic-sea);
+		border-bottom-right-radius: var(--radius-pill);
+		border-bottom-left-radius: var(--radius-pill);
+	}
+
+	&__results-list{
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: flex-start;
+		justify-content: flex-start;
+		padding:0;
+		list-style: none;
+	}
+
+	&__results-item {
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 1rem;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		padding: 1.25rem;
+	}
+
+	&__results-item-icon {
+		fill: var(--clr-on-surface-v1);
+	}
+
+	&__results-item-data {
+		width: 100%;
+	}
+
+	&__results-item-city {
+		color: var(--clr-on-surface);
+	}
+
+	&__results-item-country {
+		color: var(--clr-on-surface-v1);
+	}
+}
