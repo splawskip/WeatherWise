@@ -1,14 +1,28 @@
 :root {
 	/* Colors. */
+	// Misc ones.
 	--clr-white:hsl(0deg 0% 100%);
 	--clr-black:hsl(0deg 0% 0%);
-	--clr-baltic-sea: hsl(260deg 5% 12%);
+
+	// Background.
 	--clr-woodsmoke:hsl(270deg 5% 7%);
-	--clr-pastel-green:hsl(120deg 64% 72%);
-	--clr-putty:hsl(55deg 64% 72%);
-	--clr-gold-sand:hsl(36deg 64% 72%);
-	--clr-tonys-pink: hsl(0deg 64% 72%);
-	--clr-shocking:	hsl(330deg 64% 72%);
+
+	// Surface.
+	--clr-baltic-sea: hsl(260deg 5% 12%);
+
+	// On surface.
+	--clr-on-surface:hsl(255deg 19% 88%);
+	--clr-on-surface-v1:hsl(257deg 3% 49%);
+	--clr-on-surface-v2:hsl(260deg 7% 73%);
+
+	// Accent.
+	--clr-accent:hsl(258deg 57% 76%);
+
+	// On accent.
+	--clr-on-accent:hsl(253deg 24% 7%);
+
+	// alphas.
+	--clr-white-alpha-8: hsl(0deg 0% 100% / 10%);
 
 	/* Typography. */
 
@@ -31,7 +45,7 @@
 	--weight-semibold: 600;
 
 	/* Border radiuses */
-	--radius-30: 30px;
+	--radius-pill: 30px;
 	--radius-circle: 50%;
 
 	font-family: 'Nunito Sans', sans-serif;
