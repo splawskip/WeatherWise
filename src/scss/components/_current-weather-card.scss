@@ -1,0 +1,93 @@
+.current-weather {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 12px;
+	padding: 1.25rem;
+	background-color: var(--clr-baltic-sea);
+	border-radius: var(--radius-pill);
+
+	&__title {
+		font-size: 1.125rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.5625rem;
+		color: var(--clr-on-surface);
+	}
+
+	&__details {
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 2.1875rem;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	&__temperature {
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		font-size: 3.5rem;
+		font-weight: var(--weight-normal);
+		line-height: 3.875rem;
+		color: var(--clr-white);
+
+		&::after {
+			font-size: 2.5rem;
+			font-weight: var(--weight-normal);
+			line-height: 125%;
+			content: '\2103';
+		}
+	}
+
+	&__conditions {
+		font-size: 1rem;
+		font-weight: var(--weight-normal);
+		line-height: 1.375rem;
+		color: var(--clr-on-surface);
+	}
+
+	&__separator {
+		height: 1px;
+		background-color: var(--clr-on-surface-v1);
+		border: 0;
+	}
+
+	&__date {
+		display: flex;
+		gap: .5rem;
+		align-items: center;
+		justify-content: flex-start;
+		font-size: 1rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.375rem;
+		color:var(--clr-on-surface-v1);
+
+		&::before {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			content: '';
+			background-image: url('/icons/calendar.webp');
+			background-repeat: no-repeat;
+		}
+	}
+
+	&__location {
+		display: flex;
+		gap: .5rem;
+		align-items: center;
+		justify-content: flex-start;
+		font-size: 1rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.375rem;
+		color:var(--clr-on-surface-v1);
+
+		&::before {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			content: '';
+			background-image: url('/icons/map-marker.webp');
+			background-repeat: no-repeat;
+		}
+	}
+}
