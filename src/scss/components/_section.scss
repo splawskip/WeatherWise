@@ -1,0 +1,15 @@
+.section {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: .75rem;
+	align-items: flex-start;
+	justify-content: flex-start;
+
+	&__title {
+		font-size: 1.125rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.5625rem;
+		color: var(--clr-on-surface);
+		text-transform:capitalize;
+	}
+}
