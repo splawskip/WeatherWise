@@ -6,13 +6,6 @@
 	background-color: var(--clr-baltic-sea);
 	border-radius: var(--radius-pill);
 
-	&__title {
-		font-size: 1.125rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.5625rem;
-		color: var(--clr-on-surface);
-	}
-
 	&__details {
 		display: flex;
 		flex-flow: row nowrap;
