@@ -1,9 +1,12 @@
+@use '../abstracts/mixins';
+
 .section {
 	display: flex;
 	flex-flow: column nowrap;
 	gap: .75rem;
 	align-items: flex-start;
 	justify-content: flex-start;
+	width: 100%;
 
 	&__title {
 		font-size: 1.125rem;
@@ -11,5 +14,31 @@
 		line-height: 1.5625rem;
 		color: var(--clr-on-surface);
 		text-transform:capitalize;
+	}
+
+	&--highlights {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 12px;
+		width: 100%;
+		padding: 1.25rem;
+		background-color: var(--clr-baltic-sea);
+		border-radius: var(--radius-pill);
+
+		@include mixins.on-breakpoint('md') {
+			grid-template-columns: repeat(2, 1fr);
+
+			.section__title {
+				grid-column: span 2;
+			}
+		}
+
+		@include mixins.on-breakpoint('lg') {
+			grid-template-columns: repeat(4, 1fr);
+
+			.section__title {
+				grid-column: span 4;
+			}
+		}
 	}
 }

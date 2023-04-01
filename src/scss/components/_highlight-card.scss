@@ -108,4 +108,14 @@
 			vertical-align: sub;
 		}
 	}
+
+	@include mixins.on-breakpoint('md') {
+		&--large {
+			grid-column: span 2;
+		}
+
+		&--small {
+			grid-column: span 1;
+		}
+	}
 }

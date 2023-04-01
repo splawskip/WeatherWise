@@ -1,0 +1,17 @@
+.grid {
+	display: grid;
+	gap: .75rem;
+	width: 100%;
+
+	&--columns {
+		&-8 {
+			grid-template-columns: repeat(8,1fr);
+		}
+	}
+
+	&--scrollable {
+		width: 100%;
+		overflow: auto;
+		white-space: nowrap;
+	}
+}

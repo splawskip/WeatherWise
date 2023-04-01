@@ -6,7 +6,8 @@
 	align-content: flex-start;
 	align-items: center;
 	justify-content: flex-end;
-	padding: 1rem;
+	width: 100%;
+	padding: 1rem 0;
 
 	@include mixins.on-breakpoint('lg') {
 		justify-content: space-between;
