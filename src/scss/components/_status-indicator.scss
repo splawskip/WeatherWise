@@ -1,0 +1,30 @@
+.status-indicator {
+	display: inline-block;
+	padding: 0.125rem .75rem;
+	font-size: 0.875rem;
+	font-weight: var(--weigt-semibold);
+	line-height: 1.1875rem;
+	color: var(--clr-black);
+	text-transform: capitalize;
+	border-radius: var(--radius-pill);
+
+	&--good {
+		background-color: var(--clr-status-good);
+	}
+
+	&--fair {
+		background-color: var(--clr-status-fair);
+	}
+
+	&--moderate {
+		background-color: var(--clr-status-moderate);
+	}
+
+	&--poor {
+		background-color: var(--clr-status-poor);
+	}
+
+	&--very-poor {
+		background-color: var(--clr-status-very-poor);
+	}
+}

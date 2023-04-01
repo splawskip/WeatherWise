@@ -23,6 +23,15 @@
 
 	// alphas.
 	--clr-white-alpha-8: hsl(0deg 0% 100% / 10%);
+	--clr-black-alpha-8: hsl(0deg 0% 0% / 10%);
+
+	// Statuses.
+	--clr-status-good:  	hsl(120deg 64% 72%);
+	--clr-status-fair:  	hsl(55deg 64% 72%);
+	--clr-status-moderate:  	hsl(36deg 64% 72%);
+	--clr-status-poor: hsl(0deg 64% 72%);
+	--clr-status-very-poor: hsl(330deg 64% 72%);
+
 
 	/* Typography. */
 
