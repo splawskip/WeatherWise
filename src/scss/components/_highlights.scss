@@ -1,0 +1,15 @@
+.highlights {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 12px;
+	width: 100%;
+	padding: 1.25rem;
+	background-color: var(--clr-baltic-sea);
+	border-radius: var(--radius-pill);
+
+	&__highlight {
+		padding: 1.25rem;
+		background-color: var(--clr-black-alpha-8);
+		border-radius: var(--radius-pill);
+	}
+}
