@@ -6,9 +6,16 @@
 	background-color: var(--clr-woodsmoke);
 	opacity: 0;
 
+	&--open {
+		pointer-events: all;
+		opacity: 1;
+	}
+
 	@include mixins.on-breakpoint('lg') {
 		position: relative;
 		width: 500px;
+		pointer-events: all;
+		opacity: 1;
 	}
 
 	&__wrapper {
@@ -28,6 +35,8 @@
 	}
 
 	&__magnifier-icon {
+		width: 20px;
+		height: 20px;
 		fill: var(--clr-on-surface);
 	}
 
@@ -44,6 +53,8 @@
 	}
 
 	&__location-icon {
+		width: 20px;
+		height: 20px;
 		fill: var(--clr-on-surface-v1);
 	}
 
@@ -76,6 +87,8 @@
 	}
 
 	&__results-item-icon {
+		width: 20px;
+		height: 20px;
 		fill: var(--clr-on-surface-v1);
 	}
 

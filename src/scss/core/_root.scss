@@ -60,4 +60,9 @@
 	font-family: 'Nunito Sans', sans-serif;
 	color: var(--clr-white);
 	background-color: var(--clr-woodsmoke);
+    text-rendering: optimizelegibility;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: subpixel-antialiased;
 }
