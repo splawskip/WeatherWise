@@ -1,20 +1,24 @@
-// Core styles.
+/*
+* Gather app styles.
+*/
+
+/// Core styles.
 @use 'core';
 
-// Abstracts.
+/// Abstracts.
 @use 'abstracts';
 
-// Components.
+/// Components.
 @use 'components';
 
-// Layouts.
+/// Layouts.
 @use 'layout';
 
-// Pages.
+/// Pages.
 @use 'pages';
 
-// Sections.
+/// Sections.
 @use 'sections';
 
-// Vendors.
+/// Vendors.
 @use 'vendors';

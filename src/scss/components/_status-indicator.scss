@@ -1,3 +1,6 @@
+/*
+* Status indicator component styles.
+*/
 .status-indicator {
 	display: inline-block;
 	padding: 0.125rem .75rem;
@@ -8,6 +11,7 @@
 	text-transform: capitalize;
 	border-radius: var(--radius-pill);
 
+	// Component variants.
 	&--good {
 		background-color: var(--clr-status-good);
 	}

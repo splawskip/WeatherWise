@@ -1,13 +1,17 @@
-.tile {
+/*
+* Today at card component styles.
+*/
+.today-at-card {
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 0.75rem;
+	gap: .75rem;
 	align-items: center;
 	justify-content: center;
-	padding:1rem 1.875rem;
+	padding: 1rem 1.875rem;
 	background-color: var(--clr-baltic-sea);
 	border-radius: var(--radius-pill);
 
+	/// Component parts.
 	&__label {
 		font-size: 1rem;
 		font-weight: var(--weight-normal);

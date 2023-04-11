@@ -1,3 +1,6 @@
+/*
+* Forecast card component styles.
+*/
 .forecast-card {
 	display: flex;
 	flex-flow: column nowrap;
@@ -9,6 +12,7 @@
 	background-color: var(--clr-baltic-sea);
 	border-radius: var(--radius-pill);
 
+	/// Card parts.
 	&__day-forecast {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);

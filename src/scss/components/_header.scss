@@ -1,3 +1,6 @@
+/*
+* Header component styles.
+*/
 @use '../abstracts/mixins';
 
 .header {
@@ -13,6 +16,7 @@
 		justify-content: space-between;
 	}
 
+	/// Component parts.
 	&__logo {
 		margin-right: auto;
 

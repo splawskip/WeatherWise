@@ -1,5 +1,15 @@
+/*
+* Gather mixins.
+*/
 @use '../core/breakpoints';
 
+/*
+* Mixin that allows to apply styles on given breakpoint.
+* Throws SASS error when given breakpoint is invalid.
+*
+* @author psplawski.dev
+* @param {String} $breakpoint - Breakpoint name.
+*/
 @mixin on-breakpoint($breakpoint) {
 	@if map-has-key(breakpoints.$breakpoints, $breakpoint) {
 		@media (min-width: map-get(breakpoints.$breakpoints, $breakpoint)) {

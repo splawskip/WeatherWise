@@ -74,15 +74,19 @@
           </a>
         </div>
       </header>
+      <!-- Left side of the content -->
       <div class="content-left">
         <!-- Current weather secction -->
-        <section class="section current-weather">
-          <h3 class="section__title current-weather__title">Now</h3>
-          <p class="current-weather__details"><span class="current-weather__temperature">25</span><img loading="lazy" src="/imgs/weather-partly-cloudy.png" alt="Icons that represents todays weather as partly cloudy" class="current-weather__icon" /></p>
-          <p class="current-weather__conditions">Overcast Clouds</p>
-          <hr class="separator current-weather__separator" />
-          <p class="current-weather__date">Thursday 16, Feb</p>
-          <p class="current-weather__location">London, UK</p>
+        <section class="section current-weather-card">
+          <h3 class="section__title current-weather-card__title">Now</h3>
+          <p class="current-weather-card__details">
+            <span class="current-weather-card__temperature">25</span>
+            <img loading="lazy" src="/imgs/weather-partly-cloudy.png" alt="Icons that represents todays weather as partly cloudy" class="current-weather__icon" />
+          </p>
+          <p class="current-weather-card__conditions">Overcast Clouds</p>
+          <hr class="separator current-weather-card__separator" />
+          <p class="current-weather-card__date">Thursday 16, Feb</p>
+          <p class="current-weather-card__location">London, UK</p>
         </section>
         <!-- Five days forecast section -->
         <section class="section forecast-section">
@@ -146,6 +150,7 @@
           </section>
         </section>
       </div>
+      <!-- Right side of the content -->
       <div class="content-right">
         <!-- Todays weather highlights section -->
         <section class="section highlights-section highlights section--highlights">
@@ -197,7 +202,7 @@
             </div>
           </section>
           <!-- Pressure section. -->
-          <section class="highlight-card highlight-card--small highlight highlight__pressure">
+          <section class="highlight-card highlight-card--small highlight__pressure">
             <h4 class="highlight-card__title">pressure</h4>
             <div class="highlight-card__data">
               <img loading="lazy" src="/icons/pressure-mobile.webp" srcset="/icons/pressure-mobile.webp 32w, /icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
@@ -225,85 +230,85 @@
         <section class="section today-at-section">
           <h3 class="section__title">today at</h3>
           <div class="grid grid--columns-8 grid--scrollable">
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
-            <div class="tile">
-              <time class="tile__label">03 pm</time>
-              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="tile__icon" />
-              <p class="tile__label">25</p>
+            <div class="today-at-card">
+              <time class="today-at-card__label">03 pm</time>
+              <img loading="lazy" src="/imgs/weather-thundery.webp" srcset="/imgs/weather-thundery.webp 36w, /imgs/weather-thundery-desktop.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="" class="today-at-card__icon" />
+              <p class="today-at-card__label">25</p>
             </div>
           </div>
         </section>

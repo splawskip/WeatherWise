@@ -1,4 +1,7 @@
-.current-weather {
+/*
+* Current weather card component styles.
+*/
+.current-weather-card {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 12px;
@@ -6,6 +9,7 @@
 	background-color: var(--clr-baltic-sea);
 	border-radius: var(--radius-pill);
 
+	/// Component parts.
 	&__details {
 		display: flex;
 		flex-flow: row nowrap;

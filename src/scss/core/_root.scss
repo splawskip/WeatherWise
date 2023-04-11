@@ -1,31 +1,34 @@
+/*
+* Define project root defaults.
+*/
 :root {
 	/* Colors. */
-	// Misc ones.
+	/// Misc ones.
 	--clr-white:hsl(0deg 0% 100%);
 	--clr-black:hsl(0deg 0% 0%);
 
-	// Background.
+	/// Background.
 	--clr-woodsmoke:hsl(270deg 5% 7%);
 
-	// Surface.
+	/// Surface.
 	--clr-baltic-sea: hsl(260deg 5% 12%);
 
-	// On surface.
+	/// On surface.
 	--clr-on-surface:hsl(255deg 19% 88%);
 	--clr-on-surface-v1:hsl(257deg 3% 49%);
 	--clr-on-surface-v2:hsl(260deg 7% 73%);
 
-	// Accent.
+	/// Accent.
 	--clr-accent:hsl(258deg 57% 76%);
 
-	// On accent.
+	/// On accent.
 	--clr-on-accent:hsl(253deg 24% 7%);
 
-	// alphas.
+	/// Alphas.
 	--clr-white-alpha-8: hsl(0deg 0% 100% / 10%);
 	--clr-black-alpha-8: hsl(0deg 0% 0% / 10%);
 
-	// Statuses.
+	/// Statuses.
 	--clr-status-good:  	hsl(120deg 64% 72%);
 	--clr-status-fair:  	hsl(55deg 64% 72%);
 	--clr-status-moderate:  	hsl(36deg 64% 72%);
@@ -57,6 +60,7 @@
 	--radius-pill: 30px;
 	--radius-circle: 50%;
 
+	/// Set some defaults.
 	font-family: 'Nunito Sans', sans-serif;
 	color: var(--clr-white);
 	background-color: var(--clr-woodsmoke);

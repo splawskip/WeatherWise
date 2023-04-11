@@ -1,3 +1,6 @@
+/*
+* Button component styles.
+*/
 @use '../abstracts/mixins';
 
 .btn {
@@ -15,7 +18,7 @@
 	cursor: pointer;
 	border: 0;
 
-	// Buttons parts.
+	/// Component parts.
 	&__icon {
 		width: 20px;
 		height: 20px;
@@ -30,7 +33,7 @@
 		}
 	}
 
-	// Colors.
+	/// Component color variants.
 	&--dark {
 		color: var(--clr-white);
 		background-color: var(--clr-baltic-sea);
@@ -50,7 +53,7 @@
 		}
 	}
 
-	// Shapes.
+	/// Component shape variants.
 	&--circle {
 		border-radius: var(--radius-circle);
 	}
@@ -67,7 +70,7 @@
 		}
 	}
 
-	// Visibility.
+	/// Component visibility variants.
 	&--desktop-hide {
 		@include mixins.on-breakpoint('lg') {
 			display: none;

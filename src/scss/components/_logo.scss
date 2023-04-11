@@ -1,8 +1,12 @@
+/*
+* Logo component styles.
+*/
 .logo {
 	position: relative;
 	color: var(--clr-white);
 	text-decoration: none;
 
+	/// Component parts.
 	&::before {
 		position: absolute;
 		top: 0;

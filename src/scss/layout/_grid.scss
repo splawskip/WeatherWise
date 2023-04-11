@@ -1,8 +1,12 @@
+/*
+* Define grid styles.
+*/
 .grid {
 	display: grid;
 	gap: .75rem;
 	width: 100%;
 
+	/// Component variants.
 	&--columns {
 		&-8 {
 			grid-template-columns: repeat(8,1fr);
