@@ -31,20 +31,10 @@
 		transition: width .5s ease-in-out, height .5s ease-in-out;
 	}
 
-	&:hover {
-		&::before {
-			width: 100%;
-		}
-
-		&::after {
-			width: 100%;
-		}
-	}
-
 	&__text {
 		position: relative;
 		padding: .5rem .75rem;
-		font-size: 1.25rem;
+		font-size: var(--fs-content-1);
 		line-height: 2rem;
 		color: currentcolor;
 		text-align: center;
@@ -84,6 +74,17 @@
 			&::after {
 				height: 100%;
 			}
+		}
+	}
+
+	/// Component states.
+	&:hover {
+		&::before {
+			width: 100%;
+		}
+
+		&::after {
+			width: 100%;
 		}
 	}
 }

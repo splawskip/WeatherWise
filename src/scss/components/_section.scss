@@ -11,14 +11,16 @@
 	justify-content: flex-start;
 	width: 100%;
 
+	/// Component parts.
 	&__title {
-		font-size: 1.125rem;
+		font-size: var(--fs-content-2);
 		font-weight: var(--weight-semibold);
 		line-height: 1.5625rem;
 		color: var(--clr-on-surface);
 		text-transform:capitalize;
 	}
 
+	/// Component variants.
 	&--highlights {
 		display: grid;
 		grid-template-columns: 1fr;
@@ -31,7 +33,7 @@
 		@include mixins.on-breakpoint('md') {
 			grid-template-columns: repeat(2, 1fr);
 
-			.section__title {
+			.title {
 				grid-column: span 2;
 			}
 		}
@@ -39,7 +41,7 @@
 		@include mixins.on-breakpoint('lg') {
 			grid-template-columns: repeat(4, 1fr);
 
-			.section__title {
+			.title {
 				grid-column: span 4;
 			}
 		}
