@@ -36,7 +36,7 @@
 	--clr-status-very-poor:hsl(330deg 64% 72%);
 
 	/* Font families. */
-	--ff-nunito-sans: 'Nunito Sans', sans-serif;
+	--ff-nunito-sans: 'Nunito Sans', system-ui, sans-serif;
 
 	/* Font sizes. */
 	--fs-heading-1: 3.5rem;
@@ -58,7 +58,7 @@
 	--box-shadow-default: 0 1px 3px hsl(0deg 0% 0% / 50%);
 
 	/// Root defaults.
-	font-family: 'Nunito Sans', sans-serif;
+	font-family: var(--ff-nunito-sans);
 	color: var(--clr-white);
 	background-color: var(--clr-woodsmoke);
 	text-rendering: optimizelegibility;
