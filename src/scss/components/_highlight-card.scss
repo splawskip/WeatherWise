@@ -1,3 +1,6 @@
+/*
+* Highlight card component styles.
+*/
 @use '../abstracts/mixins';
 
 .highlight-card {
@@ -6,9 +9,10 @@
 	gap: 1.25rem;
 	justify-content: space-between;
 	padding: 1rem;
-	background-color: var(--clr-black-alpha-8);
+	background-color: var(--clr-black-alpha-10);
 	border-radius: var(--radius-pill);
 
+	// Component parts.
 	&__title {
 		display: flex;
 		flex-flow: row nowrap;
@@ -17,7 +21,7 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		font-size: 1rem;
+		font-size: var(--fs-content-2);
 		font-weight: var(--weight-semibold);
 		line-height: 1.375rem;
 		color:var(--clr-on-surface-v1);
@@ -66,7 +70,7 @@
 		gap: 0.25rem;
 		align-items: flex-start;
 		justify-content: flex-start;
-		font-size: 0.875rem;
+		font-size: var(--fs-content-3);
 		font-weight: var(--weight-normal);
 		line-height: 1.1875rem;
 		color: var(--clr-on-surface-v1);
@@ -74,7 +78,7 @@
 	}
 
 	&__value {
-		font-size: 1.25rem;
+		font-size: var(--fs-content-1);
 		font-weight: var(--weight-normal);
 		line-height: 1.6875rem;
 		color: var(--clr-on-surface-v2);
@@ -90,21 +94,21 @@
 	}
 
 	&__unit {
-		font-size: 0.875rem;
+		font-size: var(--fs-content-3);
 		font-weight: var(--weight-normal);
 		line-height: 1.1875rem;
 		color: var(--clr-on-surface-v1);
 		text-transform: uppercase;
 
 		&--sup {
-			font-size: 0.625rem;
-			line-height: 0.875rem;
+			font-size: var(--fs-content-4);
+			line-height: .875rem;
 			vertical-align:super;
 		}
 
 		&--sub {
-			font-size: 0.625rem;
-			line-height: 0.875rem;
+			font-size: var(--fs-content-4);
+			line-height: .875rem;
 			vertical-align: sub;
 		}
 	}

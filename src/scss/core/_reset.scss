@@ -1,4 +1,8 @@
 /*
+* Define CSS Reset.
+*/
+
+/*
   1. Use a more-intuitive box-sizing model.
 */
 *, *::before, *::after {
@@ -7,14 +11,14 @@
 
 /*
 	2. Remove default margin
-  */
+*/
 * {
 	margin: 0;
 }
 
 /*
 	3. Allow percentage-based heights in the application
-  */
+*/
 html, body {
 	height: 100%;
 }
@@ -23,7 +27,7 @@ html, body {
 	Typographic tweaks!
 	4. Add accessible line-height
 	5. Improve text rendering
-  */
+*/
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
@@ -31,7 +35,7 @@ body {
 
 /*
 	6. Improve media defaults
-  */
+*/
 img, picture, video, canvas, svg {
 	display: block;
 	max-width: 100%;
@@ -39,7 +43,7 @@ img, picture, video, canvas, svg {
 
 /*
 	7. Remove built-in form typography styles
-  */
+*/
 input, button, textarea, select {
 	font: inherit;
 }

@@ -1,12 +1,13 @@
+/*
+* Gather components.
+*/
 @forward 'header';
 @forward 'logo';
 @forward 'search';
-@forward 'buttons';
+@forward 'button';
 @forward 'section';
 @forward 'status-indicator';
-@forward 'card';
-@forward 'tile';
 @forward 'current-weather-card';
 @forward 'forecast-card';
-@forward 'highlights';
 @forward 'highlight-card';
+@forward 'today-at-card';

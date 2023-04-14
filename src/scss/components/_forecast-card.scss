@@ -1,3 +1,6 @@
+/*
+* Forecast card component styles.
+*/
 .forecast-card {
 	display: flex;
 	flex-flow: column nowrap;
@@ -9,6 +12,7 @@
 	background-color: var(--clr-baltic-sea);
 	border-radius: var(--radius-pill);
 
+	/// Card parts.
 	&__day-forecast {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
@@ -24,14 +28,14 @@
 	}
 
 	&__day-temperature {
-		font-size: 1.25rem;
+		font-size: var(--fs-content-1);
 		font-weight: var(--weight-normal);
 		line-height: 1.6875rem;
 		color: var(--clr-on-surface);
 	}
 
 	&__night-temperature {
-		font-size: .875rem;
+		font-size: var(--fs-content-3);
 		font-weight: var(--weight-normal);
 		line-height: 1.1875rem;
 		color: var(--clr-on-surface-v1);
@@ -45,14 +49,14 @@
 	}
 
 	&__calendar-date {
-		font-size: .875rem;
+		font-size: var(--fs-content-3);
 		font-weight: var(--weight-normal);
 		line-height: 1.1875rem;
 		color: var(--clr-on-surface-v1);
 	}
 
 	&__day {
-		font-size: .875rem;
+		font-size: var(--fs-content-3);
 		font-weight: var(--weight-normal);
 		line-height: 1.1875rem;
 		color: var(--clr-on-surface-v1);

@@ -1,3 +1,6 @@
+/*
+* Button component styles.
+*/
 @use '../abstracts/mixins';
 
 .btn {
@@ -8,15 +11,17 @@
 	justify-content: center;
 	padding: .75rem;
 	font-family: var(--ff-nunito-sans);
-	font-size: 1rem;
+	font-size: var(--fs-content-2);
 	font-weight: var(--weight-semibold);
 	line-height: 1.375rem;
 	text-decoration: none;
 	cursor: pointer;
 	border: 0;
 
-	// Buttons parts.
+	/// Component parts.
 	&__icon {
+		width: 20px;
+		height: 20px;
 		fill: currentcolor;
 	}
 
@@ -28,14 +33,14 @@
 		}
 	}
 
-	// Colors.
+	/// Component color variants.
 	&--dark {
 		color: var(--clr-white);
 		background-color: var(--clr-baltic-sea);
 
 		&:hover {
-			background-color: var(--clr-white-alpha-8);
-			box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+			background-color: var(--clr-white-alpha-10);
+			box-shadow: var(--box-shadow-default);
 		}
 	}
 
@@ -44,11 +49,11 @@
 		background-color: var(--clr-accent);
 
 		&:hover {
-			box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+			box-shadow: var(--box-shadow-default);
 		}
 	}
 
-	// Shapes.
+	/// Component shape variants.
 	&--circle {
 		border-radius: var(--radius-circle);
 	}
@@ -65,7 +70,7 @@
 		}
 	}
 
-	// Visibility.
+	/// Component visibility variants.
 	&--desktop-hide {
 		@include mixins.on-breakpoint('lg') {
 			display: none;
