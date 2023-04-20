@@ -27,6 +27,12 @@
 		background-color: var(--clr-baltic-sea);
 		border-radius: var(--radius-pill);
 
+		&--has-results {
+			border-bottom: 1px solid var(--clr-white);
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+
 		&:hover {
 			background-color: var(--clr-white-alpha-10);
 			box-shadow: var(--box-shadow-default);
@@ -51,6 +57,46 @@
 		}
 	}
 
+	&__close {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		padding:0;
+		color: transparent;
+		cursor: pointer;
+		background-color: transparent;
+		border: 0;
+		transition: transform .2s linear;
+
+		&::before {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 2px;
+			height: 20px;
+			content: '';
+			background-color: var(--clr-on-surface-v1);
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
+
+		&::after {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 2px;
+			height: 20px;
+			content: '';
+			background-color: var(--clr-on-surface-v1);
+			transform: translate(-50%, -50%) rotate(-45deg);
+		}
+
+		&:hover{
+			transform: rotate(90deg);
+		}
+	}
+
 	&__location-icon {
 		width: 20px;
 		height: 20px;
@@ -59,14 +105,14 @@
 
 	&__results {
 		position: absolute;
-		right: 1rem;
-		left: 1rem;
+		right: 1.25rem;
+		left: 1.25rem;
 		background-color: var(--clr-baltic-sea);
 		border-bottom-right-radius: var(--radius-pill);
 		border-bottom-left-radius: var(--radius-pill);
 	}
 
-	&__results-list{
+	&__results-list {
 		display: flex;
 		flex-flow: column nowrap;
 		align-items: flex-start;
@@ -76,6 +122,7 @@
 	}
 
 	&__results-item {
+		position: relative;
 		display: flex;
 		flex-flow: row nowrap;
 		gap: 1rem;
@@ -83,6 +130,10 @@
 		justify-content: flex-start;
 		width: 100%;
 		padding: 1.25rem;
+
+		&:hover {
+			background-color: var(--clr-black-alpha-10);
+		}
 	}
 
 	&__results-item-icon {
@@ -93,6 +144,11 @@
 
 	&__results-item-data {
 		width: 100%;
+	}
+
+	&__results-item-link {
+		position: absolute;
+		inset: 0;
 	}
 
 	&__results-item-city {
