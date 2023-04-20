@@ -37,12 +37,10 @@ const App = {
   /**
    * Updates the search results with the provided locations data.
    *
-   * @async
-   * @param {Promise<Array>} response - Promise that resolves with an array of locations data.
+   * @param {array} locations - Array that holds locations.
    * @returns {void}
    */
-  async updateSearchResults(response) {
-    const locations = await response;
+  async updateSearchResults(locations) {
     // Early return if there are not any locations.
     if (!locations.length) {
       return;
@@ -61,7 +59,7 @@ const App = {
 				</svg>
 				<span class="search__results-item-data">
 					<h3 class="search__results-item-city">${name}</h3>
-					<p class="search__results-item-country">${state || ''}, ${country}</p>
+					<p class="search__results-item-country">${state}, ${country}</p>
 				</span>
 				<a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
 				</a>
@@ -75,11 +73,10 @@ const App = {
   /**
    * Updates the current weather section with the weather data for a given latitude and longitude.
    *
-   * @async
-   * @param {number} lat - The latitude of the location.
-   * @param {number} lon - The longitude of the location.
+   * @param {object} currentWeather - Object that contains data about curren weather.
+   * @returns {void}
    */
-  async updateCurrentWeather(lat, lon) {
+  updateCurrentWeather(currentWeather) {
     // Pull out the required data from main object to build the component.
     const {
       weather,
@@ -87,7 +84,7 @@ const App = {
       sys: { country },
       main: { temp },
       name: city,
-    } = await WeatherWise.getCurrentWeather(lat, lon);
+    } = currentWeather;
     // Pull out description and icon from weather object.
     const [{ description, icon }] = weather;
     // Render component.
@@ -115,12 +112,19 @@ const App = {
   /**
    * Updates the weather that App shows.
    *
+   * @async
    * @param {number} lat - The latitude of the location for which to update the weather.
    * @param {number} lon - The longitude of the location for which to update the weather.
    * @returns {void}
    */
-  updateWeather(lat, lon) {
-    App.updateCurrentWeather(lat, lon);
+  async updateWeather(lat, lon) {
+    const currentWeather = await WeatherWise.getCurrentWeather(lat, lon);
+    // const forecast = await WeatherWise.getForecast(lat, lon);
+    // const airQuality = await WeatherWise.getAirQuality(lat, lon);
+    App.updateCurrentWeather(currentWeather);
+    // App.updateForecast(currentWeather);
+    // App.updateHighlights(currentWeather);
+    // App.updateAirQuality(currentWeather);
   },
   /**
    * Initializes a new Router instance with the App's `updateWeather` method as the callback
@@ -206,11 +210,14 @@ const App = {
   handleLocationSearch() {
     App.$.search.addEventListener(
       'input',
-      debounce((event) => {
+      debounce(async (event) => {
         if (event.target.value.length) {
-          App.updateSearchResults(
-            WeatherWise.getGeoLocationByQueryString(event.target.value)
+          // Gather locations.
+          const locations = await WeatherWise.getGeoLocationByQueryString(
+            event.target.value
           );
+          // Update search results with locations.
+          App.updateSearchResults(locations);
         }
       }, 500)
     );
