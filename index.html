@@ -21,7 +21,7 @@
   </head>
   <body>
     <!-- App container -->
-    <div id="app" class="app">
+    <div id="app" class="app" data-weather="app">
       <!-- Header -->
       <header class="header">
         <a href="https://splawskip.github.io/WeatherWise/" class="header__logo logo">
@@ -74,7 +74,7 @@
           <p class="current-weather-card__location">London, UK</p>
         </section>
         <!-- Five days forecast section -->
-        <section class="section forecast-section">
+        <section class="section forecast-section" data-weather="forecast-section">
           <h3 class="title section__title forecast-section__title">5 days forecast</h3>
           <section class="forecast-section__card forecast-card">
             <div class="forecast-card__day-forecast">
@@ -138,7 +138,7 @@
       <!-- Right side of the content -->
       <div class="content-right">
         <!-- Todays weather highlights section -->
-        <section class="section highlights-section highlights section--highlights">
+        <section class="section highlights-section highlights section--highlights" data-weather="highlights-section">
           <h3 class="title section__title">todays highlights</h3>
           <!-- Air Quality section. -->
           <section class="highlight-card highlight-card--large highlight__air-quality">
@@ -212,7 +212,7 @@
           </section>
         </section>
         <!-- Today at section -->
-        <section class="section today-at-section">
+        <section class="section today-at-section" data-weather="today-at-section">
           <h3 class="title section__title">today at</h3>
           <div class="grid grid--columns-8 grid--scrollable">
             <div class="today-at-card">

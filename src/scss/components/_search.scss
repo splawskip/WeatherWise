@@ -70,6 +70,11 @@
 		border: 0;
 		transition: transform .2s linear;
 
+		@include mixins.on-breakpoint('lg') {
+			display: none;
+			pointer-events: none;
+		}
+
 		&::before {
 			position: absolute;
 			top: 50%;
