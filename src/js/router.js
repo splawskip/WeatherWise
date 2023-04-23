@@ -76,9 +76,7 @@ export class Router {
    */
   checkRoute() {
     const queryURL = getURLHash();
-    const [route, query] = queryURL.includes('?')
-      ? queryURL.split('?')
-      : [queryURL];
+    const [route, query] = queryURL.includes('?') ? queryURL.split('?') : [queryURL];
     this.#routes.get(route)(query);
   }
 
