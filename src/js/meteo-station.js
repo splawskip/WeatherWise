@@ -142,4 +142,43 @@ export class MeteoStation {
   getAirQuality(args) {
     return this.call(this.#AIR_POLLUTION_API_URL, args);
   }
+
+  /**
+   * Calls the OpenWeatherMap API to get the air quality for a given latitude and longitude.
+   *
+   * @param {number} airQualityLevel - The number that represents air quality level.
+   * @returns {object} - The object that holds air quality data.
+   */
+  static getAirQualityData(airQualityLevel) {
+    // Define air qualities.
+    const airQualities = {
+      1: {
+        quality: 'Good',
+        description:
+          'Air quality is considered satisfactory, and air pollution poses little or no risk.',
+      },
+      2: {
+        quality: 'Fair',
+        description:
+          'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.',
+      },
+      3: {
+        quality: 'Moderate',
+        description:
+          'Members of sensitive groups may experience health effects. The general public is not likely to be affected.',
+      },
+      4: {
+        quality: 'Poor',
+        description:
+          'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.',
+      },
+      5: {
+        quality: 'Very Poor',
+        description:
+          'Health warnings of emergency conditions. The entire population is more likely to be affected.',
+      },
+    };
+    // Output air quality that matches given air quality level.
+    return airQualities[airQualityLevel];
+  }
 }
