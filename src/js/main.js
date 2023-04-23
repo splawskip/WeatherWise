@@ -162,6 +162,248 @@ const App = {
     replaceHTML(App.$.forecastSection, forecastComponent);
   },
   /**
+   * Updates the current weather section with the weather data for a given latitude and longitude.
+   *
+   * @param {object} airQuality - Object that contains data about current air quality.
+   * @returns {string} - HTML markup for the air quality component.
+   */
+  buildAirQualityComponent(airQuality) {
+    // Pull only needed data.
+    const [
+      {
+        components: { pm2_5: pm25, so2, no2, o3 },
+        main: { aqi: airQualityIndex },
+      },
+    ] = airQuality;
+    // Get data about current air quality.
+    const { quality, description } =
+      MeteoStation.getAirQualityData(airQualityIndex);
+    // Build status indicator class variant that matches current air quality.
+    const airQualityClass = quality.replace(/\s+/g, '-').toLowerCase();
+    // Build componet and hydrate it with data.
+    const airQualityComponent = `
+        <section class="highlight-card highlight-card--large highlight__air-quality">
+        <h4 class="highlight-card__title">
+          air quality index
+          <span class="status-indicator status-indicator--${airQualityClass}" title="${description}">${quality}
+          </span>
+        </h4>
+        <div class="highlight-card__data-set">
+          <img loading="lazy" src="/icons/air-mobile.webp" srcset="/icons/air-mobile.webp 32w, /icons/air-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Wind icon - Represents current air quality" class="class highlight-card__icon" />
+          <div class="highlight-card__data highlight-card__data--multiple-values">
+            <p class="highlight-card__value highlight-card__value--column-above-mobile">
+              ${pm25.toPrecision(3)}
+              <span class="highlight-card__unit">PM<span class="highlight-card__unit--sub">2.5</span></span>
+            </p>
+            <p class="highlight-card__value highlight-card__value--column-above-mobile">
+              ${so2.toPrecision(3)}
+               <span class="highlight-card__unit">SO<span class="highlight-card__unit--sub">2</span></span>
+            </p>
+            <p class="highlight-card__value highlight-card__value--column-above-mobile">
+              ${no2.toPrecision(3)}
+               <span class="highlight-card__unit">NO<span class="highlight-card__unit--sub">2</span></span>
+            </p>
+            <p class="highlight-card__value highlight-card__value--column-above-mobile">
+              ${o3.toPrecision(3)}
+              <span class="highlight-card__unit">O<span class="highlight-card__unit--sub">3</span></span>
+            </p>
+          </div>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return airQualityComponent;
+  },
+  /**
+   * Returns a HTML string of a sunrise and sunset card component.
+   *
+   * @param {number} sunrise - UNIX timestamp of the sunrise time.
+   * @param {number} sunset - UNIX timestamp of the sunset time.
+   * @returns {string} - HTML markup for the sunrise and sunset card component.
+   */
+  buildSunComponent(sunrise, sunset) {
+    // Build componet and hydrate it with data.
+    const sunComponent = `
+        <section class="highlight-card highlight-card--large highlight__sunrise-and-sunset">
+        <h4 class="highlight-card__title">sunrise & sunset</h4>
+        <div class="highlight-card__data-set">
+          <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
+            <img loading="lazy" src="/icons/day-mobile.webp" srcset="/icons/day-mobile.webp 32w, /icons/day-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Sun icon - Represents sunrise" class="class highlight-card__icon" />
+            <p class="highlight-card__label">
+              Sunrise
+                <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
+                  sunrise,
+                  {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }
+                )}">
+                  ${unixTimeToHumanReadable(sunrise, {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true,
+                  })}
+              </time>
+            </p>
+          </div>
+          <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
+            <img loading="lazy" src="/icons/night-mobile.webp" srcset="/icons/night-mobile.webp 32w, /icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
+            <p class="highlight-card__label">
+              Sunset
+              <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
+                sunset,
+                {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                }
+              )}">
+                ${unixTimeToHumanReadable(sunset, {
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  hour12: true,
+                })}
+              </time>
+            </p>
+          </div>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return sunComponent;
+  },
+  /**
+   * Builds a humidity component with the given humidity value.
+   *
+   * @param {number} humidity - The humidity value in percentage.
+   * @returns {string} - HTML markup for the humidity component.
+   */
+  buildHumidityComponent(humidity) {
+    // Build componet and hydrate it with data.
+    const humidityComponent = `
+      <section class="highlight-card highlight-card--small highlight__humidity">
+        <h4 class="highlight-card__title">humidity</h4>
+        <div class="highlight-card__data">
+          <img loading="lazy" src="/icons/humidity-mobile.webp" srcset="/icons/humidity-mobile.webp 32w, /icons/humidity-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Raindrop icon with percent sign inside it - Represents current humidity." class="class highlight-card__data-icon" />
+          <p class="highlight-card__value">${humidity}%</p>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return humidityComponent;
+  },
+  /**
+   * Builds a pressure component with the given pressure value.
+   *
+   * @param {number} pressure - The pressure value in hPa (hectopascals).
+   * @returns {string} - HTML markup for the pressure component.
+   */
+  buildPressureComponent(pressure) {
+    // Build componet and hydrate it with data.
+    const pressureComponent = `
+      <section class="highlight-card highlight-card--small highlight__pressure">
+        <h4 class="highlight-card__title">pressure</h4>
+        <div class="highlight-card__data">
+          <img loading="lazy" src="/icons/pressure-mobile.webp" srcset="/icons/pressure-mobile.webp 32w, /icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
+          <p class="highlight-card__value">
+            ${pressure}hPa
+          </p>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return pressureComponent;
+  },
+  /**
+   * Builds a visibility component with the given visibility value.
+   *
+   * @param {number} visibility - The visibility value in meters.
+   * @returns {string} - HTML markup for the visibility component.
+   */
+  buildVisibilityComponent(visibility) {
+    // Build componet and hydrate it with data.
+    const visibilityComponent = `
+      <section class="highlight-card highlight-card--small highlight__visibility">
+        <h4 class="highlight-card__title">visibility</h4>
+        <div class="highlight-card__data">
+          <img loading="lazy" src="/icons/visibility-mobile.webp" srcset="/icons/visibility-mobile.webp 32w, /icons/visibility-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Eye icon - Represents current visibility." class="class highlight-card__data-icon" />
+          <p class="highlight-card__value">
+            ${visibility / 1000}km
+          </p>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return visibilityComponent;
+  },
+  /**
+   * Builds a feels-like component with the given feels-like temperature value.
+   *
+   * @param {number|string} feelsLike - The feels-like temperature value.
+   * @returns {string} - HTML markup for the feels-like component.
+   */
+  buildFeelsLikeComponent(feelsLike) {
+    // Build componet and hydrate it with data.
+    const feelsLikeComponent = `
+      <section class="highlight-card highlight-card--small highlight__feels-like">
+        <h4 class="highlight-card__title">feels like</h4>
+        <div class="highlight-card__data">
+          <img loading="lazy" src="/icons/feels-like-mobile.webp" srcset="/icons/feels-like-mobile.webp 32w, /icons/feels-like-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Thermometer - Represents what current temperature feels like." class="class highlight-card__data-icon" />
+          <p class="highlight-card__value">
+            ${parseInt(feelsLike, 10)}&#8451;
+          </p>
+        </div>
+      </section>
+    `;
+    // Show it to the world.
+    return feelsLikeComponent;
+  },
+  /**
+   * Updates the highlights section of the app with data from the current weather and air quality.
+   *
+   * @param {Object} currentWeather - The current weather data.
+   * @param {Object} airQuality - The air quality data.
+   * @returns {void}
+   */
+  updateHighlights(currentWeather, airQuality) {
+    // Pull data that components needs.
+    const {
+      main: { feels_like: feelsLike, humidity, pressure },
+      sys: { sunrise, sunset },
+      visibility,
+    } = currentWeather;
+    // Build components.
+    const airQualityComponent = App.buildAirQualityComponent(airQuality);
+    const sunComponent = App.buildSunComponent(sunrise, sunset);
+    const humidityComponent = App.buildHumidityComponent(humidity);
+    const pressureComponent = App.buildPressureComponent(pressure);
+    const visibilityComponent = App.buildVisibilityComponent(visibility);
+    const feelsLikeComponent = App.buildFeelsLikeComponent(feelsLike);
+    // Build componet and hydrate it with data.
+    const highlightsComponent = `
+      <h3 class="title section__title">todays highlights</h3>
+      <!-- Air Quality section. -->
+      ${airQualityComponent}
+      <!-- Sunrise and Sunset section. -->
+      ${sunComponent}
+      <!-- Humidity section. -->
+      ${humidityComponent}
+      <!-- Pressure section. -->
+      ${pressureComponent}
+      <!-- Visibility section. -->
+      ${visibilityComponent}
+      <!-- Feels like section. -->
+      ${feelsLikeComponent}
+    `;
+    // Render component sprinkled with highlights data.
+    replaceHTML(App.$.highlightsSection, highlightsComponent);
+  },
+  /**
    * Updates the weather that App shows.
    *
    * @async
@@ -172,11 +414,10 @@ const App = {
   async updateWeather(lat, lon) {
     const currentWeather = await WeatherWise.getCurrentWeather({ lat, lon });
     const { list: forecast } = await WeatherWise.getForecast({ lat, lon });
-    // const airQuality = await WeatherWise.getAirQuality(lat, lon);
+    const { list: airQuality } = await WeatherWise.getAirQuality({ lat, lon });
     App.updateCurrentWeather(currentWeather);
     App.updateForecast(forecast);
-    // App.updateHighlights(currentWeather);
-    // App.updateAirQuality(currentWeather);
+    App.updateHighlights(currentWeather, airQuality);
   },
   /**
    * Initializes a new Router instance with the App's `updateWeather` method as the callback
