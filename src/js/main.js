@@ -122,17 +122,14 @@ const App = {
   updateForecast(forecast) {
     // Build forecast component.
     const forecastComponent = forecast
+      .filter((_, index) => (index + 1) % 8 === 0)
       .map(
-        (
-          {
-            weather: [{ icon, description }],
-            dt: dateUnix,
-            main: { temp_max: tempMax, temp_min: tempMin },
-          },
-          index
-        ) => {
-          return (index + 1) % 8 === 0
-            ? `
+        ({
+          weather: [{ icon, description }],
+          dt: dateUnix,
+          main: { temp_max: tempMax, temp_min: tempMin },
+        }) => {
+          return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
                   <img loading="lazy" src="/icons/weather/${icon}.webp" srcset="/icons/weather/${icon}.webp 36w, /icons/weather/${icon}.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
@@ -157,8 +154,7 @@ const App = {
                   </span>
                 </p>
               </div>
-            `
-            : '';
+            `;
         }
       )
       .join('');
@@ -184,7 +180,7 @@ const App = {
       MeteoStation.getAirQualityData(airQualityIndex);
     // Build status indicator class variant that matches current air quality.
     const airQualityClass = quality.replace(/\s+/g, '-').toLowerCase();
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const airQualityComponent = `
         <section class="highlight-card highlight-card--large highlight__air-quality">
         <h4 class="highlight-card__title">
@@ -219,14 +215,14 @@ const App = {
     return airQualityComponent;
   },
   /**
-   * Returns a HTML string of a sunrise and sunset card component.
+   * Builds and returns a HTML string of a sunrise and sunset card component.
    *
    * @param {number} sunrise - UNIX timestamp of the sunrise time.
    * @param {number} sunset - UNIX timestamp of the sunset time.
    * @returns {string} - HTML markup for the sunrise and sunset card component.
    */
   buildSunComponent(sunrise, sunset) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const sunComponent = `
         <section class="highlight-card highlight-card--large highlight__sunrise-and-sunset">
         <h4 class="highlight-card__title">sunrise & sunset</h4>
@@ -282,13 +278,13 @@ const App = {
     return sunComponent;
   },
   /**
-   * Builds a humidity component with the given humidity value.
+   * Builds and returns a HTML string of humidity component with the given humidity value.
    *
    * @param {number} humidity - The humidity value in percentage.
    * @returns {string} - HTML markup for the humidity component.
    */
   buildHumidityComponent(humidity) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const humidityComponent = `
       <section class="highlight-card highlight-card--small highlight__humidity">
         <h4 class="highlight-card__title">humidity</h4>
@@ -302,13 +298,13 @@ const App = {
     return humidityComponent;
   },
   /**
-   * Builds a pressure component with the given pressure value.
+   * Builds and returns a HTML string of pressure component with the given pressure value.
    *
    * @param {number} pressure - The pressure value in hPa (hectopascals).
    * @returns {string} - HTML markup for the pressure component.
    */
   buildPressureComponent(pressure) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const pressureComponent = `
       <section class="highlight-card highlight-card--small highlight__pressure">
         <h4 class="highlight-card__title">pressure</h4>
@@ -324,13 +320,13 @@ const App = {
     return pressureComponent;
   },
   /**
-   * Builds a visibility component with the given visibility value.
+   * Builds and returns a HTML string of visibility component with the given visibility value.
    *
    * @param {number} visibility - The visibility value in meters.
    * @returns {string} - HTML markup for the visibility component.
    */
   buildVisibilityComponent(visibility) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const visibilityComponent = `
       <section class="highlight-card highlight-card--small highlight__visibility">
         <h4 class="highlight-card__title">visibility</h4>
@@ -346,13 +342,13 @@ const App = {
     return visibilityComponent;
   },
   /**
-   * Builds a feels-like component with the given feels-like temperature value.
+   * Builds and returns a HTML string of feels-like component with the given feels-like temperature value.
    *
    * @param {number|string} feelsLike - The feels-like temperature value.
    * @returns {string} - HTML markup for the feels-like component.
    */
   buildFeelsLikeComponent(feelsLike) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const feelsLikeComponent = `
       <section class="highlight-card highlight-card--small highlight__feels-like">
         <h4 class="highlight-card__title">feels like</h4>
@@ -375,7 +371,7 @@ const App = {
    * @returns {void}
    */
   updateHighlights(currentWeather, airQuality) {
-    // Pull data that components needs.
+    // Pull the data that components needs.
     const {
       main: { feels_like: feelsLike, humidity, pressure },
       sys: { sunrise, sunset },
@@ -407,6 +403,12 @@ const App = {
     // Render component.
     replaceHTML(App.$.highlightsSection, highlightsComponent);
   },
+  /**
+   * Builds and returns an HTML string for a temperature card for today's forecast.
+   *
+   * @param {Array} todaysData - An array of forecast data for today.
+   * @returns {string} - An HTML string of wind cards for today's forecast.
+   */
   buildTodaysTemperatureCards(todaysData) {
     // Build component using the data.
     const todaysTemperatureCards = todaysData
@@ -444,6 +446,12 @@ const App = {
     // Show it to the world.
     return todaysTemperatureCards;
   },
+  /**
+   * Builds and returns an HTML string for a wind card for today's forecast.
+   *
+   * @param {Array} todaysData - An array of forecast data for today.
+   * @returns {string} - An HTML string of wind cards for today's forecast.
+   */
   buildTodaysWindCards(todaysData) {
     // Build component using the data.
     const todaysWindCards = todaysData
@@ -476,6 +484,12 @@ const App = {
     // Show it to the world.
     return todaysWindCards;
   },
+  /**
+   * Updates the "Today At" section with forecast data for the current day.
+   *
+   * @param {Array} forecast - The forecast data to update the "Today At" section with.
+   * @returns {void}
+   */
   updateTodayAt(forecast) {
     // Get the current date in Unix time.
     const currentDate = unixTimeToHumanReadable(Math.floor(Date.now() / 1000), {
