@@ -33,6 +33,10 @@ const App = {
       '[data-weather="highlights-section"]'
     ),
     todayAtSection: document.querySelector('[data-weather="today-at-section"]'),
+    todaysTemperature: document.querySelector(
+      '[data-weather="todays-temperature"]'
+    ),
+    todaysWind: document.querySelector('[data-weather="todays-wind"]'),
   },
   /**
    * Updates the search results with the provided locations data.
@@ -211,7 +215,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return airQualityComponent;
   },
   /**
@@ -274,7 +278,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return sunComponent;
   },
   /**
@@ -294,7 +298,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return humidityComponent;
   },
   /**
@@ -316,7 +320,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return pressureComponent;
   },
   /**
@@ -338,7 +342,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return visibilityComponent;
   },
   /**
@@ -360,7 +364,7 @@ const App = {
         </div>
       </section>
     `;
-    // Show it to the world.
+    // Return component as HTML string.
     return feelsLikeComponent;
   },
   /**
@@ -377,14 +381,14 @@ const App = {
       sys: { sunrise, sunset },
       visibility,
     } = currentWeather;
-    // Build components.
+    // Get components.
     const airQualityComponent = App.buildAirQualityComponent(airQuality);
     const sunComponent = App.buildSunComponent(sunrise, sunset);
     const humidityComponent = App.buildHumidityComponent(humidity);
     const pressureComponent = App.buildPressureComponent(pressure);
     const visibilityComponent = App.buildVisibilityComponent(visibility);
     const feelsLikeComponent = App.buildFeelsLikeComponent(feelsLike);
-    // Build componet and hydrate it with data.
+    // Build highlights component.
     const highlightsComponent = `
       <h3 class="title section__title">todays highlights</h3>
       <!-- Air Quality section. -->
@@ -400,11 +404,104 @@ const App = {
       <!-- Feels like section. -->
       ${feelsLikeComponent}
     `;
-    // Render component sprinkled with highlights data.
+    // Render component.
     replaceHTML(App.$.highlightsSection, highlightsComponent);
   },
+  buildTodaysTemperatureCards(todaysData) {
+    // Build component using the data.
+    const todaysTemperatureCards = todaysData
+      .map(
+        ({
+          dt: dateUnix,
+          weather: [{ description, icon }],
+          main: { temp },
+        }) => {
+          return `
+          <li class="today-at-card">
+            <time class="today-at-card__label">
+              ${unixTimeToHumanReadable(dateUnix, {
+                hour: '2-digit',
+                hour12: true,
+              })}
+            </time>
+            <img
+              loading="lazy"
+              src="/icons/weather/${icon}.webp"
+              srcset="
+                /icons/weather/${icon}.webp 36w,
+                /icons/weather/${icon}.webp 44w
+              "
+              sizes="(min-width: 1200px) 44px, 36px"
+              alt="${description}"
+              class="today-at-card__icon"
+            />
+            <p class="today-at-card__label">${parseInt(temp, 10)}</p>
+         </li>
+        `;
+        }
+      )
+      .join('');
+    // Show it to the world.
+    return todaysTemperatureCards;
+  },
+  buildTodaysWindCards(todaysData) {
+    // Build component using the data.
+    const todaysWindCards = todaysData
+      .map(({ dt: dateUnix, wind: { deg, speed } }) => {
+        return `
+        <div class="today-at-card">
+          <time class="today-at-card__label">
+            ${unixTimeToHumanReadable(dateUnix, {
+              hour: '2-digit',
+              hour12: true,
+            })}
+          </time>
+          <img
+            loading="lazy"
+            src="/icons/wind-direction-mobile.webp"
+            srcset="
+              /icons/wind-direction-mobile.webp 36w,
+              /icons/wind-direction-mobile.webp 44w
+            "
+            sizes="(min-width: 1200px) 44px, 36px"
+            alt=""
+            class="today-at-card__icon"
+            style="transform: rotate(${deg});"
+          />
+          <p class="today-at-card__label">${speed} km/h</p>
+        </div>
+      `;
+      })
+      .join('');
+    // Show it to the world.
+    return todaysWindCards;
+  },
+  updateTodayAt(forecast) {
+    // Get the current date in Unix time.
+    const currentDate = unixTimeToHumanReadable(Math.floor(Date.now() / 1000), {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+    // Filter out forecast data to only today's results.
+    const todaysData = forecast.filter(
+      ({ dt: dateUnix }) =>
+        unixTimeToHumanReadable(dateUnix, {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        }) === currentDate
+    );
+    // Gather today at cards sprinkled with data.
+    const todaysTemperatureCards = App.buildTodaysTemperatureCards(todaysData);
+    const todaysWindCards = App.buildTodaysWindCards(todaysData);
+    // Render components.
+    replaceHTML(App.$.todaysTemperature, todaysTemperatureCards);
+    replaceHTML(App.$.todaysWind, todaysWindCards);
+  },
   /**
-   * Updates the weather that App shows.
+   * Updates the weather that the app shows by fetching current weather, forecast,
+   * and air quality data for a specified latitude and longitude.
    *
    * @async
    * @param {number} lat - The latitude of the location for which to update the weather.
@@ -412,12 +509,23 @@ const App = {
    * @returns {void}
    */
   async updateWeather(lat, lon) {
-    const currentWeather = await WeatherWise.getCurrentWeather({ lat, lon });
-    const { list: forecast } = await WeatherWise.getForecast({ lat, lon });
-    const { list: airQuality } = await WeatherWise.getAirQuality({ lat, lon });
-    App.updateCurrentWeather(currentWeather);
-    App.updateForecast(forecast);
-    App.updateHighlights(currentWeather, airQuality);
+    try {
+      // Wait for all three promises to resolve and destructure results to separate variables.
+      const [currentWeather, { list: forecast }, { list: airQuality }] =
+        await Promise.all([
+          WeatherWise.getCurrentWeather({ lat, lon }),
+          WeatherWise.getForecast({ lat, lon }),
+          WeatherWise.getAirQuality({ lat, lon }),
+        ]);
+      // Update the app's current weather, forecast, highlights, and today-at sections.
+      App.updateCurrentWeather(currentWeather);
+      App.updateForecast(forecast);
+      App.updateHighlights(currentWeather, airQuality);
+      App.updateTodayAt(forecast);
+    } catch (error) {
+      // Handle any errors that may occur
+      console.error(error);
+    }
   },
   /**
    * Initializes a new Router instance with the App's `updateWeather` method as the callback

@@ -1,0 +1,23 @@
+/*
+* Define scrollable container styles.
+*/
+.scrollable-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap:.75rem;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 1.5rem;
+  overflow: auto;
+  white-space: nowrap;
+
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--veritcal {
+    flex-direction: column;
+  }
+}
