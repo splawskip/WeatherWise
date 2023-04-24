@@ -1,11 +1,6 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
-import {
-  debounce,
-  delegateEvent,
-  replaceHTML,
-  unixTimeToHumanReadable,
-} from './utils';
+import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable } from './utils';
 // Settle WeatherWise Meteo Station.
 const WeatherWise = new MeteoStation();
 // Build the app.
@@ -19,23 +14,13 @@ const App = {
     searchView: document.querySelector('[data-weather="search-view"]'),
     searchWrapper: document.querySelector('[data-weather="search-wrapper"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
-    searchViewToggles: document.querySelectorAll(
-      '[data-weather="search-toggle"]'
-    ),
+    searchViewToggles: document.querySelectorAll('[data-weather="search-toggle"]'),
     /** App sections */
-    currentWeatherSection: document.querySelector(
-      '[data-weather="current-weather-section"]'
-    ),
-    forecastSection: document.querySelector(
-      '[data-weather="forecast-section"]'
-    ),
-    highlightsSection: document.querySelector(
-      '[data-weather="highlights-section"]'
-    ),
+    currentWeatherSection: document.querySelector('[data-weather="current-weather-section"]'),
+    forecastSection: document.querySelector('[data-weather="forecast-section"]'),
+    highlightsSection: document.querySelector('[data-weather="highlights-section"]'),
     todayAtSection: document.querySelector('[data-weather="today-at-section"]'),
-    todaysTemperature: document.querySelector(
-      '[data-weather="todays-temperature"]'
-    ),
+    todaysTemperature: document.querySelector('[data-weather="todays-temperature"]'),
     todaysWind: document.querySelector('[data-weather="todays-wind"]'),
   },
   /**
@@ -123,13 +108,8 @@ const App = {
     // Build forecast component.
     const forecastComponent = forecast
       .filter((_, index) => (index + 1) % 8 === 0)
-      .map(
-        ({
-          weather: [{ icon, description }],
-          dt: dateUnix,
-          main: { temp_max: tempMax, temp_min: tempMin },
-        }) => {
-          return `
+      .map(({ weather: [{ icon, description }], dt: dateUnix, main: { temp_max: tempMax, temp_min: tempMin } }) => {
+        return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
                   <img loading="lazy" src="/icons/weather/${icon}.webp" srcset="/icons/weather/${icon}.webp 36w, /icons/weather/${icon}.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
@@ -155,8 +135,7 @@ const App = {
                 </p>
               </div>
             `;
-        }
-      )
+      })
       .join('');
     // Render component sprinkled by forecast data.
     replaceHTML(App.$.forecastSection, forecastComponent);
@@ -176,8 +155,7 @@ const App = {
       },
     ] = airQuality;
     // Get data about current air quality.
-    const { quality, description } =
-      MeteoStation.getAirQualityData(airQualityIndex);
+    const { quality, description } = MeteoStation.getAirQualityData(airQualityIndex);
     // Build status indicator class variant that matches current air quality.
     const airQualityClass = quality.replace(/\s+/g, '-').toLowerCase();
     // Build component and hydrate it with data.
@@ -231,16 +209,13 @@ const App = {
             <img loading="lazy" src="/icons/day-mobile.webp" srcset="/icons/day-mobile.webp 32w, /icons/day-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Sun icon - Represents sunrise" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunrise
-                <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
-                  sunrise,
-                  {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  }
-                )}">
+                <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunrise, {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}">
                   ${unixTimeToHumanReadable(sunrise, {
                     hour: 'numeric',
                     minute: 'numeric',
@@ -253,16 +228,13 @@ const App = {
             <img loading="lazy" src="/icons/night-mobile.webp" srcset="/icons/night-mobile.webp 32w, /icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunset
-              <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
-                sunset,
-                {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }
-              )}">
+              <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunset, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+              })}">
                 ${unixTimeToHumanReadable(sunset, {
                   hour: 'numeric',
                   minute: 'numeric',
@@ -412,13 +384,8 @@ const App = {
   buildTodaysTemperatureCards(todaysData) {
     // Build component using the data.
     const todaysTemperatureCards = todaysData
-      .map(
-        ({
-          dt: dateUnix,
-          weather: [{ description, icon }],
-          main: { temp },
-        }) => {
-          return `
+      .map(({ dt: dateUnix, weather: [{ description, icon }], main: { temp } }) => {
+        return `
           <li class="today-at-card">
             <time class="today-at-card__label">
               ${unixTimeToHumanReadable(dateUnix, {
@@ -440,8 +407,7 @@ const App = {
             <p class="today-at-card__label">${parseInt(temp, 10)}</p>
          </li>
         `;
-        }
-      )
+      })
       .join('');
     // Show it to the world.
     return todaysTemperatureCards;
@@ -525,12 +491,11 @@ const App = {
   async updateWeather(lat, lon) {
     try {
       // Wait for all three promises to resolve and destructure results to separate variables.
-      const [currentWeather, { list: forecast }, { list: airQuality }] =
-        await Promise.all([
-          WeatherWise.getCurrentWeather({ lat, lon }),
-          WeatherWise.getForecast({ lat, lon }),
-          WeatherWise.getAirQuality({ lat, lon }),
-        ]);
+      const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
+        WeatherWise.getCurrentWeather({ lat, lon }),
+        WeatherWise.getForecast({ lat, lon }),
+        WeatherWise.getAirQuality({ lat, lon }),
+      ]);
       // Update the app's current weather, forecast, highlights, and today-at sections.
       App.updateCurrentWeather(currentWeather);
       App.updateForecast(forecast);
@@ -569,8 +534,7 @@ const App = {
      */
     App.$.app.addEventListener('keyup', (event) => {
       if (
-        (event.key === 'Escape' &&
-          App.$.searchView.classList.contains('search--open')) ||
+        (event.key === 'Escape' && App.$.searchView.classList.contains('search--open')) ||
         App.$.searchWrapper.classList.contains('search__wrapper--has-results')
       ) {
         App.clearSearch();
@@ -579,12 +543,7 @@ const App = {
     /**
      * Clear and close the search when search results item is selected.
      */
-    delegateEvent(
-      App.$.searchView,
-      '[data-weather="search-results-item"]',
-      'click',
-      App.clearSearch
-    );
+    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
     /**
      * Clear and close the search on focusout.
      */
@@ -596,10 +555,7 @@ const App = {
         // Get HTMLElement which was used during focusout event.
         const relatedTargetElement = event.relatedTarget ?? false;
         // Clear search if there is no related element or if related element is not search result item.
-        if (
-          !relatedTargetElement ||
-          !relatedTargetElement.matches('[data-weather="search-results-item"]')
-        ) {
+        if (!relatedTargetElement || !relatedTargetElement.matches('[data-weather="search-results-item"]')) {
           App.clearSearch();
         }
       }

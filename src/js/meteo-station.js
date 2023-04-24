@@ -32,8 +32,7 @@ export class MeteoStation {
    * @private
    * @type {string}
    */
-  #AIR_POLLUTION_API_URL =
-    'http://api.openweathermap.org/data/2.5/air_pollution';
+  #AIR_POLLUTION_API_URL = 'https://api.openweathermap.org/data/2.5/air_pollution';
 
   /**
    * Holds the geocoding endpoint URL.
@@ -41,7 +40,7 @@ export class MeteoStation {
    * @private
    * @type {string}
    */
-  #GEOCODING_API_URL = 'http://api.openweathermap.org/geo/1.0/direct';
+  #GEOCODING_API_URL = 'https://api.openweathermap.org/geo/1.0/direct';
 
   /**
    * Holds the reverse geocoding endpoint URL.
@@ -49,7 +48,7 @@ export class MeteoStation {
    * @private
    * @type {string}
    */
-  #REVERSE_GEOCODING_API_URL = 'http://api.openweathermap.org/geo/1.0/reverse';
+  #REVERSE_GEOCODING_API_URL = 'https://api.openweathermap.org/geo/1.0/reverse';
 
   /**
    * Calls the given endpoint with the given arguments.
@@ -154,8 +153,7 @@ export class MeteoStation {
     const airQualities = {
       1: {
         quality: 'Good',
-        description:
-          'Air quality is considered satisfactory, and air pollution poses little or no risk.',
+        description: 'Air quality is considered satisfactory, and air pollution poses little or no risk.',
       },
       2: {
         quality: 'Fair',
@@ -174,8 +172,7 @@ export class MeteoStation {
       },
       5: {
         quality: 'Very Poor',
-        description:
-          'Health warnings of emergency conditions. The entire population is more likely to be affected.',
+        description: 'Health warnings of emergency conditions. The entire population is more likely to be affected.',
       },
     };
     // Output air quality that matches given air quality level.

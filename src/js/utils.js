@@ -41,8 +41,7 @@ export const delegateEvent = (el, selector, event, handler) => {
  * @param {string} html - The HTML string to insert into the element.
  * @returns {void}
  */
-export const insertHTML = (el, html) =>
-  el.insertAdjacentHTML('afterbegin', html);
+export const insertHTML = (el, html) => el.insertAdjacentHTML('afterbegin', html);
 
 /**
  * Replaces the content of the given element with the provided HTML.
@@ -88,6 +87,4 @@ export const debounce = (func, wait) => {
  * @returns {string} - The human-readable date string.
  */
 export const unixTimeToHumanReadable = (unixTimestamp, options = {}) =>
-  new Intl.DateTimeFormat('en-US', options).format(
-    new Date(unixTimestamp * 1000)
-  );
+  new Intl.DateTimeFormat('en-US', options).format(new Date(unixTimestamp * 1000));
