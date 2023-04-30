@@ -145,6 +145,7 @@ export class MeteoStation {
   /**
    * Calls the OpenWeatherMap API to get the air quality for a given latitude and longitude.
    *
+   * @static
    * @param {number} airQualityLevel - The number that represents air quality level.
    * @returns {object} - The object that holds air quality data.
    */

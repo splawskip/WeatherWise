@@ -7,7 +7,7 @@ const WeatherWise = new MeteoStation();
 const App = {
   /** Gather app components. */
   $: {
-    /** App. */
+    /** App container. */
     app: document.querySelector('[data-weather="app"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
@@ -29,9 +29,10 @@ const App = {
    * @param {array} locations - Array that holds locations.
    * @returns {void}
    */
-  async updateSearchResults(locations) {
+  updateSearchResults(locations) {
     // Early return if there are not any locations.
     if (!locations.length) {
+      App.$.searchWrapper.classList.remove('search__wrapper--has-results');
       return;
     }
     // Indicate that the search results has results.
@@ -82,6 +83,9 @@ const App = {
         <p class="current-weather-card__details">
           <span class="current-weather-card__temperature">
             ${parseInt(temp, 10)}
+            <span class="current-weather-card__temperature-unit">
+              &#8451;
+            </span>
           </span>
           <img loading="lazy" src="/icons/weather/${icon}.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
         </p>
@@ -283,7 +287,7 @@ const App = {
         <div class="highlight-card__data">
           <img loading="lazy" src="/icons/pressure-mobile.webp" srcset="/icons/pressure-mobile.webp 32w, /icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
-            ${pressure}hPa
+            ${pressure} hPa
           </p>
         </div>
       </section>
@@ -305,7 +309,7 @@ const App = {
         <div class="highlight-card__data">
           <img loading="lazy" src="/icons/visibility-mobile.webp" srcset="/icons/visibility-mobile.webp 32w, /icons/visibility-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Eye icon - Represents current visibility." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
-            ${visibility / 1000}km
+            ${visibility / 1000} km
           </p>
         </div>
       </section>
@@ -435,12 +439,12 @@ const App = {
             src="/icons/wind-direction-mobile.webp"
             srcset="
               /icons/wind-direction-mobile.webp 36w,
-              /icons/wind-direction-mobile.webp 44w
+              /icons/wind-direction-desktop.webp 48w
             "
-            sizes="(min-width: 1200px) 44px, 36px"
+            sizes="(min-width: 1200px) 48px, 36px"
             alt=""
             class="today-at-card__icon"
-            style="transform: rotate(${deg});"
+            style="transform: rotate(${deg}deg);"
           />
           <p class="today-at-card__label">${speed} km/h</p>
         </div>
@@ -490,11 +494,13 @@ const App = {
    */
   async updateWeather(lat, lon) {
     try {
+      // Get args needed for calls.
+      const args = { lat, lon };
       // Wait for all three promises to resolve and destructure results to separate variables.
       const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
-        WeatherWise.getCurrentWeather({ lat, lon }),
-        WeatherWise.getForecast({ lat, lon }),
-        WeatherWise.getAirQuality({ lat, lon }),
+        WeatherWise.getCurrentWeather(args),
+        WeatherWise.getForecast(args),
+        WeatherWise.getAirQuality(args),
       ]);
       // Update the app's current weather, forecast, highlights, and today-at sections.
       App.updateCurrentWeather(currentWeather);
@@ -522,7 +528,7 @@ const App = {
    */
   handleSearchToggle() {
     /**
-     * Toggle search state when search toggle is clicked.
+     * Toggles search state on search toggle is click.
      */
     delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
       App.$.searchView.classList.toggle('search--open');
@@ -530,7 +536,7 @@ const App = {
       replaceHTML(App.$.searchResults, '');
     });
     /**
-     * Clear and close the search on escape hit.
+     * Clears and closes the search on escape hit.
      */
     App.$.app.addEventListener('keyup', (event) => {
       if (
@@ -541,11 +547,11 @@ const App = {
       }
     });
     /**
-     * Clear and close the search when search results item is selected.
+     * Clears and closes the search on search results item selection.
      */
     delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
     /**
-     * Clear and close the search on focusout.
+     * Clears and closes the search on focusout.
      */
     delegateEvent(
       App.$.searchView,
@@ -554,7 +560,7 @@ const App = {
       (event) => {
         // Get HTMLElement which was used during focusout event.
         const relatedTargetElement = event.relatedTarget ?? false;
-        // Clear search if there is no related element or if related element is not search result item.
+        // Clear search if there is no related element or if related element is not a search result item.
         if (!relatedTargetElement || !relatedTargetElement.matches('[data-weather="search-results-item"]')) {
           App.clearSearch();
         }

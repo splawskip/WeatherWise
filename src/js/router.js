@@ -95,8 +95,8 @@ export class Router {
    */
   handleCurrentLocationRoute = () => {
     window.navigator.geolocation.getCurrentPosition(
-      (res) => {
-        const { latitude, longitude } = res.coords;
+      (response) => {
+        const { latitude, longitude } = response.coords;
         this.#onRouteChangeAction(latitude, longitude);
       },
       (error) => {

@@ -2,89 +2,90 @@
 * Logo component styles.
 */
 .logo {
-	position: relative;
-	color: var(--clr-white);
-	text-decoration: none;
+  position: relative;
+  color: var(--clr-white);
+  text-decoration: none;
 
-	/// Component parts.
+  /// Component parts.
 	&::before {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: block;
-		width: calc(100% / 3);
-		height: 3px;
-		content: '';
-		background: currentcolor;
-		transition: width .5s ease-in-out, height .5s ease-in-out;
-	}
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: calc(100% / 3);
+    height: 3px;
+    content: '';
+    background: currentcolor;
+    transition: width .5s ease-in-out, height .5s ease-in-out;
+  }
 
-	&::after {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		display: block;
-		width: calc(100% / 3);
-		height: 3px;
-		content: '';
-		background: currentcolor;
-		transition: width .5s ease-in-out, height .5s ease-in-out;
-	}
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: block;
+    width: calc(100% / 3);
+    height: 3px;
+    content: '';
+    background: currentcolor;
+    transition: width .5s ease-in-out, height .5s ease-in-out;
+  }
 
-	&__text {
-		position: relative;
-		padding: .5rem .75rem;
-		font-size: var(--fs-content-1);
-		line-height: 2rem;
-		color: currentcolor;
-		text-align: center;
-		text-indent: .25rem;
-		letter-spacing: .25rem;
-		white-space: pre-wrap;
+  &__text {
+    position: relative;
+    padding: .5rem .75rem;
+    font-size: var(--fs-content-1);
+    line-height: 2rem;
+    color: currentcolor;
+    text-align: center;
+    text-indent: .25rem;
+    letter-spacing: .25rem;
+    white-space: pre-wrap;
 
-		&::before {
-			position: absolute;
-			top: 0;
-			left: 0;
-			display: block;
-			width: 3px;
-			height: 50%;
-			content: '';
-			background-color: currentcolor;
-			transition: width .5s ease-in-out, height .5s ease-in-out;
-		}
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 3px;
+      height: 50%;
+      content: '';
+      background-color: currentcolor;
+      transition: width .5s ease-in-out, height .5s ease-in-out;
+    }
 
-		&::after {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			display: block;
-			width: 3px;
-			height: 50%;
-			content: '';
-			background-color: currentcolor;
-			transition: width .5s ease-in-out, height .5s ease-in-out;
-		}
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      display: block;
+      width: 3px;
+      height: 50%;
+      content: '';
+      background-color: currentcolor;
+      transition: width .5s ease-in-out, height .5s ease-in-out;
+    }
+  }
 
-		&:hover {
-			&::before {
-				height: 100%;
-			}
-
-			&::after {
-				height: 100%;
-			}
-		}
-	}
-
-	/// Component states.
+  /// Component states.
 	&:hover {
-		&::before {
-			width: 100%;
-		}
+    &::before {
+      width: 100%;
+    }
 
-		&::after {
-			width: 100%;
-		}
-	}
+    &::after {
+      width: 100%;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .logo__text {
+      &::before {
+        height: 100%;
+      }
+
+      &::after {
+        height: 100%;
+      }
+    }
+  }
 }

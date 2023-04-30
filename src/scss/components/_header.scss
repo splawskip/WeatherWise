@@ -4,42 +4,42 @@
 @use '../abstracts/mixins';
 
 .header {
-	display: flex;
-	flex-flow: row wrap;
-	align-content: flex-start;
-	align-items: center;
-	justify-content: flex-end;
-	width: 100%;
-	padding: 1rem 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 1rem 0;
 
-	@include mixins.on-breakpoint('lg') {
-		justify-content: space-between;
-	}
+  @include mixins.on-breakpoint('lg') {
+    justify-content: space-between;
+  }
 
-	/// Component parts.
+  /// Component parts.
 	&__logo {
-		margin-right: auto;
+    margin-right: auto;
 
-		@include mixins.on-breakpoint('lg') {
-			margin-right: 0;
-		}
-	}
+    @include mixins.on-breakpoint('lg') {
+      margin-right: 0;
+    }
+  }
 
-	&__search-view {
-		position: absolute;
-		inset: 0;
+  &__search-view {
+    position: absolute;
+    inset: 0;
 
-		@include mixins.on-breakpoint('lg') {
-			position: static;
-		}
-	}
+    @include mixins.on-breakpoint('lg') {
+      position: static;
+    }
+  }
 
-	&__actions {
-		display: flex;
-		flex-flow: row wrap;
-		gap: 1rem;
-		align-content: flex-start;
-		align-items: center;
-		justify-content: space-between;
-	}
+  &__actions {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
