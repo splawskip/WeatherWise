@@ -4,12 +4,12 @@ import { getURLHash } from './utils';
  */
 export class Router {
   /**
-   * The default URL hash used if no route is found.
+   * The default route used if no route is found.
    *
    * @type {string}
    * @private
    */
-  #defaultLocation = '#/weather?lat=50.193466&lon=19.290104'; // Jaworzno.
+  #defaultRoute = '#/weather?lat=50.193466&lon=19.290104'; // Jaworzno, PL.
 
   /**
    * A map of registered routes and their corresponding handlers.
@@ -33,8 +33,9 @@ export class Router {
    * @param {Function} callback - The callback function to be executed on route change.
    */
   constructor(callback) {
+    // Assign callback that should be executed on route change.
     this.#onRouteChangeAction = callback;
-    // Boot the class.
+    // Boot the Router.
     this.boot();
   }
 
@@ -43,6 +44,7 @@ export class Router {
    */
   boot() {
     this.registerRoutes();
+    this.handleRouteChangeOnInit();
     this.handleRouteChange();
   }
 
@@ -57,21 +59,6 @@ export class Router {
   }
 
   /**
-   * Handles route changes by checking the URL hash and executing the corresponding route handler.
-   */
-  handleRouteChange() {
-    window.addEventListener('hashchange', () => {
-      // Check if we got any route.
-      if (!window.location.hash) {
-        window.location.hash = '#/current-location';
-        return;
-      }
-      // Check if we should change current route.
-      this.checkRoute();
-    });
-  }
-
-  /**
    * Checks the current URL hash and executes the corresponding route handler.
    */
   checkRoute() {
@@ -81,13 +68,37 @@ export class Router {
   }
 
   /**
+   * Handles route change on app init.
+   */
+  handleRouteChangeOnInit() {
+    window.addEventListener('load', () => {
+      // If there is no route at all, use my hometown location.
+      if (!window.location.hash) {
+        window.location.hash = this.#defaultRoute;
+        return;
+      }
+      // If we got some route on app init check which route should be used.
+      this.checkRoute();
+    });
+  }
+
+  /**
+   * Handles route changes by checking the URL hash and executing the corresponding route handler.
+   */
+  handleRouteChange() {
+    window.addEventListener('hashchange', () => {
+      this.checkRoute();
+    });
+  }
+
+  /**
    * Handles the '/weather' route and executes the onRouteChangeAction callback with the latitude and longitude parameters.
    *
    * @param {string} queryString - The query string containing the latitude and longitude parameters.
    */
   handleSearchedLocationRoute = (queryString) => {
     const params = new URLSearchParams(queryString);
-    this.#onRouteChangeAction(params.get('lat'), params.get('lon'));
+    this.#onRouteChangeAction({ lat: params.get('lat'), lon: params.get('lon') });
   };
 
   /**
@@ -95,13 +106,14 @@ export class Router {
    */
   handleCurrentLocationRoute = () => {
     window.navigator.geolocation.getCurrentPosition(
+      // Get current coordinates of the user.
       (response) => {
-        const { latitude, longitude } = response.coords;
-        this.#onRouteChangeAction(latitude, longitude);
+        const { lat, lon } = response.coords;
+        this.#onRouteChangeAction({ lat, lon });
       },
-      (error) => {
-        console.error(error);
-        window.location.hash = this.#defaultLocation;
+      // When something went wrong use my hometown location.
+      () => {
+        window.location.hash = this.#defaultRoute;
       }
     );
   };

@@ -488,14 +488,19 @@ const App = {
    * and air quality data for a specified latitude and longitude.
    *
    * @async
-   * @param {number} lat - The latitude of the location for which to update the weather.
-   * @param {number} lon - The longitude of the location for which to update the weather.
+   * @param {object} args - Object that holds query args needed for API operations.
    * @returns {void}
    */
-  async updateWeather(lat, lon) {
+  async updateWeather(args) {
     try {
-      // Get args needed for calls.
-      const args = { lat, lon };
+      // Check if args is an object and is not null
+      if (typeof args !== 'object' || args === null) {
+        throw new Error('Invalid argument: args must be an object');
+      }
+      // Check if args has the required properties
+      if (!('lat' in args && 'lon' in args)) {
+        throw new Error('Invalid argument: args must contain lat and lon properties');
+      }
       // Wait for all three promises to resolve and destructure results to separate variables.
       const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
         WeatherWise.getCurrentWeather(args),
