@@ -88,3 +88,32 @@ export const debounce = (func, wait) => {
  */
 export const unixTimeToHumanReadable = (unixTimestamp, options = {}) =>
   new Intl.DateTimeFormat('en-GB', options).format(new Date(unixTimestamp * 1000));
+
+/**
+ * Checks if a given value is empty, undefined, or null.
+ * @param {any} value - The value to check.
+ * @returns {boolean} - True if the value is empty, undefined, or null, false otherwise.
+ */
+export const isEmpty = (value) => {
+  switch (typeof value) {
+    case 'string':
+      return value.trim().length === 0;
+    case 'number':
+      return Number.isNaN(value);
+    case 'object':
+      if (value === null) {
+        return true;
+      }
+      if (Array.isArray(value)) {
+        return value.length === 0;
+      }
+      if (Object.keys(value).length === 0) {
+        return true;
+      }
+      return false;
+    case 'undefined':
+      return true;
+    default:
+      return false;
+  }
+};

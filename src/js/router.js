@@ -1,4 +1,4 @@
-import { getURLHash } from './utils';
+import { getURLHash, isEmpty } from './utils';
 /**
  * A router class that handles URL routing and route handling.
  */
@@ -68,7 +68,9 @@ export class Router {
     // Execute correct route.
     this.#routes.get(route)(query);
     // Save last used location.
-    localStorage.setItem('lastLocation', `${route}?${query}`);
+    if (!isEmpty(route) && !isEmpty(query)) {
+      localStorage.setItem('lastLocation', `${route}?${query}`);
+    }
   }
 
   /**
