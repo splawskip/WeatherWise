@@ -63,8 +63,12 @@ export class Router {
    */
   checkRoute() {
     const queryURL = getURLHash();
+    // Get route name and route query args.
     const [route, query] = queryURL.includes('?') ? queryURL.split('?') : [queryURL];
+    // Execute correct route.
     this.#routes.get(route)(query);
+    // Save last used location.
+    localStorage.setItem('lastLocation', `${route}?${query}`);
   }
 
   /**
@@ -72,9 +76,9 @@ export class Router {
    */
   handleRouteChangeOnInit() {
     window.addEventListener('load', () => {
-      // If there is no route at all, use my hometown location.
+      // If there is no route at all, use last used route or my hometown location.
       if (!window.location.hash) {
-        window.location.hash = this.#defaultRoute;
+        window.location.hash = localStorage.getItem('lastLocation') ?? this.#defaultRoute;
         return;
       }
       // If we got some route on app init check which route should be used.
@@ -111,9 +115,9 @@ export class Router {
         const { lat, lon } = response.coords;
         this.#onRouteChangeAction({ lat, lon });
       },
-      // When something went wrong use my hometown location.
+      // When something went wrong use last used route or my hometown location.
       () => {
-        window.location.hash = this.#defaultRoute;
+        window.location.hash = localStorage.getItem('lastLocation') ?? this.#defaultRoute;
       }
     );
   };
