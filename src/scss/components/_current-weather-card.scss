@@ -34,6 +34,11 @@
     }
   }
 
+  &__icon {
+    width: 48px;
+    height: 48px;
+  }
+
   &__conditions {
     font-size: var(--fs-content-2);
     font-weight: var(--weight-normal);

@@ -87,4 +87,4 @@ export const debounce = (func, wait) => {
  * @returns {string} - The human-readable date string.
  */
 export const unixTimeToHumanReadable = (unixTimestamp, options = {}) =>
-  new Intl.DateTimeFormat('en-US', options).format(new Date(unixTimestamp * 1000));
+  new Intl.DateTimeFormat('en-GB', options).format(new Date(unixTimestamp * 1000));

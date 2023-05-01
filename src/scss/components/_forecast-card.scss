@@ -1,6 +1,8 @@
 /*
 * Forecast card component styles.
 */
+@use '../abstracts/mixins';
+
 .forecast-card {
   display: flex;
   flex-flow: column nowrap;
@@ -17,6 +19,16 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+
+    @include mixins.on-breakpoint('lg') {
+      width: 48px;
+      height: 48px;
+    }
   }
 
   &__temperatures {

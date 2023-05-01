@@ -37,6 +37,16 @@
     width: 100%;
   }
 
+  &__icon {
+    width: 32px;
+    height: 32px;
+
+    @include mixins.on-breakpoint('lg') {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
   &__data {
     display: flex;
     flex-flow: row wrap;
@@ -82,6 +92,7 @@
     font-weight: var(--weight-normal);
     line-height: 1.6875rem;
     color: var(--clr-on-surface-v2);
+    text-transform: uppercase;
 
     &--column-above-mobile {
       @include mixins.on-breakpoint('md') {
