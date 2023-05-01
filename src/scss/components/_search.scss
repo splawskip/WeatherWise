@@ -4,169 +4,169 @@
 @use '../abstracts/mixins';
 
 .search {
-	padding: 1.25rem;
-	pointer-events: none;
-	background-color: var(--clr-woodsmoke);
-	opacity: 0;
+  padding: 1.25rem;
+  pointer-events: none;
+  background-color: var(--clr-woodsmoke);
+  opacity: 0;
 
-	@include mixins.on-breakpoint('lg') {
-		position: relative;
-		width: 500px;
-		pointer-events: all;
-		opacity: 1;
-	}
+  @include mixins.on-breakpoint('lg') {
+    position: relative;
+    width: 500px;
+    pointer-events: all;
+    opacity: 1;
+  }
 
-	/// Component parts.
+  /// Component parts.
 	&__wrapper {
-		display: flex;
-		flex-flow: row nowrap;
-		gap: 1rem;
-		align-items: center;
-		justify-content: flex-start;
-		padding:1rem;
-		background-color: var(--clr-baltic-sea);
-		border-radius: var(--radius-pill);
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding:1rem;
+    background-color: var(--clr-baltic-sea);
+    border-radius: var(--radius-pill);
 
-		&--has-results {
-			border-bottom: 1px solid var(--clr-white);
-			border-bottom-right-radius: 0;
-			border-bottom-left-radius: 0;
-		}
+    &--has-results {
+      border-bottom: 1px solid var(--clr-white);
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-		&:hover {
-			background-color: var(--clr-white-alpha-10);
-			box-shadow: var(--box-shadow-default);
-		}
-	}
+    &:hover {
+      background-color: var(--clr-white-alpha-10);
+      box-shadow: var(--box-shadow-default);
+    }
+  }
 
-	&__magnifier-icon {
-		width: 20px;
-		height: 20px;
-		fill: var(--clr-on-surface);
-	}
+  &__magnifier-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--clr-on-surface);
+  }
 
-	&__input {
-		flex-grow: 1;
-		color: var(--clr-on-surface);
-		background-color: transparent;
-		border: 0;
-		outline: none;
+  &__input {
+    flex-grow: 1;
+    color: var(--clr-on-surface);
+    background-color: transparent;
+    border: 0;
+    outline: none;
 
-		&::placeholder {
-			color: var(--clr-on-surface-v1);
-		}
-	}
+    &::placeholder {
+      color: var(--clr-on-surface-v1);
+    }
+  }
 
-	&__close {
-		position: relative;
-		display: grid;
-		place-items: center;
-		width: 20px;
-		height: 20px;
-		padding:0;
-		color: transparent;
-		cursor: pointer;
-		background-color: transparent;
-		border: 0;
-		transition: transform .2s linear;
+  &__close {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    padding:0;
+    color: transparent;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    transition: transform .2s linear;
 
-		@include mixins.on-breakpoint('lg') {
-			display: none;
-			pointer-events: none;
-		}
+    @include mixins.on-breakpoint('lg') {
+      display: none;
+      pointer-events: none;
+    }
 
-		&::before {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 2px;
-			height: 20px;
-			content: '';
-			background-color: var(--clr-on-surface-v1);
-			transform: translate(-50%, -50%) rotate(45deg);
-		}
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      content: '';
+      background-color: var(--clr-on-surface-v1);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
 
-		&::after {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 2px;
-			height: 20px;
-			content: '';
-			background-color: var(--clr-on-surface-v1);
-			transform: translate(-50%, -50%) rotate(-45deg);
-		}
+    &::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      content: '';
+      background-color: var(--clr-on-surface-v1);
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-		&:hover{
-			transform: rotate(90deg);
-		}
-	}
+    &:hover{
+      transform: rotate(90deg);
+    }
+  }
 
-	&__location-icon {
-		width: 20px;
-		height: 20px;
-		fill: var(--clr-on-surface-v1);
-	}
+  &__location-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--clr-on-surface-v1);
+  }
 
-	&__results {
-		position: absolute;
-		right: 1.25rem;
-		left: 1.25rem;
-		background-color: var(--clr-baltic-sea);
-		border-bottom-right-radius: var(--radius-pill);
-		border-bottom-left-radius: var(--radius-pill);
-	}
+  &__results {
+    position: absolute;
+    right: 1.25rem;
+    left: 1.25rem;
+    background-color: var(--clr-baltic-sea);
+    border-bottom-right-radius: var(--radius-pill);
+    border-bottom-left-radius: var(--radius-pill);
+  }
 
-	&__results-list {
-		display: flex;
-		flex-flow: column nowrap;
-		align-items: flex-start;
-		justify-content: flex-start;
-		padding:0;
-		list-style: none;
-	}
+  &__results-list {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding:0;
+    list-style: none;
+  }
 
-	&__results-item {
-		position: relative;
-		display: flex;
-		flex-flow: row nowrap;
-		gap: 1rem;
-		align-items: center;
-		justify-content: flex-start;
-		width: 100%;
-		padding: 1.25rem;
+  &__results-item {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 1.25rem;
 
-		&:hover {
-			background-color: var(--clr-black-alpha-10);
-		}
-	}
+    &:hover {
+      background-color: var(--clr-black-alpha-10);
+    }
+  }
 
-	&__results-item-icon {
-		width: 20px;
-		height: 20px;
-		fill: var(--clr-on-surface-v1);
-	}
+  &__results-item-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--clr-on-surface-v1);
+  }
 
-	&__results-item-data {
-		width: 100%;
-	}
+  &__results-item-data {
+    width: 100%;
+  }
 
-	&__results-item-link {
-		position: absolute;
-		inset: 0;
-	}
+  &__results-item-link {
+    position: absolute;
+    inset: 0;
+  }
 
-	&__results-item-city {
-		color: var(--clr-on-surface);
-	}
+  &__results-item-city {
+    color: var(--clr-on-surface);
+  }
 
-	&__results-item-country {
-		color: var(--clr-on-surface-v1);
-	}
+  &__results-item-country {
+    color: var(--clr-on-surface-v1);
+  }
 
-	/// Component states.
+  /// Component states.
 	&--open {
-		pointer-events: all;
-		opacity: 1;
-	}
+    pointer-events: all;
+    opacity: 1;
+  }
 }

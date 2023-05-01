@@ -2,33 +2,34 @@
 * Status indicator component styles.
 */
 .status-indicator {
-	display: inline-block;
-	padding: .125rem .75rem;
-	font-size: var(--fs-content-3);
-	font-weight: var(--weigt-semibold);
-	line-height: 1.1875rem;
-	color: var(--clr-black);
-	text-transform: capitalize;
-	border-radius: var(--radius-pill);
+  display: inline-block;
+  padding: .125rem .75rem;
+  font-size: var(--fs-content-3);
+  font-weight: var(--weigt-semibold);
+  line-height: 1.1875rem;
+  color: var(--clr-black);
+  text-transform: capitalize;
+  cursor: help;
+  border-radius: var(--radius-pill);
 
-	// Component color variants.
+  // Component color variants.
 	&--good {
-		background-color: var(--clr-status-good);
-	}
+    background-color: var(--clr-status-good);
+  }
 
-	&--fair {
-		background-color: var(--clr-status-fair);
-	}
+  &--fair {
+    background-color: var(--clr-status-fair);
+  }
 
-	&--moderate {
-		background-color: var(--clr-status-moderate);
-	}
+  &--moderate {
+    background-color: var(--clr-status-moderate);
+  }
 
-	&--poor {
-		background-color: var(--clr-status-poor);
-	}
+  &--poor {
+    background-color: var(--clr-status-poor);
+  }
 
-	&--very-poor {
-		background-color: var(--clr-status-very-poor);
-	}
+  &--very-poor {
+    background-color: var(--clr-status-very-poor);
+  }
 }

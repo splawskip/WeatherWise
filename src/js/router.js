@@ -1,15 +1,15 @@
-import { getURLHash } from './utils';
+import { getURLHash, isEmpty } from './utils';
 /**
  * A router class that handles URL routing and route handling.
  */
 export class Router {
   /**
-   * The default URL hash used if no route is found.
+   * The default route used if no route is found.
    *
    * @type {string}
    * @private
    */
-  #defaultLocation = '#/weather?lat=50.193466&lon=19.290104'; // Jaworzno.
+  #defaultRoute = '#/weather?lat=50.193466&lon=19.290104'; // Jaworzno, PL.
 
   /**
    * A map of registered routes and their corresponding handlers.
@@ -33,8 +33,9 @@ export class Router {
    * @param {Function} callback - The callback function to be executed on route change.
    */
   constructor(callback) {
+    // Assign callback that should be executed on route change.
     this.#onRouteChangeAction = callback;
-    // Boot the class.
+    // Boot the Router.
     this.boot();
   }
 
@@ -43,6 +44,7 @@ export class Router {
    */
   boot() {
     this.registerRoutes();
+    this.handleRouteChangeOnInit();
     this.handleRouteChange();
   }
 
@@ -57,27 +59,42 @@ export class Router {
   }
 
   /**
-   * Handles route changes by checking the URL hash and executing the corresponding route handler.
+   * Checks the current URL hash and executes the corresponding route handler.
    */
-  handleRouteChange() {
-    window.addEventListener('hashchange', () => {
-      // Check if we got any route.
+  checkRoute() {
+    const queryURL = getURLHash();
+    // Get route name and route query args.
+    const [route, query] = queryURL.includes('?') ? queryURL.split('?') : [queryURL];
+    // Execute correct route.
+    this.#routes.get(route)(query);
+    // Save last used location.
+    if (!isEmpty(route) && !isEmpty(query)) {
+      localStorage.setItem('lastLocation', `${route}?${query}`);
+    }
+  }
+
+  /**
+   * Handles route change on app init.
+   */
+  handleRouteChangeOnInit() {
+    window.addEventListener('load', () => {
+      // If there is no route at all, use last used route or my hometown location.
       if (!window.location.hash) {
-        window.location.hash = '#/current-location';
+        window.location.hash = localStorage.getItem('lastLocation') ?? this.#defaultRoute;
         return;
       }
-      // Check if we should change current route.
+      // If we got some route on app init check which route should be used.
       this.checkRoute();
     });
   }
 
   /**
-   * Checks the current URL hash and executes the corresponding route handler.
+   * Handles route changes by checking the URL hash and executing the corresponding route handler.
    */
-  checkRoute() {
-    const queryURL = getURLHash();
-    const [route, query] = queryURL.includes('?') ? queryURL.split('?') : [queryURL];
-    this.#routes.get(route)(query);
+  handleRouteChange() {
+    window.addEventListener('hashchange', () => {
+      this.checkRoute();
+    });
   }
 
   /**
@@ -87,7 +104,7 @@ export class Router {
    */
   handleSearchedLocationRoute = (queryString) => {
     const params = new URLSearchParams(queryString);
-    this.#onRouteChangeAction(params.get('lat'), params.get('lon'));
+    this.#onRouteChangeAction({ lat: params.get('lat'), lon: params.get('lon') });
   };
 
   /**
@@ -95,13 +112,14 @@ export class Router {
    */
   handleCurrentLocationRoute = () => {
     window.navigator.geolocation.getCurrentPosition(
-      (res) => {
-        const { latitude, longitude } = res.coords;
-        this.#onRouteChangeAction(latitude, longitude);
+      // Get current coordinates of the user.
+      (response) => {
+        const { lat, lon } = response.coords;
+        this.#onRouteChangeAction({ lat, lon });
       },
-      (error) => {
-        console.error(error);
-        window.location.hash = this.#defaultLocation;
+      // When something went wrong use last used route or my hometown location.
+      () => {
+        window.location.hash = localStorage.getItem('lastLocation') ?? this.#defaultRoute;
       }
     );
   };

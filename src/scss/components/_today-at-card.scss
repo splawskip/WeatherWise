@@ -1,28 +1,40 @@
 /*
 * Today at card component styles.
 */
+@use '../abstracts/mixins';
+
 .today-at-card {
-	display: flex;
-	flex-flow: column nowrap;
-	gap: .75rem;
-	align-items: center;
-	justify-content: center;
-	padding: 1rem 1.875rem;
-	background-color: var(--clr-baltic-sea);
-	border-radius: var(--radius-pill);
+  display: flex;
+  flex-flow: column nowrap;
+  gap: .75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.875rem;
+  background-color: var(--clr-baltic-sea);
+  border-radius: var(--radius-pill);
 
-	/// Component parts.
+  /// Component parts.
 	&__label {
-		font-size: var(--fs-content-2);
-		font-weight: var(--weight-normal);
-		line-height: 1.375rem;
-		color: var(--clr-on-surface);
-	}
+    font-size: var(--fs-content-2);
+    font-weight: var(--weight-normal);
+    line-height: 1.375rem;
+    color: var(--clr-on-surface);
+  }
 
-	&__value {
-		font-size: var(--fs-content-2);
-		font-weight: var(--weight-normal);
-		line-height: 1.375rem;
-		color: var(--clr-on-surface);
-	}
+  &__icon {
+    width: 32px;
+    height: 32px;
+
+    @include mixins.on-breakpoint('lg') {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__value {
+    font-size: var(--fs-content-2);
+    font-weight: var(--weight-normal);
+    line-height: 1.375rem;
+    color: var(--clr-on-surface);
+  }
 }

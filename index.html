@@ -71,7 +71,7 @@
             <input
               type="search"
               name="search"
-              placeholder="Search city ..."
+              placeholder="Search city &#8230;"
               autocomplete="off"
               class="search__input"
               data-weather="search-input"
@@ -126,7 +126,12 @@
         >
           <h3 class="title section__title current-weather-card__title">Now</h3>
           <p class="current-weather-card__details">
-            <span class="current-weather-card__temperature">25</span>
+            <span class="current-weather-card__temperature">
+              25
+              <span class="current-weather-card__temperature-unit">
+                &#8451;
+              </span>
+            </span>
             <img
               loading="lazy"
               src="/imgs/weather-partly-cloudy.png"
@@ -698,6 +703,30 @@
           </div>
         </section>
       </div>
+      <footer class="footer">
+        <p class="footer__copyright copyright">
+          Made with ❤️ by psplawski.dev.
+        </p>
+        <p class="footer__poweredby poweredby">
+          Powered By
+          <a
+            href="https://openweathermap.org/api"
+            title="Free OpenWeather API"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="poweredby__link"
+          >
+            <img
+              src="/icons/provider/openweather.webp"
+              width="150"
+              height="30"
+              loading="lazy"
+              alt="OpenWeather Logo"
+              class="poweredby__logo"
+            />
+          </a>
+        </p>
+      </footer>
     </div>
     <script type="module" src="/src/js/main.js"></script>
   </body>

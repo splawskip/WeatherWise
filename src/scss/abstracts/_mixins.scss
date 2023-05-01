@@ -11,11 +11,11 @@
 * @param {String} $breakpoint - Breakpoint name.
 */
 @mixin on-breakpoint($breakpoint) {
-	@if map-has-key(breakpoints.$breakpoints, $breakpoint) {
-		@media (min-width: map-get(breakpoints.$breakpoints, $breakpoint)) {
-			@content;
-		}
-	} @else {
-		@error "Invalid breakpoint: #{$breakpoint}.";
-	}
+  @if map-has-key(breakpoints.$breakpoints, $breakpoint) {
+    @media (min-width: map-get(breakpoints.$breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
 }

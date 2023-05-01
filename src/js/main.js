@@ -1,41 +1,26 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
-import {
-  debounce,
-  delegateEvent,
-  replaceHTML,
-  unixTimeToHumanReadable,
-} from './utils';
+import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable } from './utils';
 // Settle WeatherWise Meteo Station.
 const WeatherWise = new MeteoStation();
 // Build the app.
 const App = {
   /** Gather app components. */
   $: {
-    /** App. */
+    /** App container. */
     app: document.querySelector('[data-weather="app"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
     searchView: document.querySelector('[data-weather="search-view"]'),
     searchWrapper: document.querySelector('[data-weather="search-wrapper"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
-    searchViewToggles: document.querySelectorAll(
-      '[data-weather="search-toggle"]'
-    ),
+    searchViewToggles: document.querySelectorAll('[data-weather="search-toggle"]'),
     /** App sections */
-    currentWeatherSection: document.querySelector(
-      '[data-weather="current-weather-section"]'
-    ),
-    forecastSection: document.querySelector(
-      '[data-weather="forecast-section"]'
-    ),
-    highlightsSection: document.querySelector(
-      '[data-weather="highlights-section"]'
-    ),
+    currentWeatherSection: document.querySelector('[data-weather="current-weather-section"]'),
+    forecastSection: document.querySelector('[data-weather="forecast-section"]'),
+    highlightsSection: document.querySelector('[data-weather="highlights-section"]'),
     todayAtSection: document.querySelector('[data-weather="today-at-section"]'),
-    todaysTemperature: document.querySelector(
-      '[data-weather="todays-temperature"]'
-    ),
+    todaysTemperature: document.querySelector('[data-weather="todays-temperature"]'),
     todaysWind: document.querySelector('[data-weather="todays-wind"]'),
   },
   /**
@@ -44,9 +29,10 @@ const App = {
    * @param {array} locations - Array that holds locations.
    * @returns {void}
    */
-  async updateSearchResults(locations) {
+  updateSearchResults(locations) {
     // Early return if there are not any locations.
     if (!locations.length) {
+      App.$.searchWrapper.classList.remove('search__wrapper--has-results');
       return;
     }
     // Indicate that the search results has results.
@@ -97,8 +83,11 @@ const App = {
         <p class="current-weather-card__details">
           <span class="current-weather-card__temperature">
             ${parseInt(temp, 10)}
+            <span class="current-weather-card__temperature-unit">
+              &#8451;
+            </span>
           </span>
-          <img loading="lazy" src="/icons/weather/${icon}.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
+          <img loading="lazy" src="/icons/weather/${icon}-desktop.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
         </p>
         <p class="current-weather-card__conditions">${description}</p>
         <hr class="separator current-weather-card__separator" />
@@ -122,25 +111,17 @@ const App = {
   updateForecast(forecast) {
     // Build forecast component.
     const forecastComponent = forecast
-      .map(
-        (
-          {
-            weather: [{ icon, description }],
-            dt: dateUnix,
-            main: { temp_max: tempMax, temp_min: tempMin },
-          },
-          index
-        ) => {
-          return (index + 1) % 8 === 0
-            ? `
+      .filter((_, index) => (index + 1) % 8 === 0)
+      .map(({ weather: [{ icon, description }], dt: dateUnix, main: { temp_max: tempMax, temp_min: tempMin } }) => {
+        return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
-                  <img loading="lazy" src="/icons/weather/${icon}.webp" srcset="/icons/weather/${icon}.webp 36w, /icons/weather/${icon}.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
+                  <img loading="lazy" src="/icons/weather/${icon}-mobile.webp" srcset="/icons/weather/${icon}-mobile.webp 32w, /icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
-                    ${parseInt(tempMax, 10)}&#176;
+                    ${parseInt(tempMax, 10)}&#8451;
                   </span>
                   <span class="forecast-card__night-temperature">
-                    ${parseInt(tempMin, 10)}&#176;
+                    ${parseInt(tempMin, 10)}&#8451;
                   </span>
                 </p>
                 <p class="forecast-card__date">
@@ -157,10 +138,8 @@ const App = {
                   </span>
                 </p>
               </div>
-            `
-            : '';
-        }
-      )
+            `;
+      })
       .join('');
     // Render component sprinkled by forecast data.
     replaceHTML(App.$.forecastSection, forecastComponent);
@@ -180,11 +159,10 @@ const App = {
       },
     ] = airQuality;
     // Get data about current air quality.
-    const { quality, description } =
-      MeteoStation.getAirQualityData(airQualityIndex);
+    const { quality, description } = MeteoStation.getAirQualityData(airQualityIndex);
     // Build status indicator class variant that matches current air quality.
     const airQualityClass = quality.replace(/\s+/g, '-').toLowerCase();
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const airQualityComponent = `
         <section class="highlight-card highlight-card--large highlight__air-quality">
         <h4 class="highlight-card__title">
@@ -219,14 +197,14 @@ const App = {
     return airQualityComponent;
   },
   /**
-   * Returns a HTML string of a sunrise and sunset card component.
+   * Builds and returns a HTML string of a sunrise and sunset card component.
    *
    * @param {number} sunrise - UNIX timestamp of the sunrise time.
    * @param {number} sunset - UNIX timestamp of the sunset time.
    * @returns {string} - HTML markup for the sunrise and sunset card component.
    */
   buildSunComponent(sunrise, sunset) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const sunComponent = `
         <section class="highlight-card highlight-card--large highlight__sunrise-and-sunset">
         <h4 class="highlight-card__title">sunrise & sunset</h4>
@@ -235,16 +213,13 @@ const App = {
             <img loading="lazy" src="/icons/day-mobile.webp" srcset="/icons/day-mobile.webp 32w, /icons/day-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Sun icon - Represents sunrise" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunrise
-                <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
-                  sunrise,
-                  {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  }
-                )}">
+                <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunrise, {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}">
                   ${unixTimeToHumanReadable(sunrise, {
                     hour: 'numeric',
                     minute: 'numeric',
@@ -257,16 +232,13 @@ const App = {
             <img loading="lazy" src="/icons/night-mobile.webp" srcset="/icons/night-mobile.webp 32w, /icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunset
-              <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(
-                sunset,
-                {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }
-              )}">
+              <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunset, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+              })}">
                 ${unixTimeToHumanReadable(sunset, {
                   hour: 'numeric',
                   minute: 'numeric',
@@ -282,13 +254,13 @@ const App = {
     return sunComponent;
   },
   /**
-   * Builds a humidity component with the given humidity value.
+   * Builds and returns a HTML string of humidity component with the given humidity value.
    *
    * @param {number} humidity - The humidity value in percentage.
    * @returns {string} - HTML markup for the humidity component.
    */
   buildHumidityComponent(humidity) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const humidityComponent = `
       <section class="highlight-card highlight-card--small highlight__humidity">
         <h4 class="highlight-card__title">humidity</h4>
@@ -302,20 +274,20 @@ const App = {
     return humidityComponent;
   },
   /**
-   * Builds a pressure component with the given pressure value.
+   * Builds and returns a HTML string of pressure component with the given pressure value.
    *
    * @param {number} pressure - The pressure value in hPa (hectopascals).
    * @returns {string} - HTML markup for the pressure component.
    */
   buildPressureComponent(pressure) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const pressureComponent = `
       <section class="highlight-card highlight-card--small highlight__pressure">
         <h4 class="highlight-card__title">pressure</h4>
         <div class="highlight-card__data">
           <img loading="lazy" src="/icons/pressure-mobile.webp" srcset="/icons/pressure-mobile.webp 32w, /icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
-            ${pressure}hPa
+            ${pressure} hPa
           </p>
         </div>
       </section>
@@ -324,20 +296,20 @@ const App = {
     return pressureComponent;
   },
   /**
-   * Builds a visibility component with the given visibility value.
+   * Builds and returns a HTML string of visibility component with the given visibility value.
    *
    * @param {number} visibility - The visibility value in meters.
    * @returns {string} - HTML markup for the visibility component.
    */
   buildVisibilityComponent(visibility) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const visibilityComponent = `
       <section class="highlight-card highlight-card--small highlight__visibility">
         <h4 class="highlight-card__title">visibility</h4>
         <div class="highlight-card__data">
           <img loading="lazy" src="/icons/visibility-mobile.webp" srcset="/icons/visibility-mobile.webp 32w, /icons/visibility-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Eye icon - Represents current visibility." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
-            ${visibility / 1000}km
+            ${visibility / 1000} km
           </p>
         </div>
       </section>
@@ -346,13 +318,13 @@ const App = {
     return visibilityComponent;
   },
   /**
-   * Builds a feels-like component with the given feels-like temperature value.
+   * Builds and returns a HTML string of feels-like component with the given feels-like temperature value.
    *
    * @param {number|string} feelsLike - The feels-like temperature value.
    * @returns {string} - HTML markup for the feels-like component.
    */
   buildFeelsLikeComponent(feelsLike) {
-    // Build componet and hydrate it with data.
+    // Build component and hydrate it with data.
     const feelsLikeComponent = `
       <section class="highlight-card highlight-card--small highlight__feels-like">
         <h4 class="highlight-card__title">feels like</h4>
@@ -375,7 +347,7 @@ const App = {
    * @returns {void}
    */
   updateHighlights(currentWeather, airQuality) {
-    // Pull data that components needs.
+    // Pull the data that components needs.
     const {
       main: { feels_like: feelsLike, humidity, pressure },
       sys: { sunrise, sunset },
@@ -407,16 +379,17 @@ const App = {
     // Render component.
     replaceHTML(App.$.highlightsSection, highlightsComponent);
   },
+  /**
+   * Builds and returns an HTML string for a temperature card for today's forecast.
+   *
+   * @param {Array} todaysData - An array of forecast data for today.
+   * @returns {string} - An HTML string of wind cards for today's forecast.
+   */
   buildTodaysTemperatureCards(todaysData) {
     // Build component using the data.
     const todaysTemperatureCards = todaysData
-      .map(
-        ({
-          dt: dateUnix,
-          weather: [{ description, icon }],
-          main: { temp },
-        }) => {
-          return `
+      .map(({ dt: dateUnix, weather: [{ description, icon }], main: { temp } }) => {
+        return `
           <li class="today-at-card">
             <time class="today-at-card__label">
               ${unixTimeToHumanReadable(dateUnix, {
@@ -426,24 +399,29 @@ const App = {
             </time>
             <img
               loading="lazy"
-              src="/icons/weather/${icon}.webp"
+              src="/icons/weather/${icon}-mobile.webp"
               srcset="
-                /icons/weather/${icon}.webp 36w,
-                /icons/weather/${icon}.webp 44w
+                /icons/weather/${icon}-mobile.webp 32w,
+                /icons/weather/${icon}-desktop.webp 48w
               "
-              sizes="(min-width: 1200px) 44px, 36px"
+              sizes="(min-width: 1200px) 48px, 32px"
               alt="${description}"
               class="today-at-card__icon"
             />
-            <p class="today-at-card__label">${parseInt(temp, 10)}</p>
+            <p class="today-at-card__label">${parseInt(temp, 10)}&#8451;</p>
          </li>
         `;
-        }
-      )
+      })
       .join('');
     // Show it to the world.
     return todaysTemperatureCards;
   },
+  /**
+   * Builds and returns an HTML string for a wind card for today's forecast.
+   *
+   * @param {Array} todaysData - An array of forecast data for today.
+   * @returns {string} - An HTML string of wind cards for today's forecast.
+   */
   buildTodaysWindCards(todaysData) {
     // Build component using the data.
     const todaysWindCards = todaysData
@@ -460,13 +438,13 @@ const App = {
             loading="lazy"
             src="/icons/wind-direction-mobile.webp"
             srcset="
-              /icons/wind-direction-mobile.webp 36w,
-              /icons/wind-direction-mobile.webp 44w
+              /icons/wind-direction-mobile.webp 32w,
+              /icons/wind-direction-desktop.webp 48w
             "
-            sizes="(min-width: 1200px) 44px, 36px"
+            sizes="(min-width: 1200px) 48px, 32px"
             alt=""
             class="today-at-card__icon"
-            style="transform: rotate(${deg});"
+            style="transform: rotate(${deg}deg);"
           />
           <p class="today-at-card__label">${speed} km/h</p>
         </div>
@@ -476,6 +454,12 @@ const App = {
     // Show it to the world.
     return todaysWindCards;
   },
+  /**
+   * Updates the "Today At" section with forecast data for the current day.
+   *
+   * @param {Array} forecast - The forecast data to update the "Today At" section with.
+   * @returns {void}
+   */
   updateTodayAt(forecast) {
     // Get the current date in Unix time.
     const currentDate = unixTimeToHumanReadable(Math.floor(Date.now() / 1000), {
@@ -504,19 +488,25 @@ const App = {
    * and air quality data for a specified latitude and longitude.
    *
    * @async
-   * @param {number} lat - The latitude of the location for which to update the weather.
-   * @param {number} lon - The longitude of the location for which to update the weather.
+   * @param {object} args - Object that holds query args needed for API operations.
    * @returns {void}
    */
-  async updateWeather(lat, lon) {
+  async updateWeather(args) {
     try {
+      // Check if args is an object and is not null
+      if (typeof args !== 'object' || args === null) {
+        throw new Error('Invalid argument: args must be an object');
+      }
+      // Check if args has the required properties
+      if (!('lat' in args && 'lon' in args)) {
+        throw new Error('Invalid argument: args must contain lat and lon properties');
+      }
       // Wait for all three promises to resolve and destructure results to separate variables.
-      const [currentWeather, { list: forecast }, { list: airQuality }] =
-        await Promise.all([
-          WeatherWise.getCurrentWeather({ lat, lon }),
-          WeatherWise.getForecast({ lat, lon }),
-          WeatherWise.getAirQuality({ lat, lon }),
-        ]);
+      const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
+        WeatherWise.getCurrentWeather(args),
+        WeatherWise.getForecast(args),
+        WeatherWise.getAirQuality(args),
+      ]);
       // Update the app's current weather, forecast, highlights, and today-at sections.
       App.updateCurrentWeather(currentWeather);
       App.updateForecast(forecast);
@@ -543,7 +533,7 @@ const App = {
    */
   handleSearchToggle() {
     /**
-     * Toggle search state when search toggle is clicked.
+     * Toggles search state on search toggle is click.
      */
     delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
       App.$.searchView.classList.toggle('search--open');
@@ -551,28 +541,22 @@ const App = {
       replaceHTML(App.$.searchResults, '');
     });
     /**
-     * Clear and close the search on escape hit.
+     * Clears and closes the search on escape hit.
      */
     App.$.app.addEventListener('keyup', (event) => {
       if (
-        (event.key === 'Escape' &&
-          App.$.searchView.classList.contains('search--open')) ||
+        (event.key === 'Escape' && App.$.searchView.classList.contains('search--open')) ||
         App.$.searchWrapper.classList.contains('search__wrapper--has-results')
       ) {
         App.clearSearch();
       }
     });
     /**
-     * Clear and close the search when search results item is selected.
+     * Clears and closes the search on search results item selection.
      */
-    delegateEvent(
-      App.$.searchView,
-      '[data-weather="search-results-item"]',
-      'click',
-      App.clearSearch
-    );
+    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
     /**
-     * Clear and close the search on focusout.
+     * Clears and closes the search on focusout.
      */
     delegateEvent(
       App.$.searchView,
@@ -581,11 +565,8 @@ const App = {
       (event) => {
         // Get HTMLElement which was used during focusout event.
         const relatedTargetElement = event.relatedTarget ?? false;
-        // Clear search if there is no related element or if related element is not search result item.
-        if (
-          !relatedTargetElement ||
-          !relatedTargetElement.matches('[data-weather="search-results-item"]')
-        ) {
+        // Clear search if there is no related element or if related element is not a search result item.
+        if (!relatedTargetElement || !relatedTargetElement.matches('[data-weather="search-results-item"]')) {
           App.clearSearch();
         }
       }

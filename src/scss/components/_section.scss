@@ -4,46 +4,46 @@
 @use '../abstracts/mixins';
 
 .section {
-	display: flex;
-	flex-flow: column nowrap;
-	gap: .75rem;
-	align-items: flex-start;
-	justify-content: flex-start;
-	width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: .75rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
 
-	/// Component parts.
+  /// Component parts.
 	&__title {
-		font-size: var(--fs-content-2);
-		font-weight: var(--weight-semibold);
-		line-height: 1.5625rem;
-		color: var(--clr-on-surface);
-		text-transform:capitalize;
-	}
+    font-size: var(--fs-content-2);
+    font-weight: var(--weight-semibold);
+    line-height: 1.5625rem;
+    color: var(--clr-on-surface);
+    text-transform:capitalize;
+  }
 
-	/// Component variants.
+  /// Component variants.
 	&--highlights {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 12px;
-		width: 100%;
-		padding: 1.25rem;
-		background-color: var(--clr-baltic-sea);
-		border-radius: var(--radius-pill);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+    padding: 1.25rem;
+    background-color: var(--clr-baltic-sea);
+    border-radius: var(--radius-pill);
 
-		@include mixins.on-breakpoint('md') {
-			grid-template-columns: repeat(2, 1fr);
+    @include mixins.on-breakpoint('md') {
+      grid-template-columns: repeat(2, 1fr);
 
-			.title {
-				grid-column: span 2;
-			}
-		}
+      .title {
+        grid-column: span 2;
+      }
+    }
 
-		@include mixins.on-breakpoint('lg') {
-			grid-template-columns: repeat(4, 1fr);
+    @include mixins.on-breakpoint('lg') {
+      grid-template-columns: repeat(4, 1fr);
 
-			.title {
-				grid-column: span 4;
-			}
-		}
-	}
+      .title {
+        grid-column: span 4;
+      }
+    }
+  }
 }

@@ -4,76 +4,76 @@
 @use '../abstracts/mixins';
 
 .btn {
-	display: flex;
-	flex-flow: row nowrap;
-	gap: .75rem;
-	align-items: center;
-	justify-content: center;
-	padding: .75rem;
-	font-family: var(--ff-nunito-sans);
-	font-size: var(--fs-content-2);
-	font-weight: var(--weight-semibold);
-	line-height: 1.375rem;
-	text-decoration: none;
-	cursor: pointer;
-	border: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: .75rem;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem;
+  font-family: var(--ff-nunito-sans);
+  font-size: var(--fs-content-2);
+  font-weight: var(--weight-semibold);
+  line-height: 1.375rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
 
-	/// Component parts.
+  /// Component parts.
 	&__icon {
-		width: 20px;
-		height: 20px;
-		fill: currentcolor;
-	}
+    width: 20px;
+    height: 20px;
+    fill: currentcolor;
+  }
 
-	&__label {
-		display: none;
+  &__label {
+    display: none;
 
-		@include mixins.on-breakpoint('md') {
-			display: inline-block;
-		}
-	}
+    @include mixins.on-breakpoint('md') {
+      display: inline-block;
+    }
+  }
 
-	/// Component color variants.
+  /// Component color variants.
 	&--dark {
-		color: var(--clr-white);
-		background-color: var(--clr-baltic-sea);
+    color: var(--clr-white);
+    background-color: var(--clr-baltic-sea);
 
-		&:hover {
-			background-color: var(--clr-white-alpha-10);
-			box-shadow: var(--box-shadow-default);
-		}
-	}
+    &:hover {
+      background-color: var(--clr-white-alpha-10);
+      box-shadow: var(--box-shadow-default);
+    }
+  }
 
-	&--accent {
-		color: var(--clr-on-accent);
-		background-color: var(--clr-accent);
+  &--accent {
+    color: var(--clr-on-accent);
+    background-color: var(--clr-accent);
 
-		&:hover {
-			box-shadow: var(--box-shadow-default);
-		}
-	}
+    &:hover {
+      box-shadow: var(--box-shadow-default);
+    }
+  }
 
-	/// Component shape variants.
+  /// Component shape variants.
 	&--circle {
-		border-radius: var(--radius-circle);
-	}
+    border-radius: var(--radius-circle);
+  }
 
-	&--pill {
-		border-radius: var(--radius-pill);
-	}
+  &--pill {
+    border-radius: var(--radius-pill);
+  }
 
-	&--circle-to-pill {
-		border-radius: var(--radius-circle);
+  &--circle-to-pill {
+    border-radius: var(--radius-circle);
 
-		@include mixins.on-breakpoint('md') {
-			border-radius: var(--radius-pill);
-		}
-	}
+    @include mixins.on-breakpoint('md') {
+      border-radius: var(--radius-pill);
+    }
+  }
 
-	/// Component visibility variants.
+  /// Component visibility variants.
 	&--desktop-hide {
-		@include mixins.on-breakpoint('lg') {
-			display: none;
-		}
-	}
+    @include mixins.on-breakpoint('lg') {
+      display: none;
+    }
+  }
 }
