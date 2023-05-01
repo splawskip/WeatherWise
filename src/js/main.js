@@ -87,7 +87,7 @@ const App = {
               &#8451;
             </span>
           </span>
-          <img loading="lazy" src="/icons/weather/${icon}.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
+          <img loading="lazy" src="/icons/weather/${icon}-desktop.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
         </p>
         <p class="current-weather-card__conditions">${description}</p>
         <hr class="separator current-weather-card__separator" />
@@ -116,12 +116,12 @@ const App = {
         return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
-                  <img loading="lazy" src="/icons/weather/${icon}.webp" srcset="/icons/weather/${icon}.webp 36w, /icons/weather/${icon}.webp 44w" sizes="(min-width: 1200px) 44px, 36px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
+                  <img loading="lazy" src="/icons/weather/${icon}-mobile.webp" srcset="/icons/weather/${icon}-mobile.webp 32w, /icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
-                    ${parseInt(tempMax, 10)}&#176;
+                    ${parseInt(tempMax, 10)}&#8451;
                   </span>
                   <span class="forecast-card__night-temperature">
-                    ${parseInt(tempMin, 10)}&#176;
+                    ${parseInt(tempMin, 10)}&#8451;
                   </span>
                 </p>
                 <p class="forecast-card__date">
@@ -399,16 +399,16 @@ const App = {
             </time>
             <img
               loading="lazy"
-              src="/icons/weather/${icon}.webp"
+              src="/icons/weather/${icon}-mobile.webp"
               srcset="
-                /icons/weather/${icon}.webp 36w,
-                /icons/weather/${icon}.webp 44w
+                /icons/weather/${icon}-mobile.webp 32w,
+                /icons/weather/${icon}-desktop.webp 48w
               "
-              sizes="(min-width: 1200px) 44px, 36px"
+              sizes="(min-width: 1200px) 48px, 32px"
               alt="${description}"
               class="today-at-card__icon"
             />
-            <p class="today-at-card__label">${parseInt(temp, 10)}</p>
+            <p class="today-at-card__label">${parseInt(temp, 10)}&#8451;</p>
          </li>
         `;
       })
@@ -438,10 +438,10 @@ const App = {
             loading="lazy"
             src="/icons/wind-direction-mobile.webp"
             srcset="
-              /icons/wind-direction-mobile.webp 36w,
+              /icons/wind-direction-mobile.webp 32w,
               /icons/wind-direction-desktop.webp 48w
             "
-            sizes="(min-width: 1200px) 48px, 36px"
+            sizes="(min-width: 1200px) 48px, 32px"
             alt=""
             class="today-at-card__icon"
             style="transform: rotate(${deg}deg);"
