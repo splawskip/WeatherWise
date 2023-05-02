@@ -1,0 +1,41 @@
+.heart {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 20px;
+  color: transparent;
+  background: var(--clr-heart);
+  border-bottom-right-radius: 5px;
+  transform: rotate(45deg);
+
+  /* Styles for users who do not prefer reduced motion */
+  @media (prefers-reduced-motion: no-preference), (prefers-reduced-motion: reduce 0) {
+    animation-name: pulse;
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 20px;
+    height: 20px;
+    content: '';
+    background: var(--clr-heart);
+    border-radius: 50%;
+  }
+
+  &::after {
+    position: absolute;
+    top: -50%;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    content: '';
+    background: var(--clr-heart);
+    border-radius: 50%;
+  }
+}
