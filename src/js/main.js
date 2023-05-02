@@ -87,7 +87,7 @@ const App = {
               &#8451;
             </span>
           </span>
-          <img loading="lazy" src="/icons/weather/${icon}-desktop.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
+          <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
         </p>
         <p class="current-weather-card__conditions">${description}</p>
         <hr class="separator current-weather-card__separator" />
@@ -116,7 +116,7 @@ const App = {
         return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
-                  <img loading="lazy" src="/icons/weather/${icon}-mobile.webp" srcset="/icons/weather/${icon}-mobile.webp 32w, /icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
+                  <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
                     ${parseInt(tempMax, 10)}&#8451;
                   </span>
@@ -171,7 +171,7 @@ const App = {
           </span>
         </h4>
         <div class="highlight-card__data-set">
-          <img loading="lazy" src="/icons/air-mobile.webp" srcset="/icons/air-mobile.webp 32w, /icons/air-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Wind icon - Represents current air quality" class="class highlight-card__icon" />
+          <img loading="lazy" src="./icons/air-mobile.webp" srcset="./icons/air-mobile.webp 32w, ./icons/air-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Wind icon - Represents current air quality" class="class highlight-card__icon" />
           <div class="highlight-card__data highlight-card__data--multiple-values">
             <p class="highlight-card__value highlight-card__value--column-above-mobile">
               ${pm25.toPrecision(3)}
@@ -210,7 +210,7 @@ const App = {
         <h4 class="highlight-card__title">sunrise & sunset</h4>
         <div class="highlight-card__data-set">
           <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
-            <img loading="lazy" src="/icons/day-mobile.webp" srcset="/icons/day-mobile.webp 32w, /icons/day-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Sun icon - Represents sunrise" class="class highlight-card__icon" />
+            <img loading="lazy" src="./icons/day-mobile.webp" srcset="./icons/day-mobile.webp 32w, ./icons/day-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Sun icon - Represents sunrise" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunrise
                 <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunrise, {
@@ -229,7 +229,7 @@ const App = {
             </p>
           </div>
           <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
-            <img loading="lazy" src="/icons/night-mobile.webp" srcset="/icons/night-mobile.webp 32w, /icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
+            <img loading="lazy" src="./icons/night-mobile.webp" srcset="./icons/night-mobile.webp 32w, ./icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
             <p class="highlight-card__label">
               Sunset
               <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunset, {
@@ -265,7 +265,7 @@ const App = {
       <section class="highlight-card highlight-card--small highlight__humidity">
         <h4 class="highlight-card__title">humidity</h4>
         <div class="highlight-card__data">
-          <img loading="lazy" src="/icons/humidity-mobile.webp" srcset="/icons/humidity-mobile.webp 32w, /icons/humidity-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Raindrop icon with percent sign inside it - Represents current humidity." class="class highlight-card__data-icon" />
+          <img loading="lazy" src="./icons/humidity-mobile.webp" srcset="./icons/humidity-mobile.webp 32w, ./icons/humidity-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Raindrop icon with percent sign inside it - Represents current humidity." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">${humidity}%</p>
         </div>
       </section>
@@ -285,7 +285,7 @@ const App = {
       <section class="highlight-card highlight-card--small highlight__pressure">
         <h4 class="highlight-card__title">pressure</h4>
         <div class="highlight-card__data">
-          <img loading="lazy" src="/icons/pressure-mobile.webp" srcset="/icons/pressure-mobile.webp 32w, /icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
+          <img loading="lazy" src="./icons/pressure-mobile.webp" srcset="./icons/pressure-mobile.webp 32w, ./icons/pressure-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Air wave icon - Represents current pressure." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
             ${pressure} hPa
           </p>
@@ -307,7 +307,7 @@ const App = {
       <section class="highlight-card highlight-card--small highlight__visibility">
         <h4 class="highlight-card__title">visibility</h4>
         <div class="highlight-card__data">
-          <img loading="lazy" src="/icons/visibility-mobile.webp" srcset="/icons/visibility-mobile.webp 32w, /icons/visibility-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Eye icon - Represents current visibility." class="class highlight-card__data-icon" />
+          <img loading="lazy" src="./icons/visibility-mobile.webp" srcset="./icons/visibility-mobile.webp 32w, ./icons/visibility-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Eye icon - Represents current visibility." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
             ${visibility / 1000} km
           </p>
@@ -329,7 +329,7 @@ const App = {
       <section class="highlight-card highlight-card--small highlight__feels-like">
         <h4 class="highlight-card__title">feels like</h4>
         <div class="highlight-card__data">
-          <img loading="lazy" src="/icons/feels-like-mobile.webp" srcset="/icons/feels-like-mobile.webp 32w, /icons/feels-like-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Thermometer - Represents what current temperature feels like." class="class highlight-card__data-icon" />
+          <img loading="lazy" src="./icons/feels-like-mobile.webp" srcset="./icons/feels-like-mobile.webp 32w, ./icons/feels-like-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Thermometer - Represents what current temperature feels like." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
             ${parseInt(feelsLike, 10)}&#8451;
           </p>
@@ -399,10 +399,10 @@ const App = {
             </time>
             <img
               loading="lazy"
-              src="/icons/weather/${icon}-mobile.webp"
+              src="./icons/weather/${icon}-mobile.webp"
               srcset="
-                /icons/weather/${icon}-mobile.webp 32w,
-                /icons/weather/${icon}-desktop.webp 48w
+                ./icons/weather/${icon}-mobile.webp 32w,
+                ./icons/weather/${icon}-desktop.webp 48w
               "
               sizes="(min-width: 1200px) 48px, 32px"
               alt="${description}"
@@ -436,10 +436,10 @@ const App = {
           </time>
           <img
             loading="lazy"
-            src="/icons/wind-direction-mobile.webp"
+            src="./icons/wind-direction-mobile.webp"
             srcset="
-              /icons/wind-direction-mobile.webp 32w,
-              /icons/wind-direction-desktop.webp 48w
+              ./icons/wind-direction-mobile.webp 32w,
+              ./icons/wind-direction-desktop.webp 48w
             "
             sizes="(min-width: 1200px) 48px, 32px"
             alt=""
