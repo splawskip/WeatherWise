@@ -1,5 +1,5 @@
 /**
- * A class for making API calls to OpenWeatherMap.
+ * A class for making API calls to OpenWeather.
  */
 export class MeteoStation {
   /**
