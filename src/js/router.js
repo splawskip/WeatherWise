@@ -114,7 +114,7 @@ export class Router {
     window.navigator.geolocation.getCurrentPosition(
       // Get current coordinates of the user.
       (response) => {
-        const { lat, lon } = response.coords;
+        const { latitude: lat, longitude: lon } = response.coords;
         this.#onRouteChangeAction({ lat, lon });
       },
       // When something went wrong use last used route or my hometown location.
