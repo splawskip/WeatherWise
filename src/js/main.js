@@ -24,21 +24,21 @@ const App = {
     todaysWind: document.querySelector('[data-weather="todays-wind"]'),
   },
   /**
-   * Updates the search results with the provided locations data.
+   * Builds search results component sprinkled with locations data.
    *
    * @param {array} locations - Array that holds locations.
    * @returns {void}
    */
-  updateSearchResults(locations) {
+  buildSearchResultsComponent(locations) {
     // Early return if there are not any locations.
     if (!locations.length) {
       App.$.searchWrapper.classList.remove('search__wrapper--has-results');
-      return;
+      return '';
     }
     // Indicate that the search results has results.
     App.$.searchWrapper.classList.add('search__wrapper--has-results');
-    // Loop over locations data and build search results item component that is sprinkled with the location data.
-    const searchResults = locations
+    // Loop over locations data and build search results component that is sprinkled with the location data.
+    const searchResultsComponent = locations
       .map(({ name, state, country, lat, lon }) => {
         return `
           <li class="search__results-item">
@@ -57,8 +57,20 @@ const App = {
         `;
       })
       .join('');
-    // Update search results.
-    replaceHTML(App.$.searchResults, searchResults);
+    // Return component as HTML string.
+    return searchResultsComponent;
+  },
+  /**
+   * Renders the search results component sprinkled with locations data.
+   *
+   * @param {array} locations - Array that holds locations data.
+   * @returns {void}
+   */
+  renderSearchResultsComponent(locations) {
+    // Get search results component.
+    const searchResultsComponent = App.buildSearchResultsComponent(locations);
+    // Render search results component.
+    replaceHTML(App.$.searchResults, searchResultsComponent);
   },
   /**
    * Builds the current weather component sprinkled with data about current weather.
@@ -530,7 +542,7 @@ const App = {
         WeatherWise.getForecast(args),
         WeatherWise.getAirQuality(args),
       ]);
-      // Update the app's current weather, forecast, highlights, and today-at sections.
+      // Render the app.
       App.renderCurrentWeatherComponent(currentWeather);
       App.renderForecastComponent(forecast);
       App.renderHighlightsComponent(currentWeather, airQuality);
@@ -623,7 +635,7 @@ const App = {
             limit: 5,
           });
           // Update search results with locations.
-          App.updateSearchResults(locations);
+          App.renderSearchResultsComponent(locations);
         }
       }, 500)
     );
