@@ -166,6 +166,7 @@
 
   /// Component states.
 	&--open {
+    z-index: 1;
     pointer-events: all;
     opacity: 1;
   }
