@@ -19,9 +19,9 @@ const App = {
     currentWeatherSection: document.querySelector('[data-weather="current-weather-section"]'),
     forecastSection: document.querySelector('[data-weather="forecast-section"]'),
     highlightsSection: document.querySelector('[data-weather="highlights-section"]'),
-    todayAtSection: document.querySelector('[data-weather="today-at-section"]'),
-    todaysTemperature: document.querySelector('[data-weather="todays-temperature"]'),
-    todaysWind: document.querySelector('[data-weather="todays-wind"]'),
+    followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
+    followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
+    followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -97,7 +97,7 @@ const App = {
             &#8451;
           </span>
         </span>
-        <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" alt="Icons that represents todays weather as ${description}" class="current-weather__icon" />
+        <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" alt="${description}" class="current-weather__icon" />
       </p>
       <p class="current-weather-card__conditions">${description}</p>
       <hr class="separator current-weather-card__separator" />
@@ -127,7 +127,7 @@ const App = {
         return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
-                  <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Icon that represents todays weather as ${description}" class="forecast-card__icon" />
+                  <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
                     ${parseInt(tempMax, 10)}&#8451;
                   </span>
@@ -351,14 +351,14 @@ const App = {
     return feelsLikeComponent;
   },
   /**
-   * Builds temperature cards components sprinkled with today's forecast data.
+   * Builds following hours temperature cards components sprinkled with following hours forecast.
    *
-   * @param {Array} todaysData - An array of forecast data for today.
+   * @param {Array} forecast - An array of forecast data for today.
    * @returns {string} - HTML markup for the today's temperature cards components.
    */
-  buildTodaysTemperatureCards(todaysData) {
+  buildFollowingHoursTemperatureCards(forecast) {
     // Build component using today's forecast.
-    const todaysTemperatureCards = todaysData
+    const followingHoursTemperatureCards = forecast
       .map(({ dt: dateUnix, weather: [{ description, icon }], main: { temp } }) => {
         return `
           <li class="today-at-card">
@@ -385,17 +385,17 @@ const App = {
       })
       .join('');
     // Return component as HTML string.
-    return todaysTemperatureCards;
+    return followingHoursTemperatureCards;
   },
   /**
-   * Builds today's wind cards components sprinkled with today's forecast data.
+   * Builds following hours wind cards components sprinkled with following hours forecast.
    *
-   * @param {Array} todaysData - An array of forecast data for today.
+   * @param {Array} forecast - An array of forecast data for today.
    * @returns {string} - HTML markup for the today's wind cards components.
    */
-  buildTodaysWindCards(todaysData) {
+  buildFollowingHoursWindCards(forecast) {
     // Build component using today's forecast.
-    const todaysWindCards = todaysData
+    const followingHoursWindCards = forecast
       .map(({ dt: dateUnix, wind: { deg, speed } }) => {
         return `
         <div class="today-at-card">
@@ -423,10 +423,10 @@ const App = {
       })
       .join('');
     // Return component as HTML string.
-    return todaysWindCards;
+    return followingHoursWindCards;
   },
   /**
-   * Updates the current weather section with the weather data for a given latitude and longitude.
+   * Renders the current weather section with the weather data for a given latitude and longitude.
    *
    * @param {object} forecast - Object that contains data about curren weather.
    * @returns {void}
@@ -438,7 +438,7 @@ const App = {
     replaceHTML(App.$.currentWeatherSection, currentWeatherComponent);
   },
   /**
-   * Updates the current weather section with the weather data for a given latitude and longitude.
+   * Renders the current weather section with the weather data for a given latitude and longitude.
    *
    * @param {object} forecast - Object that contains data about curren weather.
    * @returns {void}
@@ -450,7 +450,7 @@ const App = {
     replaceHTML(App.$.forecastSection, forecastComponent);
   },
   /**
-   * Updates the highlights section of the app with data from the current weather and air quality.
+   * Renders the highlights section of the app with data from the current weather and air quality.
    *
    * @param {Object} currentWeather - The current weather data.
    * @param {Object} airQuality - The air quality data.
@@ -490,33 +490,20 @@ const App = {
     replaceHTML(App.$.highlightsSection, highlightsComponent);
   },
   /**
-   * Updates the "Today At" section with forecast data for the current day.
+   * Renders following hours component sprinkled with forecast data for next 24 hours.
    *
-   * @param {Array} forecast - The forecast data to update the "Today At" section with.
+   * @param {Array} forecast - The forecast data.
    * @returns {void}
    */
-  renderTodayAtComponent(forecast) {
-    // Get the current date in Unix time.
-    const currentDate = unixTimeToHumanReadable(Math.floor(Date.now() / 1000), {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    });
-    // Filter out forecast data to only today's results.
-    const todaysData = forecast.filter(
-      ({ dt: dateUnix }) =>
-        unixTimeToHumanReadable(dateUnix, {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        }) === currentDate
-    );
-    // Gather today at cards sprinkled with data.
-    const todaysTemperatureCards = App.buildTodaysTemperatureCards(todaysData);
-    const todaysWindCards = App.buildTodaysWindCards(todaysData);
+  renderFollowingHoursComponent(forecast) {
+    // Filter out forecast data to get only data about following 24 hours.
+    const followingHoursForecast = forecast.filter((_, index) => index < 8);
+    // Gather following hours cards sprinkled with the forecast data.
+    const followingHoursTemperatureCards = App.buildFollowingHoursTemperatureCards(followingHoursForecast);
+    const followingHoursWindCards = App.buildFollowingHoursWindCards(followingHoursForecast);
     // Render components.
-    replaceHTML(App.$.todaysTemperature, todaysTemperatureCards);
-    replaceHTML(App.$.todaysWind, todaysWindCards);
+    replaceHTML(App.$.followingHoursTemperature, followingHoursTemperatureCards);
+    replaceHTML(App.$.followingHoursWind, followingHoursWindCards);
   },
   /**
    * Updates the weather that the app shows by fetching current weather, forecast,
@@ -546,7 +533,7 @@ const App = {
       App.renderCurrentWeatherComponent(currentWeather);
       App.renderForecastComponent(forecast);
       App.renderHighlightsComponent(currentWeather, airQuality);
-      App.renderTodayAtComponent(forecast);
+      App.renderFollowingHoursComponent(forecast);
     } catch (error) {
       // Handle any errors that may occur
       console.error(error);
