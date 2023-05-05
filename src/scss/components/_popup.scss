@@ -1,0 +1,55 @@
+.popup {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  overflow: hidden;
+  background-color: var(--clr-woodsmoke);
+
+  &__body {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  &__title {
+    margin-bottom: .5rem;
+    font-size: var(--fs-heading-2);
+    color: var(--clr-white);
+    text-transform: uppercase;
+  }
+
+  &__desc {
+    margin-bottom: 1rem;
+    font-size: var(--fs-content-1);
+    color: var(--clr-white);
+  }
+
+  &__issue {
+    margin-bottom: 1rem;
+    font-size: var(--fs-content-1);
+    color: var(--clr-white);
+
+    &-link {
+      display: inline;
+      margin-bottom: 1rem;
+      font-size: var(--fs-content-1);
+      color: inherit;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      background-image: linear-gradient(to right, var(--clr-accent) 0, var(--clr-accent) 100%);
+      background-repeat: no-repeat;
+      background-position: left 100%;
+      background-size: 0 1px;
+      transition: .5s cubic-bezier(.25, .8, .5, 1);
+
+      &:hover {
+        background-size: 100% 1px;
+        border-color: vcolor(var(--clr-on-surface-v1), 0);
+      }
+    }
+  }
+}
