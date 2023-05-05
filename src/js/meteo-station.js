@@ -1,3 +1,4 @@
+import { buildErrorPopup } from './utils';
 /**
  * A class for making API calls to OpenWeather.
  */
@@ -96,7 +97,13 @@ export class MeteoStation {
       // Show data to the world.
       return data;
     } catch (error) {
-      throw new Error(`Unable to fetch data from API. Reason: ${error}`);
+      // Inform user that something went wrong.
+      buildErrorPopup(document.querySelector('[data-weather="error-popup"]'), {
+        title: error.name,
+        message: error.message,
+      });
+      // Show error data to the world.
+      return error;
     }
   }
 
@@ -128,6 +135,7 @@ export class MeteoStation {
    */
   getCurrentWeather(args) {
     return this.call(`${this.#API_URL}${this.#CURRENT_WEATHER_ENDPOINT}`, args);
+    // return this.call(`${this.#API_URL}${this.#CURRENT_WEATHER_ENDPOINT}`, []);
   }
 
   /**

@@ -117,3 +117,48 @@ export const isEmpty = (value) => {
       return false;
   }
 };
+
+/**
+ * Builds and displays an error popup.
+ *
+ * @param {HTMLElement} popupElement - The popup element to display.
+ * @param {object} args - The arguments for the error popup.
+ * @param {string} args.errorCode - The error code to display.
+ * @param {string} args.errorMessage - The error message to display.
+ * @throws {Error} If the popupElement argument is not a valid HTMLElement.
+ */
+export const buildErrorPopup = (popupElement = null, args = { title: '404', message: 'Location not found' }) => {
+  // Check if popupElement is a valid HTMLElement.
+  if (popupElement && !(popupElement instanceof HTMLElement)) {
+    throw new Error('Invalid argument: popupElement must be an HTMLElement.');
+  }
+  // Check if args is an object.
+  if (args !== null && typeof args !== 'object') {
+    throw new Error('Invalid argument: args must be an object.');
+  }
+  // Build popup content.
+  const popupContent = `
+    <div class="popup__body">
+      <h2 class="popup__title">${args.title ?? 'Whoops!'}</h2>
+      <p class="popup__desc">${args.message ?? 'Something went wrong.'}</p>
+      ${
+        args.title !== '404'
+          ? `
+        <p class="popup__issue">
+          Please open new issue here: <a href="https://github.com/splawskip/WeatherWise/issues" target="_blank" rel="noopener noreferrer" class="popup__issue-link">WeatherWise issues board</a>
+        </p>`
+          : ''
+      }
+      <a
+        href="https://splawskip.github.io/WeatherWise/#/weather?lat=50.193466&lon=19.290104"
+        class="btn btn--accent btn--pill popup__btn"
+        >go to homescreen</a
+      >
+    </div>
+  `;
+  // Hydrate popup with error data and open it if not already opened.
+  if (!popupElement.open) {
+    replaceHTML(popupElement, popupContent);
+    popupElement.showModal();
+  }
+};

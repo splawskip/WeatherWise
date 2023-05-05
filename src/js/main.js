@@ -1,6 +1,6 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
-import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable } from './utils';
+import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErrorPopup } from './utils';
 // Settle WeatherWise Meteo Station.
 const WeatherWise = new MeteoStation();
 // Build the app.
@@ -22,6 +22,7 @@ const App = {
     followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
     followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
     followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
+    errorPopup: document.querySelector('[data-weather="error-popup"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -535,8 +536,8 @@ const App = {
       App.renderHighlightsComponent(currentWeather, airQuality);
       App.renderFollowingHoursComponent(forecast);
     } catch (error) {
-      // Handle any errors that may occur
-      console.error(error);
+      // Inform user that something went wrong.
+      buildErrorPopup(App.$.errorPopup, { title: error.name, message: error.message });
     }
   },
   /**
