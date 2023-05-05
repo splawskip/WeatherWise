@@ -521,8 +521,8 @@ const App = {
         throw new Error('Invalid argument: args must be an object');
       }
       // Check if args has the required properties
-      if (!('lat' in args && 'lon' in args)) {
-        throw new Error('Invalid argument: args must contain lat and lon properties');
+      if (!('lat' in args && typeof args.lat === 'number' && 'lon' in args && typeof args.lon === 'number')) {
+        throw new Error('Invalid argument: args must contain lat and lon properties of type number');
       }
       // Wait for all three promises to resolve and destructure results to separate variables.
       const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
