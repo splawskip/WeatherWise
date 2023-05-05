@@ -33,9 +33,15 @@
       border-bottom-left-radius: 0;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--clr-white-alpha-10);
       box-shadow: var(--box-shadow-default);
+    }
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px var(--clr-lgt-blue);
+      transition: box-shadow .3s ease-in-out;
     }
   }
 
@@ -136,7 +142,8 @@
     width: 100%;
     padding: 1.25rem;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--clr-black-alpha-10);
     }
   }

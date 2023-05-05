@@ -49,10 +49,6 @@
   &--accent {
     color: var(--clr-on-accent);
     background-color: var(--clr-accent);
-
-    &:hover {
-      box-shadow: var(--box-shadow-default);
-    }
   }
 
   /// Component shape variants.
@@ -77,5 +73,10 @@
     @include mixins.on-breakpoint('lg') {
       display: none;
     }
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--clr-lgt-blue);
+    transition: box-shadow .3s ease-in-out;
   }
 }
