@@ -2,74 +2,74 @@
 * Define project root defaults.
 */
 :root {
-	/* Colors. */
-	/// Misc ones.
-	--clr-white:hsl(0deg 0% 100%);
-	--clr-black:hsl(0deg 0% 0%);
+  /* Colors. */
+  /// Misc ones.
+  --clr-white:hsl(0deg 0% 100%);
+  --clr-black:hsl(0deg 0% 0%);
 
-	/// Background.
-	--clr-woodsmoke:hsl(270deg 5% 7%);
+  /// Background.
+  --clr-woodsmoke:hsl(270deg 5% 7%);
 
-	/// Surface.
-	--clr-baltic-sea: hsl(260deg 5% 12%);
+  /// Surface.
+  --clr-baltic-sea: hsl(260deg 5% 12%);
 
-	/// On surface.
-	--clr-on-surface:hsl(255deg 19% 88%);
-	--clr-on-surface-v1:hsl(257deg 3% 49%);
-	--clr-on-surface-v2:hsl(260deg 7% 73%);
+  /// On surface.
+  --clr-on-surface:hsl(255deg 19% 88%);
+  --clr-on-surface-v1:hsl(257deg 3% 49%);
+  --clr-on-surface-v2:hsl(260deg 7% 73%);
 
-	/// Accent.
-	--clr-accent:hsl(258deg 57% 76%);
+  /// Accent.
+  --clr-accent:hsl(258deg 57% 76%);
 
-	/// On accent.
-	--clr-on-accent:hsl(253deg 24% 7%);
+  /// On accent.
+  --clr-on-accent:hsl(253deg 24% 7%);
 
-	/// Alphas.
-	--clr-white-alpha-10: hsl(0deg 0% 100% / 10%);
-	--clr-black-alpha-10: hsl(0deg 0% 0% / 10%);
+  /// Alphas.
+  --clr-white-alpha-10: hsl(0deg 0% 100% / 10%);
+  --clr-black-alpha-10: hsl(0deg 0% 0% / 10%);
 
-	/// Statuses.
-	--clr-status-good:hsl(120deg 64% 72%);
-	--clr-status-fair:hsl(55deg 64% 72%);
-	--clr-status-moderate:hsl(36deg 64% 72%);
-	--clr-status-poor:hsl(0deg 64% 72%);
-	--clr-status-very-poor:hsl(330deg 64% 72%);
+  /// Statuses.
+  --clr-status-good:hsl(120deg 64% 72%);
+  --clr-status-fair:hsl(55deg 64% 72%);
+  --clr-status-moderate:hsl(36deg 64% 72%);
+  --clr-status-poor:hsl(0deg 64% 72%);
+  --clr-status-very-poor:hsl(330deg 64% 72%);
 
   /// Heart.
   --clr-heart: hsl(0deg 100% 50%);
 
-	/* Font families. */
-	--ff-nunito-sans: 'Nunito Sans', system-ui, sans-serif;
+  /* Font families. */
+  --ff-nunito-sans: 'Nunito Sans', system-ui, sans-serif;
 
-	/* Font sizes. */
-	--fs-heading-1: 3.5rem;
-	--fs-heading-2: 2.5rem;
-	--fs-content-1: 1.25rem;
-	--fs-content-2: 1rem;
-	--fs-content-3: .875rem;
-	--fs-content-4: .625rem;
+  /* Font sizes. */
+  --fs-heading-1: 3.5rem;
+  --fs-heading-2: 2.5rem;
+  --fs-content-1: 1.25rem;
+  --fs-content-2: 1rem;
+  --fs-content-3: .875rem;
+  --fs-content-4: .625rem;
 
-	/* Font weights. */
-	--weight-normal: 400;
-	--weight-semibold: 600;
+  /* Font weights. */
+  --weight-normal: 400;
+  --weight-semibold: 600;
 
-	/* Border radiuses */
-	--radius-pill: 30px;
-	--radius-circle: 50%;
+  /* Border radiuses */
+  --radius-pill: 30px;
+  --radius-circle: 50%;
 
-	/* Box shadows */
-	--box-shadow-default: 0 1px 3px hsl(0deg 0% 0% / 50%);
+  /* Box shadows */
+  --box-shadow-default: 0 1px 3px hsl(0deg 0% 0% / 50%);
 
-	/// Root defaults.
+  /// Root defaults.
   position: relative;
-	font-family: var(--ff-nunito-sans);
-	color: var(--clr-white);
-	background-color: var(--clr-woodsmoke);
-	text-rendering: optimizelegibility;
-	scroll-behavior: smooth;
-	-webkit-overflow-scrolling: touch;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: subpixel-antialiased;
+  font-family: var(--ff-nunito-sans);
+  color: var(--clr-white);
+  background-color: var(--clr-woodsmoke);
+  text-rendering: optimizelegibility;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
 
   ::selection {
     color: var(--clr-black);
