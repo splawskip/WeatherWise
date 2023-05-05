@@ -7,8 +7,9 @@ const WeatherWise = new MeteoStation();
 const App = {
   /** Gather app components. */
   $: {
-    /** App container. */
+    /** App misc components. */
     app: document.querySelector('[data-weather="app"]'),
+    errorPopup: document.querySelector('[data-weather="error-popup"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
     searchView: document.querySelector('[data-weather="search-view"]'),
@@ -22,7 +23,6 @@ const App = {
     followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
     followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
     followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
-    errorPopup: document.querySelector('[data-weather="error-popup"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.

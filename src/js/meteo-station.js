@@ -137,7 +137,6 @@ export class MeteoStation {
    */
   getCurrentWeather(args) {
     return this.call(`${this.#API_URL}${this.#CURRENT_WEATHER_ENDPOINT}`, args);
-    // return this.call(`${this.#API_URL}${this.#CURRENT_WEATHER_ENDPOINT}`, []);
   }
 
   /**
