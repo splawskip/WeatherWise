@@ -521,7 +521,7 @@ const App = {
         throw new Error('Invalid argument: args must be an object');
       }
       // Check if args has the required properties
-      if (!('lat' in args && typeof args.lat === 'number' && 'lon' in args && typeof args.lon === 'number')) {
+      if (!('lat' in args && 'lon' in args)) {
         throw new Error('Invalid argument: args must contain lat and lon properties of type number');
       }
       // Wait for all three promises to resolve and destructure results to separate variables.
@@ -548,6 +548,18 @@ const App = {
    */
   handleRouting() {
     return new Router(App.updateWeather);
+  },
+  /**
+   * Prevents popup from closing on escape hit.
+   *
+   * @returns {void}
+   */
+  preventPopupClosing() {
+    App.$.errorPopup.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+      }
+    });
   },
   /**
    * Attaches event listeners to various elements to enable toggling the search view and clearing the search input.
@@ -635,6 +647,7 @@ const App = {
    */
   bindEvents() {
     App.handleRouting();
+    App.preventPopupClosing();
     App.handleSearchToggle();
     App.handleLocationSearch();
   },
