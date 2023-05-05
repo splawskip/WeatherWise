@@ -1,6 +1,6 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
-import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable } from './utils';
+import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErrorPopup } from './utils';
 // Settle WeatherWise Meteo Station.
 const WeatherWise = new MeteoStation();
 // Build the app.
@@ -22,6 +22,7 @@ const App = {
     followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
     followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
     followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
+    errorPopup: document.querySelector('[data-weather="error-popup"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -521,7 +522,7 @@ const App = {
       }
       // Check if args has the required properties
       if (!('lat' in args && 'lon' in args)) {
-        throw new Error('Invalid argument: args must contain lat and lon properties');
+        throw new Error('Invalid argument: args must contain lat and lon properties of type number');
       }
       // Wait for all three promises to resolve and destructure results to separate variables.
       const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
@@ -535,8 +536,8 @@ const App = {
       App.renderHighlightsComponent(currentWeather, airQuality);
       App.renderFollowingHoursComponent(forecast);
     } catch (error) {
-      // Handle any errors that may occur
-      console.error(error);
+      // Inform user that something went wrong.
+      buildErrorPopup(App.$.errorPopup, { title: error.name, message: error.message });
     }
   },
   /**
@@ -547,6 +548,18 @@ const App = {
    */
   handleRouting() {
     return new Router(App.updateWeather);
+  },
+  /**
+   * Prevents popup from closing on escape hit.
+   *
+   * @returns {void}
+   */
+  preventPopupClosing() {
+    App.$.errorPopup.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+      }
+    });
   },
   /**
    * Attaches event listeners to various elements to enable toggling the search view and clearing the search input.
@@ -634,6 +647,7 @@ const App = {
    */
   bindEvents() {
     App.handleRouting();
+    App.preventPopupClosing();
     App.handleSearchToggle();
     App.handleLocationSearch();
   },

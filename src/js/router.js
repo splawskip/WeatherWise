@@ -1,4 +1,4 @@
-import { getURLHash, isEmpty } from './utils';
+import { getURLHash, isEmpty, buildErrorPopup } from './utils';
 /**
  * A router class that handles URL routing and route handling.
  */
@@ -65,6 +65,14 @@ export class Router {
     const queryURL = getURLHash();
     // Get route name and route query args.
     const [route, query] = queryURL.includes('?') ? queryURL.split('?') : [queryURL];
+    // If route does not exist show 404 page.
+    if (!this.#routes.has(route)) {
+      buildErrorPopup(document.querySelector('[data-weather="error-popup"]'), {
+        title: '404',
+        message: 'Location not found',
+      });
+      return;
+    }
     // Execute correct route.
     this.#routes.get(route)(query);
     // Save last used location.
