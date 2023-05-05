@@ -62,8 +62,10 @@ export class MeteoStation {
   /**
    * Calls the given endpoint with the given arguments.
    *
+   * @async
    * @param {string} url - The endpoint URL.
    * @param {object} args - The call parameters.
+   * @throws {Error} If the URL is not a non-empty string, the args are not an object, or the args are an empty object.
    * @returns {Promise<any>} - The response data or an error.
    */
   async call(url = '', args = {}) {

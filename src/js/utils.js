@@ -127,7 +127,7 @@ export const isEmpty = (value) => {
  * @param {string} args.errorMessage - The error message to display.
  * @throws {Error} If the popupElement argument is not a valid HTMLElement.
  */
-export const buildErrorPopup = (popupElement = null, args = { title: '404', message: 'Location not found' }) => {
+export const buildErrorPopup = (popupElement = null, args = { title: 'Whoops!', message: 'Something went wrong.' }) => {
   // Check if popupElement is a valid HTMLElement.
   if (popupElement && !(popupElement instanceof HTMLElement)) {
     throw new Error('Invalid argument: popupElement must be an HTMLElement.');

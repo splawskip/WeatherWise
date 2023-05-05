@@ -69,7 +69,7 @@ export class Router {
     if (!this.#routes.has(route)) {
       buildErrorPopup(document.querySelector('[data-weather="error-popup"]'), {
         title: '404',
-        message: 'location not found',
+        message: 'Location not found',
       });
       return;
     }
