@@ -61,6 +61,7 @@
 	--box-shadow-default: 0 1px 3px hsl(0deg 0% 0% / 50%);
 
 	/// Root defaults.
+  position: relative;
 	font-family: var(--ff-nunito-sans);
 	color: var(--clr-white);
 	background-color: var(--clr-woodsmoke);
