@@ -136,6 +136,12 @@ export const buildErrorPopup = (popupElement = null, args = { title: 'Whoops!', 
   if (args !== null && typeof args !== 'object') {
     throw new Error('Invalid argument: args must be an object.');
   }
+  // Prevent popup from close event on escape hit.
+  popupElement.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+    }
+  });
   // Build popup content.
   const popupContent = `
     <div class="popup__body">
