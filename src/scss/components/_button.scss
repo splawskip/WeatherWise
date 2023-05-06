@@ -17,7 +17,10 @@
   text-decoration: none;
   text-transform: capitalize;
   cursor: pointer;
-  border: 0;
+  border: 3px solid transparent;
+  transition-timing-function: ease-in-out;
+  transition-duration: .3s;
+  transition-property: color, background-color, border-color;
 
   /// Component parts.
 	&__icon {
@@ -41,14 +44,21 @@
     background-color: var(--clr-baltic-sea);
 
     &:hover {
-      background-color: var(--clr-white-alpha-10);
-      box-shadow: var(--box-shadow-default);
+      color: var(--clr-white);
+      background-color: transparent;
+      border-color: var(--clr-white);
     }
   }
 
   &--accent {
     color: var(--clr-on-accent);
     background-color: var(--clr-accent);
+
+    &:hover {
+      color: var(--clr-white);
+      background-color: transparent;
+      border-color: var(--clr-white);
+    }
   }
 
   /// Component shape variants.
@@ -77,6 +87,5 @@
 
   &:focus-visible {
     box-shadow: 0 0 0 3px var(--clr-lgt-blue);
-    transition: box-shadow .3s ease-in-out;
   }
 }

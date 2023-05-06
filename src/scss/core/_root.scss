@@ -63,6 +63,9 @@
   /* Box shadows */
   --box-shadow-default: 0 1px 3px hsl(0deg 0% 0% / 50%);
 
+  /* Transitions */
+  --transition-swing: cubic-bezier(.25, .8, .5, 1);
+
   /// Root defaults.
   position: relative;
   font-family: var(--ff-nunito-sans);

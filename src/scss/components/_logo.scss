@@ -16,7 +16,9 @@
     height: 3px;
     content: '';
     background: currentcolor;
-    transition: width .5s ease-in-out, height .5s ease-in-out, background-color .5s ease-in-out;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: width, height,background-color;
   }
 
   &::after {
@@ -28,7 +30,9 @@
     height: 3px;
     content: '';
     background: currentcolor;
-    transition: width .5s ease-in-out, height .5s ease-in-out, background-color .5s ease-in-out;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: width, height,background-color;
   }
 
   &__text {
@@ -51,7 +55,9 @@
       height: 50%;
       content: '';
       background-color: currentcolor;
-      transition: width .5s ease-in-out, height .5s ease-in-out, background-color .5s ease-in-out;
+      transition-timing-function: ease-in-out;
+      transition-duration: .5s;
+      transition-property: width, height,background-color;
     }
 
     &::after {
@@ -63,7 +69,9 @@
       height: 50%;
       content: '';
       background-color: currentcolor;
-      transition: width .5s ease-in-out, height .5s ease-in-out, background-color .5s ease-in-out;
+      transition-timing-function: ease-in-out;
+      transition-duration: .5s;
+      transition-property: width, height,background-color;
     }
   }
 
