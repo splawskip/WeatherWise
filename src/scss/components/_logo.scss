@@ -16,7 +16,9 @@
     height: 3px;
     content: '';
     background: currentcolor;
-    transition: width .5s ease-in-out, height .5s ease-in-out;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: width, height,background-color;
   }
 
   &::after {
@@ -28,7 +30,9 @@
     height: 3px;
     content: '';
     background: currentcolor;
-    transition: width .5s ease-in-out, height .5s ease-in-out;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: width, height,background-color;
   }
 
   &__text {
@@ -51,7 +55,9 @@
       height: 50%;
       content: '';
       background-color: currentcolor;
-      transition: width .5s ease-in-out, height .5s ease-in-out;
+      transition-timing-function: ease-in-out;
+      transition-duration: .5s;
+      transition-property: width, height,background-color;
     }
 
     &::after {
@@ -63,12 +69,15 @@
       height: 50%;
       content: '';
       background-color: currentcolor;
-      transition: width .5s ease-in-out, height .5s ease-in-out;
+      transition-timing-function: ease-in-out;
+      transition-duration: .5s;
+      transition-property: width, height,background-color;
     }
   }
 
   /// Component states.
-	&:hover {
+	&:hover,
+  &:focus-visible {
     &::before {
       width: 100%;
     }
@@ -85,6 +94,27 @@
 
       &::after {
         height: 100%;
+      }
+    }
+  }
+
+  &:focus-visible {
+    &::before {
+      background-color: var(--clr-lgt-blue);
+    }
+
+    &::after {
+      background-color: var(--clr-lgt-blue);
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .logo__text {
+      &::before {
+        background-color: var(--clr-lgt-blue);
+      }
+
+      &::after {
+        background-color: var(--clr-lgt-blue);
       }
     }
   }

@@ -18,6 +18,7 @@
 
   /// Component parts.
 	&__wrapper {
+    position: relative;
     display: flex;
     flex-flow: row nowrap;
     gap: 1rem;
@@ -26,6 +27,7 @@
     padding:1rem;
     background-color: var(--clr-baltic-sea);
     border-radius: var(--radius-pill);
+    transition: box-shadow .3s ease-in-out;
 
     &--has-results {
       border-bottom: 1px solid var(--clr-white);
@@ -33,7 +35,8 @@
       border-bottom-left-radius: 0;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--clr-white-alpha-10);
       box-shadow: var(--box-shadow-default);
     }
@@ -97,7 +100,7 @@
       transform: translate(-50%, -50%) rotate(-45deg);
     }
 
-    &:hover{
+    &:hover {
       transform: rotate(90deg);
     }
   }
@@ -136,7 +139,8 @@
     width: 100%;
     padding: 1.25rem;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--clr-black-alpha-10);
     }
   }

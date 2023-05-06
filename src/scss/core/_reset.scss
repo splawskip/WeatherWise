@@ -16,6 +16,11 @@
   margin: 0;
 }
 
+// Remove focus styles from any focusable element
+*:focus {
+  outline: none;
+}
+
 /*
 	3. Allow percentage-based heights in the application.
 */
