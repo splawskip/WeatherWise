@@ -555,10 +555,8 @@ const App = {
    * @returns {void}
    */
   preventPopupClosing() {
-    App.$.errorPopup.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-      }
+    App.$.errorPopup.addEventListener('cancel', (event) => {
+      event.preventDefault();
     });
   },
   /**
