@@ -46,6 +46,9 @@
     width: 20px;
     height: 20px;
     fill: var(--clr-on-surface);
+    transition-timing-function: ease-in-out;
+    transition-duration: .3s;
+    transition-property: fill, transform;
   }
 
   &__input {
@@ -173,5 +176,13 @@
     z-index: 1;
     pointer-events: all;
     opacity: 1;
+  }
+
+  &:focus-within {
+    /* stylelint-disable-next-line selector-class-pattern */
+    .search__magnifier-icon {
+      fill:var(--clr-lgt-blue);
+      transform: rotate(45deg);
+    }
   }
 }
