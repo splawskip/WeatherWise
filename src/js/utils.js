@@ -162,3 +162,22 @@ export const buildErrorPopup = (popupElement = null, args = { title: 'Whoops!', 
     popupElement.showModal();
   }
 };
+
+/**
+ * Retrieves the HTML entity for the given entity name.
+ *
+ * @param {string} entityName - The name of the HTML entity.
+ * @returns {string} - The corresponding HTML entity, or an empty string if not found.
+ */
+export const getHTMLEntity = (entityName = '') => {
+  // Gather entities.
+  const entities = {
+    degree: '&deg;',
+    celsiusDegree: '&#8451;',
+    fahrenheitDegree: '&#8457;',
+    kelvingDegree: '&#8490;',
+    ellipsis: '&#8230;',
+  };
+  // Return given entity.
+  return entities[entityName] ?? '';
+};
