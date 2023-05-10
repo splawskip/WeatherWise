@@ -52,7 +52,7 @@ const App = {
               <h3 class="search__results-item-city">${name}</h3>
               <p class="search__results-item-country">${state}, ${country}</p>
             </span>
-            <a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
+            <a tabindex="0" href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
             </a>
           </li>
         `;
@@ -565,7 +565,25 @@ const App = {
    *
    * @returns {void}
    */
-  handleSearchToggle() {
+  handleSearchEvents() {
+    /**
+     * Attaches an event listener to the search input element which triggers the search for
+     * geo-locations based on the user's input.
+     */
+    App.$.search.addEventListener(
+      'input',
+      debounce(async (event) => {
+        if (event.target.value.length) {
+          // Gather locations.
+          const locations = await WeatherWise.getGeoLocationByQueryString({
+            q: event.target.value,
+            limit: 5,
+          });
+          // Update search results with locations.
+          App.renderSearchResultsComponent(locations);
+        }
+      }, 500)
+    );
     /**
      * Toggles search state on search toggle is click.
      */
@@ -588,23 +606,30 @@ const App = {
     /**
      * Clears and closes the search on search results item selection.
      */
-    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
+    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', (event) => {
+      // Prevent from default behavior.
+      event.preventDefault();
+      // Change the hash.
+      window.location.hash = event.target.hash ?? '';
+      // Bail search.
+      App.clearSearch();
+    });
     /**
-     * Clears and closes the search on focusout.
+     * Clears and closes the search on focusout (blur does not bubble).
      */
-    delegateEvent(
-      App.$.searchView,
-      '[data-weather="search-input"]',
-      'focusout', // Blur event does not bubble.
-      (event) => {
-        // Get HTMLElement which was used during focusout event.
-        const relatedTargetElement = event.relatedTarget ?? false;
-        // Clear search if there is no related element or if related element is not a search result item.
-        if (!relatedTargetElement || !relatedTargetElement.matches('[data-weather="search-results-item"]')) {
-          App.clearSearch();
-        }
+    document.addEventListener('focusout', (event) => {
+      // Get element that is responsible for focusout event.
+      const elementThatCausedFocusout = event.relatedTarget ?? document.createElement('div');
+      // If element that caused focusout event is search results item or search-input, escape the callback.
+      if (
+        elementThatCausedFocusout.matches('[data-weather="search-results-item"]') ||
+        elementThatCausedFocusout.matches('[data-weather="search-input"]')
+      ) {
+        return;
       }
-    );
+      // Bail search if some other element caused focusout event.
+      App.clearSearch();
+    });
   },
   /**
    * Clears the search field and hides the search view, along with resetting the search results.
@@ -613,31 +638,9 @@ const App = {
    */
   clearSearch() {
     App.$.searchView.classList.remove('search--open');
-    App.$.search.value = '';
     App.$.searchWrapper.classList.remove('search__wrapper--has-results');
+    App.$.search.value = '';
     replaceHTML(App.$.searchResults, '');
-  },
-  /**
-   * Attaches an event listener to the search input element which triggers the search for
-   * geo-locations based on the user's input.
-   *
-   * @returns {void}
-   */
-  handleLocationSearch() {
-    App.$.search.addEventListener(
-      'input',
-      debounce(async (event) => {
-        if (event.target.value.length) {
-          // Gather locations.
-          const locations = await WeatherWise.getGeoLocationByQueryString({
-            q: event.target.value,
-            limit: 5,
-          });
-          // Update search results with locations.
-          App.renderSearchResultsComponent(locations);
-        }
-      }, 500)
-    );
   },
   /**
    * Binds app events.
@@ -646,9 +649,8 @@ const App = {
    */
   bindEvents() {
     App.handleRouting();
+    App.handleSearchEvents();
     App.preventPopupClosing();
-    App.handleSearchToggle();
-    App.handleLocationSearch();
   },
   /**
    * Runs everything that should be invoked on app initialization, including binding events.
