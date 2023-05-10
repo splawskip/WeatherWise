@@ -18,6 +18,7 @@
 	&__day-forecast {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: .5rem;
     width: 100%;
   }
 
@@ -56,6 +57,7 @@
   &__date {
     display: flex;
     flex-flow: row nowrap;
+    gap: .5rem;
     align-items: center;
     justify-content: space-between;
   }
