@@ -1,6 +1,6 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
-import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErrorPopup } from './utils';
+import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErrorPopup, getHTMLEntity } from './utils';
 // Settle WeatherWise Meteo Station.
 const WeatherWise = new MeteoStation();
 // Build the app.
@@ -95,7 +95,7 @@ const App = {
         <span class="current-weather-card__temperature">
           ${parseInt(temp, 10)}
           <span class="current-weather-card__temperature-unit">
-            &#8451;
+            ${getHTMLEntity('celsiusDegree')}
           </span>
         </span>
         <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" alt="${description}" class="current-weather__icon" />
@@ -130,10 +130,10 @@ const App = {
                 <p class="forecast-card__temperatures">
                   <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
-                    ${parseInt(tempMax, 10)}&#8451;
+                    ${parseInt(tempMax, 10)}${getHTMLEntity('degree')}
                   </span>
                   <span class="forecast-card__night-temperature">
-                    ${parseInt(tempMin, 10)}&#8451;
+                    ${parseInt(tempMin, 10)}${getHTMLEntity('degree')}
                   </span>
                 </p>
                 <p class="forecast-card__date">
@@ -343,7 +343,7 @@ const App = {
         <div class="highlight-card__data">
           <img loading="lazy" src="./icons/feels-like-mobile.webp" srcset="./icons/feels-like-mobile.webp 32w, ./icons/feels-like-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Thermometer - Represents what current temperature feels like." class="class highlight-card__data-icon" />
           <p class="highlight-card__value">
-            ${parseInt(feelsLike, 10)}&#8451;
+            ${parseInt(feelsLike, 10)}${getHTMLEntity('celsiusDegree')}
           </p>
         </div>
       </section>
@@ -380,7 +380,7 @@ const App = {
               alt="${description}"
               class="today-at-card__icon"
             />
-            <p class="today-at-card__label">${parseInt(temp, 10)}&#8451;</p>
+            <p class="today-at-card__label">${parseInt(temp, 10)}${getHTMLEntity('celsiusDegree')}</p>
          </li>
         `;
       })
