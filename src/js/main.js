@@ -240,9 +240,9 @@ const App = {
               </time>
             </p>
           </div>
-          <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
+          <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile highlight-card__data--align-right">
             <img loading="lazy" src="./icons/night-mobile.webp" srcset="./icons/night-mobile.webp 32w, ./icons/night-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="Moon icon - Represents sunset" class="class highlight-card__icon" />
-            <p class="highlight-card__label">
+            <p class="highlight-card__label highlight-card__label--align-right">
               Sunset
               <time class="highlight-card__value" datetime="${unixTimeToHumanReadable(sunset, {
                 year: 'numeric',
