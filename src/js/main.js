@@ -52,7 +52,7 @@ const App = {
               <h3 class="search__results-item-city">${name}</h3>
               <p class="search__results-item-country">${state}, ${country}</p>
             </span>
-            <a tabindex="0" href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
+            <a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
             </a>
           </li>
         `;
