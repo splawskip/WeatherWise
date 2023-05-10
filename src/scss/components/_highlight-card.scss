@@ -49,7 +49,7 @@
 
   &__data {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     flex-grow: 1;
     gap: 1rem;
     align-items: center;
@@ -68,8 +68,16 @@
       @include mixins.on-breakpoint('md') {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-start;
+      }
+    }
+
+    &--align-right {
+      align-items: flex-end;
+
+      @include mixins.on-breakpoint('md') {
+        justify-content: flex-end;
       }
     }
   }
@@ -85,6 +93,11 @@
     line-height: 1.1875rem;
     color: var(--clr-on-surface-v1);
     text-transform: capitalize;
+
+    &--align-right {
+      align-items: flex-end;
+      text-align: right;
+    }
   }
 
   &__value {
@@ -92,6 +105,7 @@
     font-weight: var(--weight-normal);
     line-height: 1.6875rem;
     color: var(--clr-on-surface-v2);
+    text-align: right;
     text-transform: uppercase;
 
     &--column-above-mobile {
