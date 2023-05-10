@@ -26,6 +26,10 @@
     width: 32px;
     height: 32px;
 
+    &[title] {
+      cursor: help;
+    }
+
     @include mixins.on-breakpoint('lg') {
       width: 48px;
       height: 48px;

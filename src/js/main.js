@@ -98,7 +98,7 @@ const App = {
             ${getHTMLEntity('celsiusDegree')}
           </span>
         </span>
-        <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" alt="${description}" class="current-weather__icon" />
+        <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" title="${description}" alt="${description}" class="current-weather-card__icon" />
       </p>
       <p class="current-weather-card__conditions">${description}</p>
       <hr class="separator current-weather-card__separator" />
@@ -128,7 +128,7 @@ const App = {
         return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
-                  <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" alt="${description}" class="forecast-card__icon" />
+                  <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" title="${description}" alt="${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
                     ${parseInt(tempMax, 10)}${getHTMLEntity('degree')}
                   </span>
@@ -377,6 +377,7 @@ const App = {
                 ./icons/weather/${icon}-desktop.webp 48w
               "
               sizes="(min-width: 1200px) 48px, 32px"
+              title="${description}"
               alt="${description}"
               class="today-at-card__icon"
             />
