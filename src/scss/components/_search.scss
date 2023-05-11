@@ -52,6 +52,7 @@
   }
 
   &__input {
+    appearance: none;
     flex-grow: 1;
     color: var(--clr-on-surface);
     background-color: transparent;
