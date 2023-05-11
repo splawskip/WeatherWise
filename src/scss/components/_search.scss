@@ -89,6 +89,7 @@
       height: 20px;
       content: '';
       background-color: var(--clr-on-surface-v1);
+      transition: background-color .2s linear;
       transform: translate(-50%, -50%) rotate(45deg);
     }
 
@@ -100,11 +101,17 @@
       height: 20px;
       content: '';
       background-color: var(--clr-on-surface-v1);
+      transition: background-color .2s linear;
       transform: translate(-50%, -50%) rotate(-45deg);
     }
 
     &:hover {
       transform: rotate(90deg);
+
+      &::before,
+      &::after {
+        background-color: var(--clr-white);
+      }
     }
   }
 

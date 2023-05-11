@@ -597,7 +597,8 @@ const App = {
      */
     App.$.app.addEventListener('keyup', (event) => {
       if (
-        (event.key === 'Escape' && App.$.searchView.classList.contains('search--open')) ||
+        event.key === 'Escape' &&
+        App.$.searchView.classList.contains('search--open') &&
         App.$.searchWrapper.classList.contains('search__wrapper--has-results')
       ) {
         App.clearSearch();
@@ -619,9 +620,10 @@ const App = {
      */
     document.addEventListener('focusout', (event) => {
       // Get element that is responsible for focusout event.
-      const elementThatCausedFocusout = event.relatedTarget ?? document.createElement('div');
+      const elementThatCausedFocusout = event.relatedTarget;
       // If element that caused focusout event is search results item or search-input, escape the callback.
       if (
+        !(elementThatCausedFocusout instanceof Element) ||
         elementThatCausedFocusout.matches('[data-weather="search-results-item"]') ||
         elementThatCausedFocusout.matches('[data-weather="search-input"]')
       ) {
