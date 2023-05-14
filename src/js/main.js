@@ -16,6 +16,7 @@ const App = {
   /** Gather app components. */
   $: {
     /** App misc components. */
+    body: document.body,
     app: document.querySelector('[data-weather="app"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
     /** Search components */
@@ -608,7 +609,7 @@ const App = {
     /**
      * Clears the search using keyboard.
      */
-    App.$.app.addEventListener('keyup', (event) => {
+    App.$.body.addEventListener('keyup', (event) => {
       // Get if search has results.
       const hasResults =
         App.$.searchView.classList.contains('search--open') &&
@@ -630,7 +631,7 @@ const App = {
     /**
      * Clears the search on click outside search element on desktop.
      */
-    document.addEventListener('click', (event) => {
+    App.$.body.addEventListener('click', (event) => {
       if (window.innerWidth >= App.breakpoints.lg && !App.$.searchView.contains(event.target)) {
         App.clearSearch();
       }
