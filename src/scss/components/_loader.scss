@@ -1,12 +1,13 @@
 .loader {
-  box-sizing: border-box;
   display: inline-block;
   color: transparent;
   border-color: var(--clr-white);
   border-style: solid;
   border-bottom-color: var(--clr-accent);
   border-radius: 50%;
+  transform: translate(-50%, -50%);
   animation: rotation 1s linear infinite;
+  will-change: transform;
 
   &--small {
     width: 25px;

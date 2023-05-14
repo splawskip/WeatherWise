@@ -116,11 +116,9 @@
           </a>
         </div>
       </header>
-      <main class="content">
-        <!-- Left side of the content. -->
-        <div class="content__left" data-weather="content-left"></div>
-        <!-- Right side of the content. -->
-        <div class="content__right" data-weather="content-right"></div>
+      <!-- Content. -->
+      <main class="content" data-weather="content">
+        <span class="loader loader--large" data-weather="loader">loading</span>
       </main>
       <!-- Footer. -->
       <footer class="footer">
@@ -145,16 +143,9 @@
           &
         </p>
         <p class="footer__copyright copyright">
-          Made with <span class="heart" title="Love">Love</span> by
-          psplawski.dev.
+          Made with <span class="heart" title="Love"></span> by psplawski.dev.
         </p>
       </footer>
-      <!-- Loader popup. -->
-      <dialog class="popup popup--closed" data-weather="loader-popup">
-        <div class="popup__body">
-          <span class="loader loader--large">loading</span>
-        </div>
-      </dialog>
       <!-- Error popup. -->
       <dialog class="popup popup--closed" data-weather="error-popup">
         <div class="popup__body">

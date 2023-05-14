@@ -18,10 +18,9 @@ const App = {
     /** App misc components. */
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
+    content: document.querySelector('[data-weather="content"]'),
+    loader: document.querySelector('[data-weather="loader"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
-    loaderPopup: document.querySelector('[data-weather="loader-popup"]'),
-    contentLeft: document.querySelector('[data-weather="content-left"]'),
-    contentRight: document.querySelector('[data-weather="content-right"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
     searchView: document.querySelector('[data-weather="search-view"]'),
@@ -520,19 +519,36 @@ const App = {
   },
   /**
    * Renders the content of the application.
+   *
    * @param {object} currentWeather - The current weather data.
    * @param {object} forecast - The forecast data.
    * @param {object} airQuality - The air quality data.
+   * @returns {void}
    */
   renderContent(currentWeather, forecast, airQuality) {
-    // Gather components.
+    // Show loader if not already loading.
+    if (!App.$.content.contains(App.$.loader)) {
+      replaceHTML(App.$.content, '<span class="loader loader--large">loading</span>');
+    }
+    // Gather App components.
     const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);
     const forecastComponent = App.buildForecastComponent(forecast);
     const highlightsComponent = App.buildHighlightsComponent(currentWeather, airQuality);
     const followingHoursComponent = App.buildFollowingHoursComponent(forecast);
-    // Render components.
-    replaceHTML(App.$.contentLeft, `${currentWeatherComponent}${forecastComponent}`);
-    replaceHTML(App.$.contentRight, `${highlightsComponent}${followingHoursComponent}`);
+    // Build content component.
+    const contentComponent = `
+      <div class="content__left">
+        ${currentWeatherComponent}
+        ${forecastComponent}
+      </div>
+      <div class="content__right">
+        ${highlightsComponent}
+        ${followingHoursComponent}
+      </div>`;
+    // Render the app with timeout because we fast 🏎.
+    setTimeout(() => {
+      replaceHTML(App.$.content, contentComponent);
+    }, 500);
   },
   /**
    * Updates the weather that the app shows by fetching current weather, forecast,
@@ -543,9 +559,7 @@ const App = {
    * @returns {void}
    */
   async updateWeather(args) {
-    // Show loader popup.
-    App.$.loaderPopup.showModal();
-    App.$.loaderPopup.classList.add('loader__dialog--open');
+    // Try to show weather.
     try {
       // Check if args is an object and is not null
       if (typeof args !== 'object' || args === null) {
@@ -567,11 +581,6 @@ const App = {
       // Inform user that something went wrong.
       buildErrorPopup(App.$.errorPopup, { title: error.name, message: error.message });
     }
-    // Hide loader popup after delay, cuz we fast.
-    setTimeout(() => {
-      App.$.loaderPopup.close();
-      App.$.loaderPopup.classList.remove('loader__dialog--open');
-    }, 500);
   },
   /**
    * Initializes a new Router instance with the App's `updateWeather` method as the callback

@@ -145,7 +145,7 @@ export const buildErrorPopup = (popupElement = null, args = { title: 'Whoops!', 
         args.title !== '404'
           ? `
         <p class="popup__issue">
-          Please open new issue here: <a href="https://github.com/splawskip/WeatherWise/issues" target="_blank" rel="noopener noreferrer" class="popup__issue-link">WeatherWise issues board</a>
+          Please open new issue here 👉 <a href="https://github.com/splawskip/WeatherWise/issues" target="_blank" rel="noopener noreferrer" class="popup__issue-link">WeatherWise issues board</a>
         </p>`
           : ''
       }
