@@ -28,13 +28,6 @@ const App = {
     searchWrapper: document.querySelector('[data-weather="search-wrapper"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
     searchViewToggles: document.querySelectorAll('[data-weather="search-toggle"]'),
-    /** App sections */
-    currentWeatherSection: document.querySelector('[data-weather="current-weather-section"]'),
-    forecastSection: document.querySelector('[data-weather="forecast-section"]'),
-    highlightsSection: document.querySelector('[data-weather="highlights-section"]'),
-    followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
-    followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
-    followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -525,6 +518,12 @@ const App = {
     // Render component as HTML string.
     return followingHoursComponent;
   },
+  /**
+   * Renders the content of the application.
+   * @param {object} currentWeather - The current weather data.
+   * @param {object} forecast - The forecast data.
+   * @param {object} airQuality - The air quality data.
+   */
   renderContent(currentWeather, forecast, airQuality) {
     // Gather components.
     const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);

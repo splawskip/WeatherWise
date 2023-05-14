@@ -4,38 +4,48 @@
 @use '../abstracts/mixins';
 
 .content {
-  &-left {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 1rem;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  &-right {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 1rem;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-  }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
 
   @include mixins.on-breakpoint('md') {
-    &-left {
+    flex-flow: row wrap;
+  }
+
+  &__left {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+
+    @include mixins.on-breakpoint('md') {
       max-width: 280px;
     }
 
-    &-right {
-      flex-grow: 1;
-      width: 20px;
+    @include mixins.on-breakpoint('lg') {
+      max-width: 360px;
     }
   }
 
-  @include mixins.on-breakpoint('lg') {
-    &-left {
-      max-width: 360px;
+  &__right {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+
+    @include mixins.on-breakpoint('md') {
+      flex-grow: 1;
+      width: 20px;
     }
   }
 }
