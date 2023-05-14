@@ -18,6 +18,8 @@ const App = {
     /** App misc components. */
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
+    content: document.querySelector('[data-weather="content"]'),
+    loader: document.querySelector('[data-weather="loader"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
@@ -25,13 +27,6 @@ const App = {
     searchWrapper: document.querySelector('[data-weather="search-wrapper"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
     searchViewToggles: document.querySelectorAll('[data-weather="search-toggle"]'),
-    /** App sections */
-    currentWeatherSection: document.querySelector('[data-weather="current-weather-section"]'),
-    forecastSection: document.querySelector('[data-weather="forecast-section"]'),
-    highlightsSection: document.querySelector('[data-weather="highlights-section"]'),
-    followingHoursSection: document.querySelector('[data-weather="following-hours-section"]'),
-    followingHoursTemperature: document.querySelector('[data-weather="following-hours-temperature"]'),
-    followingHoursWind: document.querySelector('[data-weather="following-hours-wind"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -100,26 +95,29 @@ const App = {
     } = currentWeather;
     // Build component.
     const currentWeatherComponent = `
-      <h3 class="title section__title current-weather-card__title">Now</h3>
-      <p class="current-weather-card__details">
-        <span class="current-weather-card__temperature">
-          ${parseInt(temp, 10)}
-          <span class="current-weather-card__temperature-unit">
-            ${getHTMLEntity('celsiusDegree')}
+      <!-- Current weather secction -->
+      <section class="section current-weather-card" data-weather="current-weather-section">
+        <h3 class="title section__title current-weather-card__title">Now</h3>
+        <p class="current-weather-card__details">
+          <span class="current-weather-card__temperature">
+            ${parseInt(temp, 10)}
+            <span class="current-weather-card__temperature-unit">
+              ${getHTMLEntity('celsiusDegree')}
+            </span>
           </span>
-        </span>
-        <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" title="${description}" alt="${description}" class="current-weather-card__icon" />
-      </p>
-      <p class="current-weather-card__conditions">${description}</p>
-      <hr class="separator current-weather-card__separator" />
-      <p class="current-weather-card__date">
-        ${unixTimeToHumanReadable(dateUnix, {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'short',
-        })}
-      </p>
-      <p class="current-weather-card__location">${city}, ${country}</p>
+          <img loading="lazy" src="./icons/weather/${icon}-desktop.webp" title="${description}" alt="${description}" class="current-weather-card__icon" />
+        </p>
+        <p class="current-weather-card__conditions">${description}</p>
+        <hr class="separator current-weather-card__separator" />
+        <p class="current-weather-card__date">
+          ${unixTimeToHumanReadable(dateUnix, {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'short',
+          })}
+        </p>
+        <p class="current-weather-card__location">${city}, ${country}</p>
+      </section>
     `;
     // Return component as HTML string.
     return currentWeatherComponent;
@@ -164,7 +162,16 @@ const App = {
       })
       .join('');
     // Return component as HTML string.
-    return forecastComponent;
+    return `
+      <!-- Five days forecast section -->
+      <section class="section forecast-section">
+        <h3 class="title section__title forecast-section__title">
+          5 days forecast
+        </h3>
+        <section class="forecast-section__card forecast-card" data-weather="forecast-section">
+          ${forecastComponent}
+        </section>
+      </section>`;
   },
   /**
    * Builds the air quality component sprinkled with air quality data.
@@ -410,7 +417,7 @@ const App = {
     const followingHoursWindCards = forecast
       .map(({ dt: dateUnix, wind: { deg, speed } }) => {
         return `
-        <div class="today-at-card">
+        <li class="today-at-card">
           <time class="today-at-card__label">
             ${unixTimeToHumanReadable(dateUnix, {
               hour: '2-digit',
@@ -430,7 +437,7 @@ const App = {
             style="transform: rotate(${deg}deg);"
           />
           <p class="today-at-card__label">${speed} km/h</p>
-        </div>
+        </li>
       `;
       })
       .join('');
@@ -438,37 +445,13 @@ const App = {
     return followingHoursWindCards;
   },
   /**
-   * Renders the current weather section with the weather data for a given latitude and longitude.
-   *
-   * @param {object} forecast - Object that contains data about curren weather.
-   * @returns {void}
-   */
-  renderCurrentWeatherComponent(currentWeather) {
-    // Get current weather component.
-    const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);
-    // Render component.
-    replaceHTML(App.$.currentWeatherSection, currentWeatherComponent);
-  },
-  /**
-   * Renders the current weather section with the weather data for a given latitude and longitude.
-   *
-   * @param {object} forecast - Object that contains data about curren weather.
-   * @returns {void}
-   */
-  renderForecastComponent(forecast) {
-    // Get forecast component.
-    const forecastComponent = App.buildForecastComponent(forecast);
-    // Render component sprinkled by forecast data.
-    replaceHTML(App.$.forecastSection, forecastComponent);
-  },
-  /**
-   * Renders the highlights section of the app with data from the current weather and air quality.
+   * Builds the highlights component of the app.
    *
    * @param {Object} currentWeather - The current weather data.
    * @param {Object} airQuality - The air quality data.
    * @returns {void}
    */
-  renderHighlightsComponent(currentWeather, airQuality) {
+  buildHighlightsComponent(currentWeather, airQuality) {
     // Pull the data that components needs.
     const {
       main: { feels_like: feelsLike, humidity, pressure },
@@ -484,38 +467,88 @@ const App = {
     const feelsLikeComponent = App.buildFeelsLikeComponent(feelsLike);
     // Build highlights component.
     const highlightsComponent = `
-        <h3 class="title section__title">todays highlights</h3>
-        <!-- Air Quality section. -->
-        ${airQualityComponent}
-        <!-- Sunrise and Sunset section. -->
-        ${SolarDataComponent}
-        <!-- Humidity section. -->
-        ${humidityComponent}
-        <!-- Pressure section. -->
-        ${pressureComponent}
-        <!-- Visibility section. -->
-        ${visibilityComponent}
-        <!-- Feels like section. -->
-        ${feelsLikeComponent}
-      `;
-    // Render component.
-    replaceHTML(App.$.highlightsSection, highlightsComponent);
+      <!-- Todays weather highlights section -->
+      <section class="section highlights-section highlights section--highlights" data-weather="highlights-section">
+          <h3 class="title section__title">todays highlights</h3>
+          <!-- Air Quality section. -->
+          ${airQualityComponent}
+          <!-- Sunrise and Sunset section. -->
+          ${SolarDataComponent}
+          <!-- Humidity section. -->
+          ${humidityComponent}
+          <!-- Pressure section. -->
+          ${pressureComponent}
+          <!-- Visibility section. -->
+          ${visibilityComponent}
+          <!-- Feels like section. -->
+          ${feelsLikeComponent}
+      </section>
+    `;
+    // Render component as HTML string.
+    return highlightsComponent;
   },
   /**
-   * Renders following hours component sprinkled with forecast data for next 24 hours.
+   * Builds following hours component.
    *
    * @param {Array} forecast - The forecast data.
    * @returns {void}
    */
-  renderFollowingHoursComponent(forecast) {
+  buildFollowingHoursComponent(forecast) {
     // Filter out forecast data to get only data about following 24 hours.
     const followingHoursForecast = forecast.filter((_, index) => index < 8);
     // Gather following hours cards sprinkled with the forecast data.
     const followingHoursTemperatureCards = App.buildFollowingHoursTemperatureCards(followingHoursForecast);
     const followingHoursWindCards = App.buildFollowingHoursWindCards(followingHoursForecast);
-    // Render components.
-    replaceHTML(App.$.followingHoursTemperature, followingHoursTemperatureCards);
-    replaceHTML(App.$.followingHoursWind, followingHoursWindCards);
+    // Build following hours component.
+    const followingHoursComponent = `
+      <!-- Following hours section. -->
+      <section class="section following-hours-section" data-weather="following-hours-section">
+        <h3 class="title section__title">in the following hours</h3>
+        <div class="scrollable-container scrollable-container--horizontal">
+          <ul class="grid grid--columns-8" data-weather="following-hours-temperature">
+          ${followingHoursTemperatureCards}
+          </ul>
+          <ul class="grid grid--columns-8" data-weather="following-hours-wind">
+          ${followingHoursWindCards}
+          </ul>
+        </div>
+      </section>
+    `;
+    // Render component as HTML string.
+    return followingHoursComponent;
+  },
+  /**
+   * Renders the content of the application.
+   *
+   * @param {object} currentWeather - The current weather data.
+   * @param {object} forecast - The forecast data.
+   * @param {object} airQuality - The air quality data.
+   * @returns {void}
+   */
+  renderContent(currentWeather, forecast, airQuality) {
+    // Show loader if not already loading.
+    if (!App.$.content.contains(App.$.loader)) {
+      replaceHTML(App.$.content, '<span class="loader loader--large">loading</span>');
+    }
+    // Gather App components.
+    const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);
+    const forecastComponent = App.buildForecastComponent(forecast);
+    const highlightsComponent = App.buildHighlightsComponent(currentWeather, airQuality);
+    const followingHoursComponent = App.buildFollowingHoursComponent(forecast);
+    // Build content component.
+    const contentComponent = `
+      <div class="content__left">
+        ${currentWeatherComponent}
+        ${forecastComponent}
+      </div>
+      <div class="content__right">
+        ${highlightsComponent}
+        ${followingHoursComponent}
+      </div>`;
+    // Render the app with timeout because we fast 🏎.
+    setTimeout(() => {
+      replaceHTML(App.$.content, contentComponent);
+    }, 500);
   },
   /**
    * Updates the weather that the app shows by fetching current weather, forecast,
@@ -526,6 +559,7 @@ const App = {
    * @returns {void}
    */
   async updateWeather(args) {
+    // Try to show weather.
     try {
       // Check if args is an object and is not null
       if (typeof args !== 'object' || args === null) {
@@ -542,10 +576,7 @@ const App = {
         WeatherWise.getAirQuality(args),
       ]);
       // Render the app.
-      App.renderCurrentWeatherComponent(currentWeather);
-      App.renderForecastComponent(forecast);
-      App.renderHighlightsComponent(currentWeather, airQuality);
-      App.renderFollowingHoursComponent(forecast);
+      App.renderContent(currentWeather, forecast, airQuality);
     } catch (error) {
       // Inform user that something went wrong.
       buildErrorPopup(App.$.errorPopup, { title: error.name, message: error.message });
