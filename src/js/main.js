@@ -602,21 +602,31 @@ const App = {
       replaceHTML(App.$.searchResults, '');
     });
     /**
-     * Clears the search on escape hit.
+     * Clears the search on search results item selection.
+     */
+    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
+    /**
+     * Clears the search using keyboard.
      */
     App.$.app.addEventListener('keyup', (event) => {
-      if (
-        event.key === 'Escape' &&
+      // Get if search has results.
+      const hasResults =
         App.$.searchView.classList.contains('search--open') &&
-        App.$.searchWrapper.classList.contains('search__wrapper--has-results')
+        App.$.searchWrapper.classList.contains('search__wrapper--has-results');
+      // Clear search if user want to close it using escape key.
+      if (hasResults && event.key === 'Escape') {
+        App.clearSearch();
+      }
+      // Clear search if user tabbed out from it.
+      if (
+        hasResults &&
+        event.key === 'Tab' &&
+        window.innerWidth >= App.breakpoints.lg &&
+        !App.$.searchView.contains(event.target)
       ) {
         App.clearSearch();
       }
     });
-    /**
-     * Clears the search on search results item selection.
-     */
-    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
     /**
      * Clears the search on click outside search element on desktop.
      */
