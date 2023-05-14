@@ -4,6 +4,7 @@
 @use '../abstracts/mixins';
 
 .app {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -13,6 +14,10 @@
   max-width: 1600px;
   padding: 0 1rem;
   margin: 0 auto;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--clr-lgt-blue);
+  }
 
   @include mixins.on-breakpoint('md') {
     flex-flow: row wrap;

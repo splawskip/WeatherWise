@@ -5,9 +5,18 @@ import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErr
 const WeatherWise = new MeteoStation();
 // Build the app.
 const App = {
+  /** Gather app breakpoints. */
+  breakpoints: {
+    xs: 0,
+    sm: 320,
+    md: 768,
+    lg: 1200,
+    xl: 1600,
+  },
   /** Gather app components. */
   $: {
     /** App misc components. */
+    body: document.body,
     app: document.querySelector('[data-weather="app"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
     /** Search components */
@@ -37,22 +46,23 @@ const App = {
       return '';
     }
     // Indicate that the search results has results.
+    App.$.searchView.classList.add('search--open');
     App.$.searchWrapper.classList.add('search__wrapper--has-results');
     // Loop over locations data and build search results component that is sprinkled with the location data.
     const searchResultsComponent = locations
       .map(({ name, state, country, lat, lon }) => {
         return `
           <li class="search__results-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="search__results-item-icon" viewBox="0 0 16 20">
-              <path
-                d="M8 9.925c.533 0 .992-.188 1.375-.563.383-.375.575-.829.575-1.362 0-.533-.192-.992-.575-1.375A1.876 1.876 0 0 0 8 6.05c-.533 0-.987.192-1.362.575A1.896 1.896 0 0 0 6.075 8c0 .533.188.987.563 1.362.375.375.829.563 1.362.563Zm0 7.5c2.05-1.883 3.575-3.592 4.575-5.125s1.5-2.9 1.5-4.1c0-1.85-.588-3.358-1.763-4.525C11.137 2.508 9.7 1.925 8 1.925c-1.7 0-3.133.583-4.3 1.75C2.533 4.842 1.95 6.35 1.95 8.2c0 1.2.496 2.567 1.488 4.1.991 1.533 2.512 3.242 4.562 5.125Zm0 2.125a1.13 1.13 0 0 1-.362-.062A1.04 1.04 0 0 1 7.3 19.3c-2.433-2.15-4.246-4.142-5.437-5.975C.671 11.492.075 9.783.075 8.2c0-2.483.796-4.463 2.388-5.938C4.054.787 5.9.05 8 .05s3.95.737 5.55 2.212c1.6 1.475 2.4 3.455 2.4 5.938 0 1.583-.6 3.292-1.8 5.125-1.2 1.833-3.017 3.825-5.45 5.975a.79.79 0 0 1-.312.188A1.232 1.232 0 0 1 8 19.55Z"
-              />
-            </svg>
-            <span class="search__results-item-data">
-              <h3 class="search__results-item-city">${name}</h3>
-              <p class="search__results-item-country">${state}, ${country}</p>
-            </span>
             <a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
+              <svg xmlns="http://www.w3.org/2000/svg" class="search__results-item-icon" viewBox="0 0 16 20">
+                <path
+                  d="M8 9.925c.533 0 .992-.188 1.375-.563.383-.375.575-.829.575-1.362 0-.533-.192-.992-.575-1.375A1.876 1.876 0 0 0 8 6.05c-.533 0-.987.192-1.362.575A1.896 1.896 0 0 0 6.075 8c0 .533.188.987.563 1.362.375.375.829.563 1.362.563Zm0 7.5c2.05-1.883 3.575-3.592 4.575-5.125s1.5-2.9 1.5-4.1c0-1.85-.588-3.358-1.763-4.525C11.137 2.508 9.7 1.925 8 1.925c-1.7 0-3.133.583-4.3 1.75C2.533 4.842 1.95 6.35 1.95 8.2c0 1.2.496 2.567 1.488 4.1.991 1.533 2.512 3.242 4.562 5.125Zm0 2.125a1.13 1.13 0 0 1-.362-.062A1.04 1.04 0 0 1 7.3 19.3c-2.433-2.15-4.246-4.142-5.437-5.975C.671 11.492.075 9.783.075 8.2c0-2.483.796-4.463 2.388-5.938C4.054.787 5.9.05 8 .05s3.95.737 5.55 2.212c1.6 1.475 2.4 3.455 2.4 5.938 0 1.583-.6 3.292-1.8 5.125-1.2 1.833-3.017 3.825-5.45 5.975a.79.79 0 0 1-.312.188A1.232 1.232 0 0 1 8 19.55Z"
+                />
+              </svg>
+              <span class="search__results-item-data">
+                <h3 class="search__results-item-city">${name}</h3>
+                <p class="search__results-item-country">${state}, ${country}</p>
+              </span>
             </a>
           </li>
         `;
@@ -565,65 +575,11 @@ const App = {
    *
    * @returns {void}
    */
-  handleSearchToggle() {
+  handleSearchEvents() {
     /**
-     * Toggles search state on search toggle is click.
+     * Attaches an event listener to the search input element which triggers the search for
+     * geo-locations based on the user's input.
      */
-    delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
-      App.$.searchView.classList.toggle('search--open');
-      App.$.search.value = '';
-      replaceHTML(App.$.searchResults, '');
-    });
-    /**
-     * Clears and closes the search on escape hit.
-     */
-    App.$.app.addEventListener('keyup', (event) => {
-      if (
-        (event.key === 'Escape' && App.$.searchView.classList.contains('search--open')) ||
-        App.$.searchWrapper.classList.contains('search__wrapper--has-results')
-      ) {
-        App.clearSearch();
-      }
-    });
-    /**
-     * Clears and closes the search on search results item selection.
-     */
-    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
-    /**
-     * Clears and closes the search on focusout.
-     */
-    delegateEvent(
-      App.$.searchView,
-      '[data-weather="search-input"]',
-      'focusout', // Blur event does not bubble.
-      (event) => {
-        // Get HTMLElement which was used during focusout event.
-        const relatedTargetElement = event.relatedTarget ?? false;
-        // Clear search if there is no related element or if related element is not a search result item.
-        if (!relatedTargetElement || !relatedTargetElement.matches('[data-weather="search-results-item"]')) {
-          App.clearSearch();
-        }
-      }
-    );
-  },
-  /**
-   * Clears the search field and hides the search view, along with resetting the search results.
-   *
-   * @returns {void}
-   */
-  clearSearch() {
-    App.$.searchView.classList.remove('search--open');
-    App.$.search.value = '';
-    App.$.searchWrapper.classList.remove('search__wrapper--has-results');
-    replaceHTML(App.$.searchResults, '');
-  },
-  /**
-   * Attaches an event listener to the search input element which triggers the search for
-   * geo-locations based on the user's input.
-   *
-   * @returns {void}
-   */
-  handleLocationSearch() {
     App.$.search.addEventListener(
       'input',
       debounce(async (event) => {
@@ -638,6 +594,59 @@ const App = {
         }
       }, 500)
     );
+    /**
+     * Toggles search state on search toggle is click.
+     */
+    delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
+      App.$.searchView.classList.toggle('search--open');
+      App.$.search.value = '';
+      replaceHTML(App.$.searchResults, '');
+    });
+    /**
+     * Clears the search on search results item selection.
+     */
+    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
+    /**
+     * Clears the search using keyboard.
+     */
+    App.$.body.addEventListener('keyup', (event) => {
+      // Get if search has results.
+      const hasResults =
+        App.$.searchView.classList.contains('search--open') &&
+        App.$.searchWrapper.classList.contains('search__wrapper--has-results');
+      // Clear search if user want to close it using escape key.
+      if (hasResults && event.key === 'Escape') {
+        App.clearSearch();
+      }
+      // Clear search if user tabbed out from it.
+      if (
+        hasResults &&
+        event.key === 'Tab' &&
+        window.innerWidth >= App.breakpoints.lg &&
+        !App.$.searchView.contains(event.target)
+      ) {
+        App.clearSearch();
+      }
+    });
+    /**
+     * Clears the search on click outside search element on desktop.
+     */
+    App.$.body.addEventListener('click', (event) => {
+      if (window.innerWidth >= App.breakpoints.lg && !App.$.searchView.contains(event.target)) {
+        App.clearSearch();
+      }
+    });
+  },
+  /**
+   * Clears the search field and hides the search view, along with resetting the search results.
+   *
+   * @returns {void}
+   */
+  clearSearch() {
+    App.$.searchView.classList.remove('search--open');
+    App.$.searchWrapper.classList.remove('search__wrapper--has-results');
+    App.$.search.value = '';
+    replaceHTML(App.$.searchResults, '');
   },
   /**
    * Binds app events.
@@ -646,9 +655,8 @@ const App = {
    */
   bindEvents() {
     App.handleRouting();
+    App.handleSearchEvents();
     App.preventPopupClosing();
-    App.handleSearchToggle();
-    App.handleLocationSearch();
   },
   /**
    * Runs everything that should be invoked on app initialization, including binding events.
