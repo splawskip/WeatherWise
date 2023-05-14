@@ -64,10 +64,25 @@ p, h1, h2, h3, h4, h5, h6 {
   9. Remove default styles for dialog.
 */
 dialog {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
   max-width: 100vw;
+  height: 100%;
   max-height: 100vh;
   margin: 0;
+  overflow: hidden;
+  pointer-events: none;
   border: 0;
+  opacity: 0;
+  transition: opacity .2s linear;
+
+  &[open] {
+    pointer-events: all;
+    opacity: 1;
+  }
 
   &::backdrop {
     background: none;

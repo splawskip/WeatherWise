@@ -19,6 +19,7 @@ const App = {
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
+    loaderPopup: document.querySelector('[data-weather="loader-popup"]'),
     /** Search components */
     search: document.querySelector('[data-weather="search-input"]'),
     searchView: document.querySelector('[data-weather="search-view"]'),
@@ -526,6 +527,8 @@ const App = {
    * @returns {void}
    */
   async updateWeather(args) {
+    App.$.loaderPopup.showModal();
+    App.$.loaderPopup.classList.add('loader__dialog--open');
     try {
       // Check if args is an object and is not null
       if (typeof args !== 'object' || args === null) {
@@ -550,6 +553,10 @@ const App = {
       // Inform user that something went wrong.
       buildErrorPopup(App.$.errorPopup, { title: error.name, message: error.message });
     }
+    setTimeout(() => {
+      App.$.loaderPopup.close();
+      App.$.loaderPopup.classList.remove('loader__dialog--open');
+    }, 700);
   },
   /**
    * Initializes a new Router instance with the App's `updateWeather` method as the callback

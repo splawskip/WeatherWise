@@ -4,7 +4,6 @@
 @use '../abstracts/mixins';
 
 .app {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

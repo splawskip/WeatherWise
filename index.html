@@ -49,7 +49,7 @@
   <body>
     <!-- App container -->
     <div id="app" class="app" data-weather="app">
-      <!-- Header -->
+      <!-- Header. -->
       <header class="header">
         <a
           href="https://splawskip.github.io/WeatherWise/"
@@ -116,7 +116,7 @@
           </a>
         </div>
       </header>
-      <!-- Left side of the content -->
+      <!-- Left side of the content. -->
       <div class="content-left">
         <!-- Current weather secction -->
         <section
@@ -260,7 +260,7 @@
           </section>
         </section>
       </div>
-      <!-- Right side of the content -->
+      <!-- Right side of the content. -->
       <div class="content-right">
         <!-- Todays weather highlights section -->
         <section
@@ -708,6 +708,7 @@
           </div>
         </section>
       </div>
+      <!-- Footer. -->
       <footer class="footer">
         <p class="footer__poweredby poweredby">
           Powered By
@@ -733,18 +734,25 @@
           Made with <span class="heart" title="Love"></span> by psplawski.dev.
         </p>
       </footer>
+      <!-- Loader popup. -->
+      <dialog class="popup popup--closed" data-weather="loader-popup">
+        <div class="popup__body">
+          <span class="loader loader--large">loading</span>
+        </div>
+      </dialog>
+      <!-- Error popup. -->
+      <dialog class="popup popup--closed" data-weather="error-popup">
+        <div class="popup__body">
+          <h2 class="popup__title">404</h2>
+          <p class="popup__desc">Location not found</p>
+          <a
+            href="https://splawskip.github.io/WeatherWise/#/weather?lat=50.193466&lon=19.290104"
+            class="btn btn--accent btn--pill popup__btn"
+            >go to homescreen</a
+          >
+        </div>
+      </dialog>
     </div>
-    <dialog class="popup popup--closed" data-weather="error-popup">
-      <div class="popup__body">
-        <h2 class="popup__title">404</h2>
-        <p class="popup__desc">Location not found</p>
-        <a
-          href="https://splawskip.github.io/WeatherWise/#/weather?lat=50.193466&lon=19.290104"
-          class="btn btn--accent btn--pill popup__btn"
-          >go to homescreen</a
-        >
-      </div>
-    </dialog>
     <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>
