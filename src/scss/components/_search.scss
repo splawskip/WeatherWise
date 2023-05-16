@@ -5,14 +5,17 @@
 
 .search {
   padding: 1.25rem;
+  clip-path: circle(4% at calc(100% - 102px) 5%);
   pointer-events: none;
   background-color: var(--clr-woodsmoke);
   opacity: 0;
+  transition: clip-path 500ms ease;
 
   @include mixins.on-breakpoint('lg') {
     position: relative;
     width: 500px;
     padding: 0 1.25rem;
+    clip-path: none;
     pointer-events: all;
     opacity: 1;
   }
@@ -188,8 +191,13 @@
   /// Component states.
 	&--open {
     z-index: 1;
+    clip-path: circle(130% at 73% 5%);
     pointer-events: all;
     opacity: 1;
+
+    @include mixins.on-breakpoint('lg') {
+      clip-path: none;
+    }
   }
 
   &:focus-within {
