@@ -66,17 +66,6 @@
   /* Transitions */
   --transition-swing: cubic-bezier(.25, .8, .5, 1);
 
-  /// Root defaults.
-  position: relative;
-  font-family: var(--ff-nunito-sans);
-  color: var(--clr-white);
-  background-color: var(--clr-woodsmoke);
-  text-rendering: optimizelegibility;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: subpixel-antialiased;
-
   ::selection {
     color: var(--clr-black);
     background-color: var(--clr-accent);
@@ -105,8 +94,19 @@
     border-radius: var(--radius-pill);
   }
 
-  /* Track style (optional) */
+  /* Track style */
   scrollbar-track {
     background-color: transparent;
   }
+
+  /// Root styles.
+  position: relative;
+  font-family: var(--ff-nunito-sans);
+  color: var(--clr-white);
+  background-color: var(--clr-woodsmoke);
+  text-rendering: optimizelegibility;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
