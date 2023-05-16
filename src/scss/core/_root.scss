@@ -81,4 +81,32 @@
     color: var(--clr-black);
     background-color: var(--clr-accent);
   }
+
+  /* Webkit scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--clr-white-alpha-10);
+    border-radius: var(--radius-pill);
+  }
+
+  /* Firefox scrollbar styles */
+
+  /* Width and height */
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-white-alpha-10) transparent;
+
+  /* Thumb style */
+  scrollbar-thumb {
+    background-color: var(--clr-white-alpha-10);
+    border-radius: var(--radius-pill);
+  }
+
+  /* Track style (optional) */
+  scrollbar-track {
+    background-color: transparent;
+  }
 }
