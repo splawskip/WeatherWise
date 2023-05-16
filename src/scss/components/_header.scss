@@ -6,11 +6,12 @@
 .header {
   display: flex;
   flex-flow: row wrap;
+  gap: 1.5rem;
   align-content: flex-start;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
 
   @include mixins.on-breakpoint('lg') {
     justify-content: space-between;

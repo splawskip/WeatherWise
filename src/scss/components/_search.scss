@@ -12,6 +12,7 @@
   @include mixins.on-breakpoint('lg') {
     position: relative;
     width: 500px;
+    padding: 0 1.25rem;
     pointer-events: all;
     opacity: 1;
   }

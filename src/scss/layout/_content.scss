@@ -9,7 +9,7 @@
   flex-direction: column;
   gap: 1.5rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: 1600px;
   min-height: 1300px;
@@ -17,6 +17,7 @@
 
   @include mixins.on-breakpoint('md') {
     flex-flow: row wrap;
+    justify-content: center;
     min-height: 720px;
   }
 

@@ -51,13 +51,6 @@
     color: var(--clr-on-surface);
   }
 
-  &__night-temperature {
-    font-size: var(--fs-content-3);
-    font-weight: var(--weight-normal);
-    line-height: 1.1875rem;
-    color: var(--clr-on-surface-v1);
-  }
-
   &__date {
     display: flex;
     flex-flow: row nowrap;

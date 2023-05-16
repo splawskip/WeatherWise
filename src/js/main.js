@@ -132,16 +132,13 @@ const App = {
     // Build forecast component.
     const forecastComponent = forecast
       .filter((_, index) => (index + 1) % 8 === 0)
-      .map(({ weather: [{ icon, description }], dt: dateUnix, main: { temp_max: tempMax, temp_min: tempMin } }) => {
+      .map(({ weather: [{ icon, description }], dt: dateUnix, main: { temp_max: tempMax } }) => {
         return `
               <div class="forecast-card__day-forecast">
                 <p class="forecast-card__temperatures">
                   <img loading="lazy" src="./icons/weather/${icon}-mobile.webp" srcset="./icons/weather/${icon}-mobile.webp 32w, ./icons/weather/${icon}-desktop.webp 48w" sizes="(min-width: 1200px) 48px, 32px" title="${description}" alt="${description}" class="forecast-card__icon" />
                   <span class="forecast-card__day-temperature">
                     ${parseInt(tempMax, 10)}${getHTMLEntity('degree')}
-                  </span>
-                  <span class="forecast-card__night-temperature">
-                    ${parseInt(tempMin, 10)}${getHTMLEntity('degree')}
                   </span>
                 </p>
                 <p class="forecast-card__date">
@@ -537,10 +534,12 @@ const App = {
     const followingHoursComponent = App.buildFollowingHoursComponent(forecast);
     // Build content component.
     const contentComponent = `
+      <!-- Left side of the content. -->
       <div class="content__left">
         ${currentWeatherComponent}
         ${forecastComponent}
       </div>
+      <!-- Right side of the content. -->
       <div class="content__right">
         ${highlightsComponent}
         ${followingHoursComponent}
@@ -548,7 +547,7 @@ const App = {
     // Render the app with timeout because we fast 🏎.
     setTimeout(() => {
       replaceHTML(App.$.content, contentComponent);
-    }, 500);
+    }, 200);
   },
   /**
    * Updates the weather that the app shows by fetching current weather, forecast,
@@ -630,6 +629,7 @@ const App = {
      */
     delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
       App.$.searchView.classList.toggle('search--open');
+      App.$.body.classList.toggle('body--no-scroll');
       App.$.search.value = '';
       replaceHTML(App.$.searchResults, '');
     });
@@ -676,6 +676,7 @@ const App = {
   clearSearch() {
     App.$.searchView.classList.remove('search--open');
     App.$.searchWrapper.classList.remove('search__wrapper--has-results');
+    App.$.body.classList.remove('body--no-scroll');
     App.$.search.value = '';
     replaceHTML(App.$.searchResults, '');
   },
