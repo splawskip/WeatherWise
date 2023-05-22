@@ -15,18 +15,14 @@ const App = {
   },
   /** Gather app components. */
   $: {
-    /** App misc components. */
     body: document.body,
-    appContainer: document.querySelector('[data-weather="app"]'),
+    app: document.querySelector('[data-weather="app"]'),
     content: document.querySelector('[data-weather="content"]'),
     loader: document.querySelector('[data-weather="loader"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
-    /** Search components */
-    search: document.querySelector('[data-weather="search-input"]'),
-    searchView: document.querySelector('[data-weather="search-view"]'),
-    searchWrapper: document.querySelector('[data-weather="search-wrapper"]'),
+    search: document.querySelector('[data-weather="search"]'),
+    searchInput: document.querySelector('[data-weather="search-input"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
-    searchViewToggles: document.querySelectorAll('[data-weather="search-toggle"]'),
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -37,12 +33,12 @@ const App = {
   buildSearchResultsComponent(locations) {
     // Early return if there are not any locations.
     if (!locations.length) {
-      App.$.searchView.classList.remove('search--has-results');
+      App.$.search.classList.remove('search--has-results');
       return '';
     }
     // Indicate that the search results has results.
-    App.$.searchView.classList.add('search--open');
-    App.$.searchView.classList.add('search--has-results');
+    App.$.search.classList.add('search--open');
+    App.$.search.classList.add('search--has-results');
     // Loop over locations data and build search results component that is sprinkled with the location data.
     const searchResultsComponent = `
       <ul class="search__results-list" data-weather="search-results-list">
@@ -615,7 +611,7 @@ const App = {
      * Attaches an event listener to the search input element which triggers the search for
      * geo-locations based on the user's input.
      */
-    App.$.search.addEventListener(
+    App.$.searchInput.addEventListener(
       'input',
       debounce(async (event) => {
         if (event.target.value.length) {
@@ -632,24 +628,23 @@ const App = {
     /**
      * Toggles search state on search toggle is click.
      */
-    delegateEvent(App.$.appContainer, '[data-weather="search-toggle"]', 'click', () => {
-      App.$.searchView.classList.toggle('search--open');
+    delegateEvent(App.$.app, '[data-weather="search-toggle"]', 'click', () => {
+      App.$.search.classList.toggle('search--open');
       App.$.body.classList.toggle('body--no-scroll');
-      App.$.search.value = '';
+      App.$.searchInput.value = '';
       replaceHTML(App.$.searchResults, '');
     });
     /**
      * Clears the search on search results item selection.
      */
-    delegateEvent(App.$.searchView, '[data-weather="search-results-item"]', 'click', App.clearSearch);
+    delegateEvent(App.$.search, '[data-weather="search-results-item"]', 'click', App.clearSearch);
     /**
      * Clears the search using keyboard.
      */
     App.$.body.addEventListener('keyup', (event) => {
       // Get if search has results.
       const hasResults =
-        App.$.searchView.classList.contains('search--open') &&
-        App.$.searchView.classList.contains('search--has-results');
+        App.$.search.classList.contains('search--open') && App.$.search.classList.contains('search--has-results');
       // Clear search if user want to close it using escape key.
       if (hasResults && event.key === 'Escape') {
         App.clearSearch();
@@ -659,7 +654,7 @@ const App = {
         hasResults &&
         event.key === 'Tab' &&
         window.innerWidth >= App.breakpoints.lg &&
-        !App.$.searchView.contains(event.target)
+        !App.$.search.contains(event.target)
       ) {
         App.clearSearch();
       }
@@ -668,7 +663,7 @@ const App = {
      * Clears the search on click outside search element on desktop.
      */
     App.$.body.addEventListener('click', (event) => {
-      if (window.innerWidth >= App.breakpoints.lg && !App.$.searchView.contains(event.target)) {
+      if (window.innerWidth >= App.breakpoints.lg && !App.$.search.contains(event.target)) {
         App.clearSearch();
       }
     });
@@ -679,10 +674,10 @@ const App = {
    * @returns {void}
    */
   clearSearch() {
-    App.$.searchView.classList.remove('search--open');
-    App.$.searchView.classList.remove('search--has-results');
+    App.$.search.classList.remove('search--open');
+    App.$.search.classList.remove('search--has-results');
     App.$.body.classList.remove('body--no-scroll');
-    App.$.search.value = '';
+    App.$.searchInput.value = '';
     replaceHTML(App.$.searchResults, '');
   },
   /**
