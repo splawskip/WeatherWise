@@ -1,6 +1,7 @@
 /*
 * Gather layout files.
 */
+@forward 'body';
 @forward 'app';
 @forward 'content';
 @forward 'scrollable-container';

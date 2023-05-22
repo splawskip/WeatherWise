@@ -46,8 +46,9 @@
     <meta name="theme-color" content="#121113" />
     <title>WeatherWise</title>
   </head>
-  <body>
-    <!-- App container -->
+  <!-- App body. -->
+  <body id="body" class="body" data-weather="body">
+    <!-- App container. -->
     <div id="app" class="app" data-weather="app">
       <!-- Header. -->
       <header class="header">
@@ -57,8 +58,8 @@
         >
           <h1 class="logo__text">WeatherWise</h1>
         </a>
-        <div class="header__search-view search" data-weather="search-view">
-          <div class="search__wrapper" data-weather="search-wrapper">
+        <div class="header__search search" data-weather="search">
+          <div class="search__wrapper">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="search__magnifier-icon"
@@ -80,8 +81,11 @@
               close
             </button>
           </div>
-          <div class="search__results">
-            <ul class="search__results-list" data-weather="search-results"></ul>
+          <div class="search__results" data-weather="search-results">
+            <ul
+              class="search__results-list"
+              data-weather="search-results-list"
+            ></ul>
           </div>
         </div>
         <div class="header__actions">

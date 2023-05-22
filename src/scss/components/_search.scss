@@ -5,13 +5,17 @@
 
 .search {
   padding: 1.25rem;
+  clip-path: circle(4% at calc(100% - 102px) 5%);
   pointer-events: none;
   background-color: var(--clr-woodsmoke);
   opacity: 0;
+  transition: clip-path 500ms ease;
 
   @include mixins.on-breakpoint('lg') {
     position: relative;
     width: 500px;
+    padding: 0 1.25rem;
+    clip-path: none;
     pointer-events: all;
     opacity: 1;
   }
@@ -28,12 +32,6 @@
     background-color: var(--clr-baltic-sea);
     border-radius: var(--radius-pill);
     transition: box-shadow .3s ease-in-out;
-
-    &--has-results {
-      border-bottom: 1px solid var(--clr-white);
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
 
     &:hover,
     &:focus-within {
@@ -126,10 +124,11 @@
     position: absolute;
     right: 1.25rem;
     left: 1.25rem;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
     background-color: var(--clr-baltic-sea);
     border-bottom-right-radius: var(--radius-pill);
     border-bottom-left-radius: var(--radius-pill);
-    box-shadow: var(--box-shadow-default);
+    transition: clip-path 500ms ease;
   }
 
   &__results-list {
@@ -187,8 +186,27 @@
   /// Component states.
 	&--open {
     z-index: 1;
+    clip-path: circle(130% at 73% 5%);
     pointer-events: all;
     opacity: 1;
+
+    @include mixins.on-breakpoint('lg') {
+      clip-path: none;
+    }
+  }
+
+  &--has-results {
+    /* stylelint-disable-next-line selector-class-pattern */
+    .search__wrapper{
+      border-bottom: 1px solid var(--clr-white);
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .search__results {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
   }
 
   &:focus-within {

@@ -156,9 +156,13 @@ export const buildErrorPopup = (popupElement = null, args = { title: 'Whoops!', 
       >
     </div>
   `;
-  // Hydrate popup with error data and open it if not already opened.
+  // Check if we should open the popup.
   if (!popupElement.open) {
+    // Prevent body scroll.
+    document.body.classList.add('body--no-scroll');
+    // Hydrate popup with data.
     replaceHTML(popupElement, popupContent);
+    // Open popup.
     popupElement.showModal();
   }
 };
