@@ -1,11 +1,32 @@
 import { MeteoStation } from './meteo-station';
 import { Router } from './router';
 import { debounce, delegateEvent, replaceHTML, unixTimeToHumanReadable, buildErrorPopup, getHTMLEntity } from './utils';
-// Settle WeatherWise Meteo Station.
-const WeatherWise = new MeteoStation();
-// Build the app.
+/**
+ * Object that scaffolds the app.
+ * Holds configuration variables and methods responsible for app manipulations.
+ */
 const App = {
-  /** Gather app breakpoints. */
+  /**
+   * Router instance for handling app routing.
+   *
+   * @typedef {null|Router} Router
+   */
+  Router: null,
+  /**
+   * MeteoStation instance for interacting with the weather data.
+   *
+   * @typedef {null|MeteoStation} MeteoStation
+   */
+  MeteoStation: null,
+  /**
+   * Object that defines the breakpoints used by the app.
+   *
+   * @property {number} xs - The extra-small breakpoint.
+   * @property {number} sm - The small breakpoint.
+   * @property {number} md - The medium breakpoint.
+   * @property {number} lg - The large breakpoint.
+   * @property {number} xl - The extra-large breakpoint.
+   */
   breakpoints: {
     xs: 0,
     sm: 320,
@@ -13,7 +34,18 @@ const App = {
     lg: 1200,
     xl: 1600,
   },
-  /** Gather app components. */
+  /**
+   * Object that holds references to various DOM elements used by the app.
+   *
+   * @property {HTMLElement} body - The body element.
+   * @property {HTMLElement} app - The app element.
+   * @property {HTMLElement} content - The content element.
+   * @property {HTMLElement} loader - The loader element.
+   * @property {HTMLElement} errorPopup - The error popup element.
+   * @property {HTMLElement} search - The search element.
+   * @property {HTMLElement} searchInput - The search input element.
+   * @property {HTMLElement} searchResults - The search results element.
+   */
   $: {
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
@@ -28,7 +60,7 @@ const App = {
    * Builds search results component sprinkled with locations data.
    *
    * @param {array} locations - Array that holds locations.
-   * @returns {void}
+   * @returns {string} - HTML markup for the search results component.
    */
   buildSearchResultsComponent(locations) {
     // Early return if there are not any locations.
@@ -79,7 +111,7 @@ const App = {
     replaceHTML(App.$.searchResults, searchResultsComponent);
   },
   /**
-   * Builds the current weather component sprinkled with data about current weather.
+   * Builds the current weather component sprinkled with current weather data.
    *
    * @param {object} currentWeather - Object that contains data about current weather.
    * @returns {string} - HTML markup for the current weather component.
@@ -178,7 +210,7 @@ const App = {
    * @returns {string} - HTML markup for the air quality component.
    */
   buildAirQualityComponent(airQuality) {
-    // Pull only needed data.
+    // Pull only needed data from the object.
     const [
       {
         components: { pm2_5: pm25, so2, no2, o3 },
@@ -191,7 +223,7 @@ const App = {
     const airQualityClass = quality.replace(/\s+/g, '-').toLowerCase();
     // Build component and hydrate it with data.
     const airQualityComponent = `
-        <section class="highlight-card highlight-card--large highlight__air-quality">
+      <section class="highlight-card highlight-card--large highlight__air-quality">
         <h4 class="highlight-card__title">
           air quality index
           <span class="status-indicator status-indicator--${airQualityClass}" title="${description}">${quality}
@@ -233,7 +265,7 @@ const App = {
   buildSolarDataComponent(sunrise, sunset) {
     // Build component and hydrate it with data.
     const SolarDataComponent = `
-        <section class="highlight-card highlight-card--large highlight__sunrise-and-sunset">
+      <section class="highlight-card highlight-card--large highlight__sunrise-and-sunset">
         <h4 class="highlight-card__title">sunrise & sunset</h4>
         <div class="highlight-card__data-set">
           <div class="highlight-card__data highlight-card__data--column highlight-card__data--row-above-mobile">
@@ -443,11 +475,11 @@ const App = {
     return followingHoursWindCards;
   },
   /**
-   * Builds the highlights component of the app.
+   * Builds the highlights component.
    *
    * @param {Object} currentWeather - The current weather data.
    * @param {Object} airQuality - The air quality data.
-   * @returns {void}
+   * @returns {string} - HTML markup for the highlights component.
    */
   buildHighlightsComponent(currentWeather, airQuality) {
     // Pull the data that components needs.
@@ -486,10 +518,10 @@ const App = {
     return highlightsComponent;
   },
   /**
-   * Builds following hours component.
+   * Builds the following hours component.
    *
    * @param {Array} forecast - The forecast data.
-   * @returns {void}
+   * @returns {string} - HTML markup for the following hours component.
    */
   buildFollowingHoursComponent(forecast) {
     // Filter out forecast data to get only data about following 24 hours.
@@ -571,9 +603,9 @@ const App = {
       }
       // Wait for all three promises to resolve and destructure results to separate variables.
       const [currentWeather, { list: forecast }, { list: airQuality }] = await Promise.all([
-        WeatherWise.getCurrentWeather(args),
-        WeatherWise.getForecast(args),
-        WeatherWise.getAirQuality(args),
+        App.MeteoStation.getCurrentWeather(args),
+        App.MeteoStation.getForecast(args),
+        App.MeteoStation.getAirQuality(args),
       ]);
       // Render the app.
       App.renderContent(currentWeather, forecast, airQuality);
@@ -583,16 +615,19 @@ const App = {
     }
   },
   /**
-   * Initializes a new Router instance with the App's `updateWeather` method as the callback
-   * function for route changes.
+   * Clears the search field and hides the search view, along with resetting the search results.
    *
-   * @returns {Router} A new Router instance
+   * @returns {void}
    */
-  handleRouting() {
-    return new Router(App.updateWeather);
+  clearSearch() {
+    App.$.search.classList.remove('search--open');
+    App.$.search.classList.remove('search--has-results');
+    App.$.body.classList.remove('body--no-scroll');
+    App.$.searchInput.value = '';
+    replaceHTML(App.$.searchResults, '');
   },
   /**
-   * Prevents popup from closing on escape hit.
+   * Prevents the popup from closing when the escape key is hit.
    *
    * @returns {void}
    */
@@ -616,7 +651,7 @@ const App = {
       debounce(async (event) => {
         if (event.target.value.length) {
           // Gather locations.
-          const locations = await WeatherWise.getGeoLocationByQueryString({
+          const locations = await App.MeteoStation.getGeoLocationByQueryString({
             q: event.target.value,
             limit: 5,
           });
@@ -669,26 +704,38 @@ const App = {
     });
   },
   /**
-   * Clears the search field and hides the search view, along with resetting the search results.
-   *
-   * @returns {void}
-   */
-  clearSearch() {
-    App.$.search.classList.remove('search--open');
-    App.$.search.classList.remove('search--has-results');
-    App.$.body.classList.remove('body--no-scroll');
-    App.$.searchInput.value = '';
-    replaceHTML(App.$.searchResults, '');
-  },
-  /**
    * Binds app events.
    *
    * @returns {void}
    */
   bindEvents() {
-    App.handleRouting();
     App.handleSearchEvents();
     App.preventPopupClosing();
+  },
+  /**
+   * Sets a Router instance for this instance of the app.
+   *
+   * @returns {void}
+   */
+  setRouter() {
+    App.Router = new Router(App.updateWeather);
+  },
+  /**
+   * Sets a MeteoStation instance for this instance of the app.
+   *
+   * @returns {void}
+   */
+  setMeteoStation() {
+    App.MeteoStation = new MeteoStation();
+  },
+  /**
+   * Sets the instances of other classes used by the app.
+   *
+   * @returns {void}
+   */
+  setInstances() {
+    App.setRouter();
+    App.setMeteoStation();
   },
   /**
    * Runs everything that should be invoked on app initialization, including binding events.
@@ -696,6 +743,7 @@ const App = {
    * @returns {void}
    */
   init() {
+    App.setInstances();
     App.bindEvents();
   },
 };
