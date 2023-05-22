@@ -127,7 +127,7 @@ const App = {
     } = currentWeather;
     // Build component.
     const currentWeatherComponent = `
-      <!-- Current weather secction -->
+      <!-- Current weather section -->
       <section class="section current-weather-card" data-weather="current-weather-section">
         <h3 class="title section__title current-weather-card__title">Now</h3>
         <p class="current-weather-card__details">
