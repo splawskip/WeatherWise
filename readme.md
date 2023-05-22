@@ -55,7 +55,7 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Contributors
 
-- Przemysław Spławski (@splawskip)
+- Przemysław Spławski 👉 [@splawskip](https://github.com/splawskip)
 
 ## Contact
 
