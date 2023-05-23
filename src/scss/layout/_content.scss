@@ -18,7 +18,7 @@
   @include mixins.on-breakpoint('md') {
     flex-flow: row wrap;
     justify-content: center;
-    min-height: 750px;
+    min-height: 720px;
   }
 
   &__left {
