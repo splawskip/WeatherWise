@@ -127,6 +127,7 @@
     left: 1.25rem;
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
     background-color: var(--clr-baltic-sea);
+    border: .1px solid var(--clr-woodsmoke);
     border-bottom-right-radius: var(--radius-pill);
     border-bottom-left-radius: var(--radius-pill);
     transition: clip-path 500ms ease;
@@ -143,6 +144,11 @@
 
   &__results-item {
     width: 100%;
+
+    &:last-of-type {
+      border-bottom-right-radius: var(--radius-pill);
+      border-bottom-left-radius: var(--radius-pill);
+    }
 
     &:hover,
     &:focus-within {
@@ -162,7 +168,7 @@
     pointer-events: none;
   }
 
-  &__results-item-link {
+  &__results-item-container {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -174,12 +180,12 @@
     text-decoration: none;
   }
 
-  &__results-item-city {
+  &__results-item-title {
     color: var(--clr-on-surface);
     pointer-events: none;
   }
 
-  &__results-item-country {
+  &__results-item-description {
     color: var(--clr-on-surface-v1);
     pointer-events: none;
   }
