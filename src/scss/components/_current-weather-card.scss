@@ -71,7 +71,8 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      content: '';
+      color: transparent;
+      content: 'Calendar Icon';
       background-image: url('/icons/calendar.webp');
       background-repeat: no-repeat;
     }
@@ -91,7 +92,8 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      content: '';
+      color: transparent;
+      content: 'Map Marker';
       background-image: url('/icons/map-marker.webp');
       background-repeat: no-repeat;
     }
