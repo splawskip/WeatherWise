@@ -2,7 +2,7 @@
 
 # WeatherWise
 
-WeatherWise is a weather application that provides real-time weather information to users. It allows users to get accurate weather forecasts, view current weather conditions, and access additional details such as humidity, wind speed, and precipitation. The app is built using HTML, CSS, Vanilla JavaScript, and SCSS, following the components approach for the frontend layer and OOP standards for the business logic.
+WeatherWise is a weather application that provides real-time weather information to users. It allows users to get accurate weather forecasts, view current weather conditions, and access additional details such as humidity, wind speed, and precipitation. The app is built using HTML, CSS, Vanilla JavaScript, and SCSS, following the components approach for the frontend layer and OOP standards for the business logic. The SCSS files follows the 7-1 pattern, which is a popular architecture for organizing SCSS files.
 
 ## See it live
 
@@ -47,7 +47,7 @@ To run the WeatherWise application locally, follow these steps:
 
 ## Documentation
 
-The documentation for the WeatherWise application can be found in the [docs](docs) folder. It includes detailed information about the codebase, class structures, and usage instructions.
+The codebase of WeatherWise is very well documented using JSDoc comments. If you would like to generate documentation, you can do so by running the following command after installing the project: `npm run jsdoc`.
 
 ## License
 

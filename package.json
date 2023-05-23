@@ -13,7 +13,8 @@
     "lint:scss": "stylelint '**/*.{css,scss,sass}' --config .stylelintrc.json",
     "fix:scss": "stylelint '**/*.{css,scss,sass}' --config .stylelintrc.json --fix",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "jsdoc": "jsdoc ./src/js/"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
