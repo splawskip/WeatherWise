@@ -77,6 +77,10 @@
               class="search__input"
               data-weather="search-input"
             />
+            <span
+              class="search__loader loader loader--small loader--hidden"
+              data-weather="search-loader"
+            ></span>
             <button class="search__close" data-weather="search-toggle">
               close
             </button>
@@ -121,9 +125,7 @@
         </div>
       </header>
       <!-- Content. -->
-      <main class="content" data-weather="content">
-        <span class="loader loader--large" data-weather="loader">loading</span>
-      </main>
+      <main class="content content--loading" data-weather="content"></main>
       <!-- Footer. -->
       <footer class="footer">
         <p class="footer__poweredby poweredby">

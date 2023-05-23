@@ -40,7 +40,7 @@ const App = {
    * @property {HTMLElement} body - The body element.
    * @property {HTMLElement} app - The app element.
    * @property {HTMLElement} content - The content element.
-   * @property {HTMLElement} loader - The loader element.
+   * @property {HTMLElement} searchLoader - The search loader element.
    * @property {HTMLElement} errorPopup - The error popup element.
    * @property {HTMLElement} search - The search element.
    * @property {HTMLElement} searchInput - The search input element.
@@ -50,11 +50,41 @@ const App = {
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
     content: document.querySelector('[data-weather="content"]'),
-    loader: document.querySelector('[data-weather="loader"]'),
+    searchLoader: document.querySelector('[data-weather="search-loader"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
     search: document.querySelector('[data-weather="search"]'),
     searchInput: document.querySelector('[data-weather="search-input"]'),
     searchResults: document.querySelector('[data-weather="search-results"]'),
+  },
+  /**
+   * Builds search results items components using location data.
+   *
+   * @param {array} locations - Array that holds locations data.
+   * @returns {string} - HTML markup for the search results items.
+   */
+  buildSearchResultsItems(locations) {
+    // Loop over locations data and build search results items.
+    const searchResultsItems = locations
+      .map(({ name, state, country, lat, lon }) => {
+        return `
+            <li class="search__results-item">
+              <a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-container" data-weather="search-results-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="search__results-item-icon" viewBox="0 0 16 20">
+                  <path
+                    d="M8 9.925c.533 0 .992-.188 1.375-.563.383-.375.575-.829.575-1.362 0-.533-.192-.992-.575-1.375A1.876 1.876 0 0 0 8 6.05c-.533 0-.987.192-1.362.575A1.896 1.896 0 0 0 6.075 8c0 .533.188.987.563 1.362.375.375.829.563 1.362.563Zm0 7.5c2.05-1.883 3.575-3.592 4.575-5.125s1.5-2.9 1.5-4.1c0-1.85-.588-3.358-1.763-4.525C11.137 2.508 9.7 1.925 8 1.925c-1.7 0-3.133.583-4.3 1.75C2.533 4.842 1.95 6.35 1.95 8.2c0 1.2.496 2.567 1.488 4.1.991 1.533 2.512 3.242 4.562 5.125Zm0 2.125a1.13 1.13 0 0 1-.362-.062A1.04 1.04 0 0 1 7.3 19.3c-2.433-2.15-4.246-4.142-5.437-5.975C.671 11.492.075 9.783.075 8.2c0-2.483.796-4.463 2.388-5.938C4.054.787 5.9.05 8 .05s3.95.737 5.55 2.212c1.6 1.475 2.4 3.455 2.4 5.938 0 1.583-.6 3.292-1.8 5.125-1.2 1.833-3.017 3.825-5.45 5.975a.79.79 0 0 1-.312.188A1.232 1.232 0 0 1 8 19.55Z"
+                  />
+                </svg>
+                <span class="search__results-item-data">
+                  <h3 class="search__results-item-title">${name}</h3>
+                  <p class="search__results-item-description">${state ?? name}, ${country}</p>
+                </span>
+              </a>
+            </li>
+          `;
+      })
+      .join('');
+    // Return component as HTML string.
+    return searchResultsItems;
   },
   /**
    * Builds search results component sprinkled with locations data.
@@ -63,36 +93,37 @@ const App = {
    * @returns {string} - HTML markup for the search results component.
    */
   buildSearchResultsComponent(locations) {
-    // Early return if there are not any locations.
-    if (!locations.length) {
-      App.$.search.classList.remove('search--has-results');
-      return '';
+    // Hide loader so user will know that location lookup is over.
+    setTimeout(() => {
+      App.toggleSearchLoadingState();
+    }, 500);
+    // Initialize results component with no locations placeholder.
+    let searchResultsItems = `
+      <li class="search__results-item">
+        <div class="search__results-item-container" data-weather="search-results-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="search__results-item-icon" viewBox="0 0 16 20">
+            <path
+              d="M8 9.925c.533 0 .992-.188 1.375-.563.383-.375.575-.829.575-1.362 0-.533-.192-.992-.575-1.375A1.876 1.876 0 0 0 8 6.05c-.533 0-.987.192-1.362.575A1.896 1.896 0 0 0 6.075 8c0 .533.188.987.563 1.362.375.375.829.563 1.362.563Zm0 7.5c2.05-1.883 3.575-3.592 4.575-5.125s1.5-2.9 1.5-4.1c0-1.85-.588-3.358-1.763-4.525C11.137 2.508 9.7 1.925 8 1.925c-1.7 0-3.133.583-4.3 1.75C2.533 4.842 1.95 6.35 1.95 8.2c0 1.2.496 2.567 1.488 4.1.991 1.533 2.512 3.242 4.562 5.125Zm0 2.125a1.13 1.13 0 0 1-.362-.062A1.04 1.04 0 0 1 7.3 19.3c-2.433-2.15-4.246-4.142-5.437-5.975C.671 11.492.075 9.783.075 8.2c0-2.483.796-4.463 2.388-5.938C4.054.787 5.9.05 8 .05s3.95.737 5.55 2.212c1.6 1.475 2.4 3.455 2.4 5.938 0 1.583-.6 3.292-1.8 5.125-1.2 1.833-3.017 3.825-5.45 5.975a.79.79 0 0 1-.312.188A1.232 1.232 0 0 1 8 19.55Z"
+            />
+          </svg>
+          <span class="search__results-item-data">
+            <h3 class="search__results-item-title">No locations were found</h3>
+            <p class="search__results-item-description">Try again with different location</p>
+          </span>
+        </div>
+      </li>
+    `;
+    // If we got any locations build results using them.
+    if (locations.length) {
+      searchResultsItems = App.buildSearchResultsItems(locations);
     }
     // Indicate that the search results has results.
     App.$.search.classList.add('search--open');
     App.$.search.classList.add('search--has-results');
-    // Loop over locations data and build search results component that is sprinkled with the location data.
+    // Build search results component.
     const searchResultsComponent = `
       <ul class="search__results-list" data-weather="search-results-list">
-        ${locations
-          .map(({ name, state, country, lat, lon }) => {
-            return `
-              <li class="search__results-item">
-                <a href="#/weather?lat=${lat}&lon=${lon}" class="search__results-item-link" data-weather="search-results-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="search__results-item-icon" viewBox="0 0 16 20">
-                    <path
-                      d="M8 9.925c.533 0 .992-.188 1.375-.563.383-.375.575-.829.575-1.362 0-.533-.192-.992-.575-1.375A1.876 1.876 0 0 0 8 6.05c-.533 0-.987.192-1.362.575A1.896 1.896 0 0 0 6.075 8c0 .533.188.987.563 1.362.375.375.829.563 1.362.563Zm0 7.5c2.05-1.883 3.575-3.592 4.575-5.125s1.5-2.9 1.5-4.1c0-1.85-.588-3.358-1.763-4.525C11.137 2.508 9.7 1.925 8 1.925c-1.7 0-3.133.583-4.3 1.75C2.533 4.842 1.95 6.35 1.95 8.2c0 1.2.496 2.567 1.488 4.1.991 1.533 2.512 3.242 4.562 5.125Zm0 2.125a1.13 1.13 0 0 1-.362-.062A1.04 1.04 0 0 1 7.3 19.3c-2.433-2.15-4.246-4.142-5.437-5.975C.671 11.492.075 9.783.075 8.2c0-2.483.796-4.463 2.388-5.938C4.054.787 5.9.05 8 .05s3.95.737 5.55 2.212c1.6 1.475 2.4 3.455 2.4 5.938 0 1.583-.6 3.292-1.8 5.125-1.2 1.833-3.017 3.825-5.45 5.975a.79.79 0 0 1-.312.188A1.232 1.232 0 0 1 8 19.55Z"
-                    />
-                  </svg>
-                  <span class="search__results-item-data">
-                    <h3 class="search__results-item-city">${name}</h3>
-                    <p class="search__results-item-country">${state}, ${country}</p>
-                  </span>
-                </a>
-              </li>
-            `;
-          })
-          .join('')}
+        ${searchResultsItems}
       </ul>
     `;
     // Return component as HTML string.
@@ -399,82 +430,6 @@ const App = {
     return feelsLikeComponent;
   },
   /**
-   * Builds following hours temperature cards components sprinkled with following hours forecast.
-   *
-   * @param {Array} forecast - An array of forecast data for today.
-   * @returns {string} - HTML markup for the today's temperature cards components.
-   */
-  buildFollowingHoursTemperatureCards(forecast) {
-    // Build component using today's forecast.
-    const followingHoursTemperatureCards = forecast
-      .map(({ dt: dateUnix, weather: [{ description, icon }], main: { temp } }) => {
-        return `
-          <li class="today-at-card">
-            <time class="today-at-card__label">
-              ${unixTimeToHumanReadable(dateUnix, {
-                hour: '2-digit',
-                hour12: true,
-              })}
-            </time>
-            <img
-              loading="lazy"
-              src="./icons/weather/${icon}-mobile.webp"
-              srcset="
-                ./icons/weather/${icon}-mobile.webp 32w,
-                ./icons/weather/${icon}-desktop.webp 48w
-              "
-              sizes="(min-width: 1200px) 48px, 32px"
-              title="${description}"
-              alt="${description}"
-              class="today-at-card__icon"
-            />
-            <p class="today-at-card__label">${parseInt(temp, 10)}${getHTMLEntity('celsiusDegree')}</p>
-          </li>
-        `;
-      })
-      .join('');
-    // Return component as HTML string.
-    return followingHoursTemperatureCards;
-  },
-  /**
-   * Builds following hours wind cards components sprinkled with following hours forecast.
-   *
-   * @param {Array} forecast - An array of forecast data for today.
-   * @returns {string} - HTML markup for the today's wind cards components.
-   */
-  buildFollowingHoursWindCards(forecast) {
-    // Build component using today's forecast.
-    const followingHoursWindCards = forecast
-      .map(({ dt: dateUnix, wind: { deg, speed } }) => {
-        return `
-          <li class="today-at-card">
-            <time class="today-at-card__label">
-              ${unixTimeToHumanReadable(dateUnix, {
-                hour: '2-digit',
-                hour12: true,
-              })}
-            </time>
-            <img
-              loading="lazy"
-              src="./icons/wind-direction-mobile.webp"
-              srcset="
-                ./icons/wind-direction-mobile.webp 32w,
-                ./icons/wind-direction-desktop.webp 48w
-              "
-              sizes="(min-width: 1200px) 48px, 32px"
-              alt=""
-              class="today-at-card__icon"
-              style="transform: rotate(${deg}deg);"
-            />
-            <p class="today-at-card__label">${speed} km/h</p>
-          </li>
-        `;
-      })
-      .join('');
-    // Return component as HTML string.
-    return followingHoursWindCards;
-  },
-  /**
    * Builds the highlights component.
    *
    * @param {Object} currentWeather - The current weather data.
@@ -518,6 +473,82 @@ const App = {
     return highlightsComponent;
   },
   /**
+   * Builds following hours temperature cards components sprinkled with following hours forecast.
+   *
+   * @param {Array} forecast - An array of forecast data for today.
+   * @returns {string} - HTML markup for the today's temperature cards components.
+   */
+  buildFollowingHoursTemperatureCards(forecast) {
+    // Build component using today's forecast.
+    const followingHoursTemperatureCards = forecast
+      .map(({ dt: dateUnix, weather: [{ description, icon }], main: { temp } }) => {
+        return `
+            <li class="today-at-card">
+              <time class="today-at-card__label">
+                ${unixTimeToHumanReadable(dateUnix, {
+                  hour: '2-digit',
+                  hour12: true,
+                })}
+              </time>
+              <img
+                loading="lazy"
+                src="./icons/weather/${icon}-mobile.webp"
+                srcset="
+                  ./icons/weather/${icon}-mobile.webp 32w,
+                  ./icons/weather/${icon}-desktop.webp 48w
+                "
+                sizes="(min-width: 1200px) 48px, 32px"
+                title="${description}"
+                alt="${description}"
+                class="today-at-card__icon"
+              />
+              <p class="today-at-card__label">${parseInt(temp, 10)}${getHTMLEntity('celsiusDegree')}</p>
+            </li>
+          `;
+      })
+      .join('');
+    // Return component as HTML string.
+    return followingHoursTemperatureCards;
+  },
+  /**
+   * Builds following hours wind cards components sprinkled with following hours forecast.
+   *
+   * @param {Array} forecast - An array of forecast data for today.
+   * @returns {string} - HTML markup for the today's wind cards components.
+   */
+  buildFollowingHoursWindCards(forecast) {
+    // Build component using today's forecast.
+    const followingHoursWindCards = forecast
+      .map(({ dt: dateUnix, wind: { deg, speed } }) => {
+        return `
+            <li class="today-at-card">
+              <time class="today-at-card__label">
+                ${unixTimeToHumanReadable(dateUnix, {
+                  hour: '2-digit',
+                  hour12: true,
+                })}
+              </time>
+              <img
+                loading="lazy"
+                src="./icons/wind-direction-mobile.webp"
+                srcset="
+                  ./icons/wind-direction-mobile.webp 32w,
+                  ./icons/wind-direction-desktop.webp 48w
+                "
+                sizes="(min-width: 1200px) 48px, 32px"
+                alt=""
+                class="today-at-card__icon"
+                style="transform: rotate(${deg}deg);"
+              />
+              <p class="today-at-card__label">${speed} km/h</p>
+            </li>
+          `;
+      })
+      .join('');
+    // Return component as HTML string.
+    return followingHoursWindCards;
+  },
+  /**
    * Builds the following hours component.
    *
    * @param {Array} forecast - The forecast data.
@@ -557,8 +588,8 @@ const App = {
    */
   renderContent(currentWeather, forecast, airQuality) {
     // Show loader if not already loading.
-    if (!App.$.content.contains(App.$.loader)) {
-      replaceHTML(App.$.content, '<span class="loader loader--large">loading</span>');
+    if (!App.$.content.classList.contains('content--loading')) {
+      App.toggleContentLoadingState();
     }
     // Gather App components.
     const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);
@@ -577,10 +608,12 @@ const App = {
         ${highlightsComponent}
         ${followingHoursComponent}
       </div>`;
-    // Render the app with timeout because we fast 🏎.
+    // Render the app under the loader.
+    replaceHTML(App.$.content, contentComponent);
+    // Hide loader after some time cuz we fast 🏎.
     setTimeout(() => {
-      replaceHTML(App.$.content, contentComponent);
-    }, 200);
+      App.toggleContentLoadingState();
+    }, 250);
   },
   /**
    * Updates the weather that the app shows by fetching current weather, forecast,
@@ -615,6 +648,24 @@ const App = {
     }
   },
   /**
+   * Toggles the loading state of the app content.
+   *
+   * @returns {void}
+   */
+  toggleContentLoadingState() {
+    App.$.content.classList.toggle('content--loading');
+  },
+  /**
+   * Prevents the popup from closing when the escape key is hit.
+   *
+   * @returns {void}
+   */
+  preventPopupClosing() {
+    App.$.errorPopup.addEventListener('cancel', (event) => {
+      event.preventDefault();
+    });
+  },
+  /**
    * Clears the search field and hides the search view, along with resetting the search results.
    *
    * @returns {void}
@@ -627,14 +678,12 @@ const App = {
     replaceHTML(App.$.searchResults, '');
   },
   /**
-   * Prevents the popup from closing when the escape key is hit.
+   * Toggles the loading state of the search input.
    *
    * @returns {void}
    */
-  preventPopupClosing() {
-    App.$.errorPopup.addEventListener('cancel', (event) => {
-      event.preventDefault();
-    });
+  toggleSearchLoadingState() {
+    App.$.searchLoader.classList.toggle('loader--hidden');
   },
   /**
    * Attaches event listeners to various elements to enable toggling the search view and clearing the search input.
@@ -650,6 +699,8 @@ const App = {
       'input',
       debounce(async (event) => {
         if (event.target.value.length) {
+          // Show loader so user will know that we are looking for the locations.
+          App.toggleSearchLoadingState();
           // Gather locations.
           const locations = await App.MeteoStation.getGeoLocationByQueryString({
             q: event.target.value,
