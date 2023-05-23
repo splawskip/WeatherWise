@@ -40,7 +40,7 @@ const App = {
    * @property {HTMLElement} body - The body element.
    * @property {HTMLElement} app - The app element.
    * @property {HTMLElement} content - The content element.
-   * @property {HTMLElement} loader - The loader element.
+   * @property {HTMLElement} searchLoader - The search loader element.
    * @property {HTMLElement} errorPopup - The error popup element.
    * @property {HTMLElement} search - The search element.
    * @property {HTMLElement} searchInput - The search input element.
@@ -50,7 +50,7 @@ const App = {
     body: document.body,
     app: document.querySelector('[data-weather="app"]'),
     content: document.querySelector('[data-weather="content"]'),
-    loader: document.querySelector('[data-weather="loader"]'),
+    searchLoader: document.querySelector('[data-weather="search-loader"]'),
     errorPopup: document.querySelector('[data-weather="error-popup"]'),
     search: document.querySelector('[data-weather="search"]'),
     searchInput: document.querySelector('[data-weather="search-input"]'),
@@ -63,6 +63,10 @@ const App = {
    * @returns {string} - HTML markup for the search results component.
    */
   buildSearchResultsComponent(locations) {
+    // Hide loader so user will know that location lookup is over.
+    setTimeout(() => {
+      App.toggleSearchLoadingState();
+    }, 500);
     // Early return if there are not any locations.
     if (!locations.length) {
       App.$.search.classList.remove('search--has-results');
@@ -548,6 +552,14 @@ const App = {
     return followingHoursComponent;
   },
   /**
+   * Toggles the loading state of the app content.
+   *
+   * @returns {void}
+   */
+  toggleContentLoadingState() {
+    App.$.content.classList.toggle('content--loading');
+  },
+  /**
    * Renders the content of the application.
    *
    * @param {object} currentWeather - The current weather data.
@@ -557,8 +569,8 @@ const App = {
    */
   renderContent(currentWeather, forecast, airQuality) {
     // Show loader if not already loading.
-    if (!App.$.content.contains(App.$.loader)) {
-      replaceHTML(App.$.content, '<span class="loader loader--large">loading</span>');
+    if (!App.$.content.classList.contains('content--loading')) {
+      App.toggleContentLoadingState();
     }
     // Gather App components.
     const currentWeatherComponent = App.buildCurrentWeatherComponent(currentWeather);
@@ -577,9 +589,11 @@ const App = {
         ${highlightsComponent}
         ${followingHoursComponent}
       </div>`;
-    // Render the app with timeout because we fast 🏎.
+    // Render the app under the loader.
+    replaceHTML(App.$.content, contentComponent);
+    // Hide loader after some time cuz we fast 🏎.
     setTimeout(() => {
-      replaceHTML(App.$.content, contentComponent);
+      App.toggleContentLoadingState();
     }, 200);
   },
   /**
@@ -615,6 +629,16 @@ const App = {
     }
   },
   /**
+   * Prevents the popup from closing when the escape key is hit.
+   *
+   * @returns {void}
+   */
+  preventPopupClosing() {
+    App.$.errorPopup.addEventListener('cancel', (event) => {
+      event.preventDefault();
+    });
+  },
+  /**
    * Clears the search field and hides the search view, along with resetting the search results.
    *
    * @returns {void}
@@ -627,14 +651,12 @@ const App = {
     replaceHTML(App.$.searchResults, '');
   },
   /**
-   * Prevents the popup from closing when the escape key is hit.
+   * Toggles the loading state of the search input.
    *
    * @returns {void}
    */
-  preventPopupClosing() {
-    App.$.errorPopup.addEventListener('cancel', (event) => {
-      event.preventDefault();
-    });
+  toggleSearchLoadingState() {
+    App.$.searchLoader.classList.toggle('loader--hidden');
   },
   /**
    * Attaches event listeners to various elements to enable toggling the search view and clearing the search input.
@@ -650,6 +672,8 @@ const App = {
       'input',
       debounce(async (event) => {
         if (event.target.value.length) {
+          // Show loader so user will know that we are looking for the locations.
+          App.toggleSearchLoadingState();
           // Gather locations.
           const locations = await App.MeteoStation.getGeoLocationByQueryString({
             q: event.target.value,

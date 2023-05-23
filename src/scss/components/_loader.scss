@@ -1,13 +1,17 @@
 .loader {
   display: inline-block;
-  margin: 2.5rem;
   color: transparent;
   border-color: var(--clr-white);
   border-style: solid;
   border-bottom-color: var(--clr-accent);
   border-radius: 50%;
+  transition: opacity .25s linear;
   animation: rotation 1s linear infinite;
   will-change: transform;
+
+  &--hidden {
+    opacity: 0;
+  }
 
   &--small {
     width: 25px;
