@@ -18,6 +18,13 @@ You can access the live version of WeatherWise by visiting: [WeatherWise Live](h
 - User-friendly interface.
 - Responsive design.
 
+## Tech Stack:
+
+- **HTML5**
+- **CSS**
+- **SCSS**
+- **Vanilla JavaScript**
+
 ## Tools Used
 
 - **Vite**: Used for development and bundling of the application.
